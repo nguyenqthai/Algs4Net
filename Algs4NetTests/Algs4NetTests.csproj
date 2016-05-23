@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{D89F1B5C-2E58-414D-B5BD-F75177714C31}</ProjectGuid>
+    <ProjectGuid>{4F736279-C62E-4112-A8C3-3B3AF221585D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Algs4NetTests</RootNamespace>
@@ -50,12 +50,31 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="BagTests.cs" />
+    <Compile Include="BinarySearchSTTests.cs" />
+    <Compile Include="BinarySearchTests.cs" />
+    <Compile Include="BreadthFirstPathsTests.cs" />
+    <Compile Include="BSTTests.cs" />
+    <Compile Include="IndexMaxPQTests.cs" />
+    <Compile Include="IndexMinPQTests.cs" />
+    <Compile Include="LinearProbingHashSTTests.cs" />
+    <Compile Include="LinkedQueueTests.cs" />
+    <Compile Include="LinkedStackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickTests.cs" />
+    <Compile Include="RedBlackBSTTests.cs" />
+    <Compile Include="ResizingArrayQueueTests.cs" />
+    <Compile Include="ResizingArrayStackTests.cs" />
+    <Compile Include="SequentialSearchSTTests.cs" />
+    <Compile Include="STTests.cs" />
+    <Compile Include="SymbolGraphTests.cs" />
+    <Compile Include="TestHelpers.cs" />
+    <Compile Include="TestResources.Designer.cs" />
+    <Compile Include="UFTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Algs4Net\Algs4Net.csproj">
-      <Project>{8e2c4336-eb8f-408a-a596-f98b1875ea53}</Project>
+      <Project>{36e3e1c6-a4e2-451e-aaf4-3fc8ec0ab2c3}</Project>
       <Name>Algs4Net</Name>
     </ProjectReference>
   </ItemGroup>
