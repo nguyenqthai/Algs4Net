@@ -1,7 +1,7 @@
 ## Overview
 
 Algs4Net is a .NET library port of <a href="http://algs4.cs.princeton.edu/code/">algs4.jar</a> 
-with the goal to serve instructors and programmers who adopts the 
+with the goal to serve instructors and programmers who adopt the 
 <a href="http://algs4.cs.princeton.edu/">Algorithms, 4th Edition</a> textbook and would 
 prefer to follow and demonstrate the text’s algorithms using C# in a .NET 
 environment.
