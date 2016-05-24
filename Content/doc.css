@@ -1,0 +1,82 @@
+﻿aside, footer, header, hgroup, nav {
+    display: block;
+}
+
+body {
+  font-family: 'Times New Roman', Times, serif;
+  font-size-adjust: none;
+  font-stretch: normal;
+  width: auto;
+  height: auto;
+}
+
+header {
+  height: 100px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+h1 {
+  padding: 6px 15px 6px 20px;
+  text-align: center;
+  font-size: 22px;
+  font-variant: small-caps;
+  font-weight: normal;
+  background-color: darkcyan;
+}
+
+h2 {
+  text-align: match-parent;
+  font-size: 15px;
+  font-weight: bold;
+  display: inline;
+}
+
+
+em {
+	font-style: italic;
+}
+
+nav {
+    float: left;
+    width: 20%;
+    min-width: 125px;
+}
+
+ul {
+  list-style: none;
+}
+
+ul li {
+  list-style: none;
+}
+
+ol li ol li {
+  list-style-type: lower-alpha;
+}
+
+div#main {
+  float:right;
+  width: 80%;
+  height: auto;
+}
+
+article {
+  float:right;
+  width: 80%;
+  height: auto;
+}
+
+iframe[seamless]{
+    background-color: transparent;
+    border: 0px none transparent;
+    padding: 0px;
+    width: inherit;
+    height: 100vh;
+    overflow: hidden;
+}
+
+footer {
+  clear: both;
+}

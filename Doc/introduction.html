@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Introduction</title>
+  <link href="../Content/doc.css" rel="stylesheet" />
+  <style>
+    ul li {
+      list-style: square;
+    }
+
+    ul li ul li {
+      list-style: disc;
+    }
+  </style>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <div>
+    <h1>Introduction</h1>
+    <p>Algs4Net is a .NET library port of <a href="http://algs4.cs.princeton.edu/code/" target="_blank">algs4.jar</a> 
+    with the goal to serve instructors and programmers who adopts the 
+    <a href="http://algs4.cs.princeton.edu/" target="_blank">Algorithms, 4th Edition</a> textbook and would 
+    prefer to follow and demonstrate the text’s algorithms using C# in a .NET 
+    environment. To meet the goal, Algs4Net was built using the following conventions:
+    </p>
+    <ul>
+      <li>Most classes in Algs4Net were ported from the corresponding classes in algs4.jar 
+      with the class names, identifiers, and algorithm flows were kept intact whenever possible</li>
+      <li>Each class in Algs4Net has a public static method <code>void MainTest(string[] args)</code> 
+      as a substitute for the static main method in Java. As C# does not allow multiple 
+      <code>Main(string[] args)</code> entries in a project, a command-line tool, algscmd, was 
+      developed to call these MainTest methods.</li>
+      <li>
+        A part from keeping the class names and algorithm flows, certain method names in
+        algs4.jar classes were slightly changed to follow a C# coding convention as follow:
+        <ul>
+          <li>First letters of public methods are in upper case.</li>
+          <li>C# properties are used in place of simple accessor methods. Most notably, 
+          Java’s size() and isEmpty() methods become Count and IsEmpty respectively.</li>
+          <li>C# indexers are used when the context permits. Particularly, the Algs4Net 
+          symbol table classes such as BST are augmented with key-value indexers.</li>
+          <li>Since not all C# types are reference types, boxing/unboxing are used to 
+          convert value types to reference types. Whenever the conversion is not possible, 
+          the C# compiler will detect the condition or a NullReferenceException is thrown 
+          at runtime.</li>
+          <li>When an exception needs to be thrown, the exception is selected following 
+          the official .NET Framework libraries implementation. For example, accessing an 
+          empty LinkedQueue class is a condition for InvalidOperationException, in the same 
+          manner as the System.Collections.Generic.Queue class would do.</li>
+        </ul>
+      </li>
+      <li>Finally, classes in Algs4Net were provided with well-formed XML comments to generate 
+      HTML help documentation.</li>
+    </ul>
+    <p>To use the library, clone or download the 
+    <a href="http://github.com/nguyenqthai/Algs4Net" target="_blank">Algs4Net</a> 
+    solution and see <a href="../Doc/quickstart.html">Quick Start</a> for how to use the library.
+    Refer the <a href="../Help/html/N_Algs4Net.htm">API Reference</a> for an online documentation
+    of the library's classes. Alternatively, download the <a href="../Help/Algs4Net.chm" download>HTML help file</a> 
+    for offline references.</p>
+  </div>
+</body>
+</html>

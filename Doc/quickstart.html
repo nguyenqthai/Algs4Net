@@ -1,0 +1,147 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <title>Quick Start</title>
+  <link href="../Content/doc.css" rel="stylesheet" />
+  <style>
+    ul li {
+      list-style: square;
+    }
+
+    ul li ul li {
+      list-style: disc;
+    }
+  </style>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <div>
+    <h1>Quick Start</h1>
+    <h2>Setting up and running the demo</h2>
+    <p>
+      The code was built and delivered as a Visual Studio 2015 solution. It comes with a demo
+      to illustrate basic capabilities of the library and tool. If you are
+      already familiar with Visual Studio, you can go directly to step 4 to run the demo.
+      If you do not have Visual Studio, <a href="https://www.visualstudio.com/" target="_blank">download</a> and follow the
+      instruction to install the software. Once the installation is complete:
+    </p>
+    <ol>
+      <li>
+        Clone or download the <a href="http://github.com/nguyenqthai/Algs4Net" target="_blank">Algs4Net</a>
+        solution change to the Algs4Net directory.
+      </li>
+      <li>
+        Use Visual Studio to open the Algs4net.sln solution. Within the Solution Explorer 
+        window, there are three projects:
+        <ol>
+          <li>
+            Algs4Net is the core library of the solution
+          </li>
+          <li>
+            Algs4NetTests contains sample unit tests for selected classes from Algs4Net
+          </li>
+          <li>
+            AlgsCmd is the command-line tool to call MainTest’s methods of Algs4Net classes.
+          </li>
+        </ol>
+      </li>
+      <li>
+        In Solution Explorer, make sure that AlgsCmd is the <b>StartUp</b> project by right
+        clicking the project and select the "Set as StartUp project" option in the pop-up 
+        menu. Then AlgsCmd should be in <b>bold</b>, meaning that it is now the 
+        <b>StartUp</b> project. 
+      </li>
+      <li>
+        Also, right click the project and select the "Properties" option to open
+        the project properties in the main Visual Studio window:
+        <ol>
+          <li>
+            Examine the properties to suite your needs. Particularly note the working
+            directory of the program. It is where you may later put data files as needed.
+          </li>
+          <li>
+            Note that in the <b>Debug</b> &rarr; <b>Start Options</b> section, there is
+            a text box for command line arguments. Enter <code>Animation</code> to run the demo.
+          </li>
+        </ol>
+      </li>
+      <li>
+        In Visual Studio, select <b>Build</b> &rarr; <b>Build Solution</b> or press 
+        Ctrl-Shift-B to build all the projects.
+      </li>
+      <li>
+        After the build is complete, select <b>Debug</b> &rarr; <b>Start Debugging</b> 
+        (or <b>Start Without Debugging</b>) to run the program.
+      </li>
+      <li>
+        A window should come up and ready to run the demo. Switch to the new window, 
+        click the <i>Start</i> button to start the animation, <i>Stop</i> to stop it. Optionally, 
+        select the File menu to save the display in a file.
+      </li>
+      <li>
+        Exit the demo window. Even though the demo has illustrated the library's 
+        basic drawing capabilities, most of the times you will be using algscmd with 
+        the console for your algorithms. As you may already know, the console can be 
+        accessed from the IDE or command line.
+      </li>
+      <li>
+        To run the demo from a command line, open the command line window and change
+        directory to 
+        <code>[path-to-algs4net]\Algs4Net\AlgsCmd\bin\Debug</code> (or Release) 
+        and enter the command: <code>algscmd Animation</code>. The demo window 
+        should pop up from the command line window.
+      </li>
+    </ol>
+    <h2>How to add new classes to Algs4Net</h2>
+    <p>You may have already figured out how. This instruction is provided for completeness:</p>
+    <ol>
+      <li>Add a new class to the Algs4Net project from Visual Studio.</li>
+      <li>Write the core code for the class.</li>
+      <li>Add the <code>public static void MainTest(string[] args)</code> method to the class.</li>
+      <li>Write the test code for the method.</li>
+      <li>The MainTest method is your demo test to run with algscmd. Know which arguments
+      you may need for the test and parse them from the args array, <em>starting at index 0</em>
+      as if you would from a console program's Main entry.</li>
+      <li>When you are ready to run the test, open the AlgsCmd project properties and enter in 
+      the text box the name of your class followed by your arguments in parsing order.</li>
+      <li>If you want to add drawing capabilities, follow the example in the Animation class.</li>
+    </ol> 
+    <h2>What’s next</h2>
+    <p>
+      After the setup, follow these tips to test and develop your own algorithms using the library:
+    </p>
+    <ul>
+      <li>
+        The working directory in step 4.a would be best the same as the command line directory 
+        where you find and run algscmd.exe, either from the Debug or Release directory.
+      </li>
+      <li>
+        The <a href="http://introcs.cs.princeton.edu/java/data/" target="_blank">data files</a> for use with 
+        the library can be downloaded and put in the working directory.
+      </li>
+      <li>
+        The first argument to algscmd is the class name you want to run its demo test (MainTest). 
+        Consult the class’s header comment or the HelpText attribute of the class’s MainTest 
+        method to see which argument(s) to use.
+      </li>
+      <li>
+        The algscmd tool has a simple help facility. Enter <code>algscmd</code> alone, 
+        <code>algscmd list</code>, or <code>aglscmd h <em>class_name</em></code> for a help topic.
+      </li>
+      <li>
+        Alternative to MainTest methods are the unit test programs in the Algs4NetTests test project.
+        If you are not familiar with the Microsoft's unit test framework, consult the
+        <a href="https://msdn.microsoft.com/en-us/library/hh694602.aspx" target="_blank">Unit Test Basics</a>
+        page and then add unit tests to the Algs4NetTests project for your algorithms.
+      </li>
+    </ul>
+    <p>
+      Since the library is to support the the <a href="http://algs4.cs.princeton.edu/" target="_blank">Algorithms, 4th Edition</a>
+      textbook, the text’s web site is the main resource for everything else. There is much to improve to the
+      library and you are welcome to change it to suite your needs. Also, please do not hesitate to report
+      issues as we are committed to provide follow-on support for the library and will welcome any feedback.
+    </p>
+  </div>
+
+</body>
+</html>
