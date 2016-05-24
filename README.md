@@ -6,7 +6,7 @@ with the goal to serve instructors and programmers who adopt the
 prefer to follow and demonstrate the text’s algorithms using C# in a .NET 
 environment.
 
-## Documnetation
+## Documentation
 
 <p>The library was delivered as a <a href = href="https://www.visualstudio.com/">Visual Studio 2015</a>
 solution. Once the solution is build, the utility program algscmd.exe can be run from 
