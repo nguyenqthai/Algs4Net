@@ -25,7 +25,7 @@
     </p>
     <ul>
       <li>Most classes in Algs4Net were ported from the corresponding classes in algs4.jar 
-      with the class names, identifiers, and algorithm flows were kept intact whenever possible</li>
+      with the class names, identifiers, and algorithm flows being kept intact whenever possible</li>
       <li>Each class in Algs4Net has a public static method <code>void MainTest(string[] args)</code> 
       as a substitute for the static main method in Java. As C# does not allow multiple 
       <code>Main(string[] args)</code> entries in a project, a command-line tool, algscmd, was 
@@ -36,7 +36,7 @@
         <ul>
           <li>First letters of public methods are in upper case.</li>
           <li>C# properties are used in place of simple accessor methods. Most notably, 
-          Java’s size() and isEmpty() methods become Count and IsEmpty respectively.</li>
+          Java’s size() and isEmpty() methods become Count and IsEmpty properties respectively.</li>
           <li>C# indexers are used when the context permits. Particularly, the Algs4Net 
           symbol table classes such as BST are augmented with key-value indexers.</li>
           <li>Since not all C# types are reference types, boxing/unboxing are used to 
@@ -45,8 +45,8 @@
           at runtime.</li>
           <li>When an exception needs to be thrown, the exception is selected following 
           the official .NET Framework libraries implementation. For example, accessing an 
-          empty LinkedQueue class is a condition for InvalidOperationException, in the same 
-          manner as the System.Collections.Generic.Queue class would do.</li>
+          empty LinkedQueue object is a condition for InvalidOperationException, in the same 
+          manner as the System.Collections.Generic.Queue object would do.</li>
         </ul>
       </li>
       <li>Finally, classes in Algs4Net were provided with well-formed XML comments to generate 
