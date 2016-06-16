@@ -111,7 +111,6 @@
   <HelpKINode Title="Algs4Net.Cat class" Url="html/T_Algs4Net_Cat.htm" />
   <HelpKINode Title="Algs4Net.CC class" Url="html/T_Algs4Net_CC.htm" />
   <HelpKINode Title="Algs4Net.ClosestPair class" Url="html/T_Algs4Net_ClosestPair.htm" />
-  <HelpKINode Title="Algs4Net.CollisionSystem class" Url="html/T_Algs4Net_CollisionSystem.htm" />
   <HelpKINode Title="Algs4Net.Complex class" Url="html/T_Algs4Net_Complex.htm" />
   <HelpKINode Title="Algs4Net.Count class" Url="html/T_Algs4Net_Count.htm" />
   <HelpKINode Title="Algs4Net.Counter class" Url="html/T_Algs4Net_Counter.htm" />
@@ -732,15 +731,6 @@
   <HelpKINode Title="ClosestPair.MainTest method" Url="html/M_Algs4Net_ClosestPair_MainTest.htm" />
   <HelpKINode Title="ClosestPair.Other property" Url="html/P_Algs4Net_ClosestPair_Other.htm" />
   <HelpKINode Title="CollisionCount property" Url="html/P_Algs4Net_Particle_CollisionCount.htm" />
-  <HelpKINode Title="CollisionSystem class">
-    <HelpKINode Title="CollisionSystem Class" Url="html/T_Algs4Net_CollisionSystem.htm" />
-    <HelpKINode Title="about CollisionSystem class" Url="html/T_Algs4Net_CollisionSystem.htm" />
-    <HelpKINode Title="constructor" Url="html/M_Algs4Net_CollisionSystem__ctor.htm" />
-    <HelpKINode Title="methods" Url="html/Methods_T_Algs4Net_CollisionSystem.htm" />
-  </HelpKINode>
-  <HelpKINode Title="CollisionSystem.CollisionSystem constructor" Url="html/M_Algs4Net_CollisionSystem__ctor.htm" />
-  <HelpKINode Title="CollisionSystem.MainTest method" Url="html/M_Algs4Net_CollisionSystem_MainTest.htm" />
-  <HelpKINode Title="CollisionSystem.Update method" Url="html/M_Algs4Net_CollisionSystem_Update.htm" />
   <HelpKINode Title="Color method">
     <HelpKINode Title="Bipartite.Color Method " Url="html/M_Algs4Net_Bipartite_Color.htm" />
     <HelpKINode Title="BipartiteX.Color Method " Url="html/M_Algs4Net_BipartiteX_Color.htm" />
@@ -2349,7 +2339,6 @@
     <HelpKINode Title="Cat.MainTest Method " Url="html/M_Algs4Net_Cat_MainTest.htm" />
     <HelpKINode Title="CC.MainTest Method " Url="html/M_Algs4Net_CC_MainTest.htm" />
     <HelpKINode Title="ClosestPair.MainTest Method " Url="html/M_Algs4Net_ClosestPair_MainTest.htm" />
-    <HelpKINode Title="CollisionSystem.MainTest Method " Url="html/M_Algs4Net_CollisionSystem_MainTest.htm" />
     <HelpKINode Title="Complex.MainTest Method " Url="html/M_Algs4Net_Complex_MainTest.htm" />
     <HelpKINode Title="Count.MainTest Method " Url="html/M_Algs4Net_Count_MainTest.htm" />
     <HelpKINode Title="Counter.MainTest Method " Url="html/M_Algs4Net_Counter_MainTest.htm" />
@@ -3788,10 +3777,7 @@
     <HelpKINode Title="UF.Union Method " Url="html/M_Algs4Net_UF_Union.htm" />
     <HelpKINode Title="WeightedQuickUnionUF.Union Method " Url="html/M_Algs4Net_WeightedQuickUnionUF_Union.htm" />
   </HelpKINode>
-  <HelpKINode Title="Update method">
-    <HelpKINode Title="Animation.Update Method " Url="html/M_Algs4Net_Animation_Update.htm" />
-    <HelpKINode Title="CollisionSystem.Update Method " Url="html/M_Algs4Net_CollisionSystem_Update.htm" />
-  </HelpKINode>
+  <HelpKINode Title="Update method" Url="html/M_Algs4Net_Animation_Update.htm" />
   <HelpKINode Title="UpperCase field" Url="html/F_Algs4Net_Alphabet_UpperCase.htm" />
   <HelpKINode Title="Usage field" Url="html/F_Algs4Net_HelpTextAttribute_Usage.htm" />
   <HelpKINode Title="V property">
