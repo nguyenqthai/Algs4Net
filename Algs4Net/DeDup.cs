@@ -51,7 +51,7 @@ namespace Algs4Net
     private DeDup() { }
 
     /// <summary>
-    /// Demo test for the <c>DeDump</c> data type.</summary>
+    /// Demo test for the <c>DeDup</c> client.</summary>
     /// <param name="args">Place holder for user arguments</param>
     /// 
     [HelpText("algscmd DeDup < tinyTale.txt")]

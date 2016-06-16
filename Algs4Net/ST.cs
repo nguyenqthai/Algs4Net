@@ -31,7 +31,7 @@ namespace Algs4Net
   /// <summary><para>
   /// The <c>ST</c> class represents an ordered symbol table of generic
   /// key-value pairs.
-  /// It supports the usual <c>Put</c>, <c>Get</c>, <c>Contains</c>, <c>Indexer</c>
+  /// It supports the usual <c>Put</c>, <c>Get</c>, <c>Contains</c>, <c>Indexer</c>,
   /// <c>Delete</c>, <c>Count</c>, and <c>IsEmpty</c> methods.
   /// It also provides ordered methods for finding the <c>Minimum</c>,
   /// <c>Maximum</c>, <c>Floor</c>, and <c>Ceiling</c>.

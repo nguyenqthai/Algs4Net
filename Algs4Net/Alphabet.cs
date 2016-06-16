@@ -27,7 +27,7 @@ namespace Algs4Net
   /// </summary>
   /// <remarks><para>The members of Alphabet follows the .NET convention to use lower case to name constants.</para>
   /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/EdgeWeightedDigraph.java.html">EdgeWeightedDigraph</a>
+  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Alphabet.java.html">Alphabet</a>
   /// implementation by the respective authors.</para></remarks>
   /// 
   public class Alphabet

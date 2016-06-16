@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\Debug\Algs4Net.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -76,7 +77,6 @@
     <Compile Include="Cat.cs" />
     <Compile Include="CC.cs" />
     <Compile Include="ClosestPair.cs" />
-    <Compile Include="CollisionSystem.cs" />
     <Compile Include="Complex.cs" />
     <Compile Include="Count.cs" />
     <Compile Include="Counter.cs" />
