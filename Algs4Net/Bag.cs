@@ -35,24 +35,24 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>Bag</c> class represents a bag (or multiset) of
-  /// generic items. It supports insertion and iterating over the
-  /// items in arbitrary order.</para>
-  /// <para>
-  /// This implementation uses a singly-linked list with a nested, non-static
-  /// class Node and hence is the same as the <c>LinkedBag</c> class in
-  /// algs4.jar. The <c>Add</c>, <c>IsEmpty</c>, and <c>Count</c> operations
-  /// take constant time. Iteration takes time proportional to the number of items.
-  /// </para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/99scientific">Section 9.9</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FFT.java.html">FFT</a>
-  /// implementation by the respective authors.</para></remarks>
-  /// 
-  public class Bag<Item> : IEnumerable<Item>
+    /// <summary><para>
+    /// The <c>Bag</c> class represents a bag (or multiset) of
+    /// generic items. It supports insertion and iterating over the
+    /// items in arbitrary order.</para>
+    /// <para>
+    /// This implementation uses a singly-linked list with a nested, non-static
+    /// class Node and hence is the same as the <c>LinkedBag</c> class in
+    /// algs4.jar. The <c>Add</c>, <c>IsEmpty</c>, and <c>Count</c> operations
+    /// take constant time. Iteration takes time proportional to the number of items.
+    /// </para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/13stacks">Section 1.3</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Bag.java.html">FFT</a>
+    /// implementation by the respective authors.</para></remarks>
+    /// 
+    public class Bag<Item> : IEnumerable<Item>
   {
     private Node first;    // beginning of bag
     private int N;         // number of elements in bag

@@ -50,7 +50,7 @@ namespace Algs4Net
   /// <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
   /// <em>Algorithms in Java, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.</para>
   /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Bag.java.html">Bag</a> implementation by
+  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SET.java.html">Bag</a> implementation by
   /// Robert Sedgewick and Kevin Wayne.
   /// </para></remarks>
   ///

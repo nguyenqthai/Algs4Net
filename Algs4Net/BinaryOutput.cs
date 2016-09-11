@@ -35,7 +35,7 @@ namespace Algs4Net
   /// to <c>Console</c> or <c>Console.Out</c>; otherwise unexpected behavior 
   /// will result.</para></summary>
   /// <remarks>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/output.java.html">output</a> implementation by
+  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinaryStdOut.java.html">output</a> implementation by
   /// Robert Sedgewick and Kevin Wayne.</remarks>
   ///
   public sealed class BinaryOutput
