@@ -77,7 +77,7 @@ namespace Algs4Net
       public Key key;           // key
       public Value val;         // associated data
       public Node left, right;  // links to left and right subtrees
-      public bool color;     // color of parent link
+      public bool color;        // color of parent link
       public int N;             // subtree count
 
       public Node(Key key, Value val, bool color, int N)
@@ -442,7 +442,7 @@ namespace Algs4Net
     {
       Debug.Assert((h != null));
 
-      if (isRed(h.right)) h = rotateLeft(h);
+      if (isRed(h.right) && !isRed(h.left)) h = rotateLeft(h);
       if (isRed(h.left) && isRed(h.left.left)) h = rotateRight(h);
       if (isRed(h.left) && isRed(h.right)) flipColors(h);
 
