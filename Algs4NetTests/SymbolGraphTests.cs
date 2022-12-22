@@ -13,7 +13,10 @@ namespace Algs4NetUnitTests
   public class SymbolGraphTests
   {
 
-    [TestMethod]
+        /// <summary>
+        /// Demo on the graph based on the data file from https://github.com/ubikuity/List-of-neighboring-states-for-each-US-state
+        /// </summary>
+        [TestMethod]
     public void SymbolGraphTest1()
     {
       // NOTE: the file has to be in the current working directory for unit tests
