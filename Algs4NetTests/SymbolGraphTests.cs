@@ -17,12 +17,12 @@ namespace Algs4NetUnitTests
     public void SymbolGraphTest1()
     {
       // NOTE: the file has to be in the current working directory for unit tests
-      string usastates = "us-state-neighbors.txt";
+      string usastates = "TestFiles\\us-state-neighbors.csv";
       SymbolGraph sg;
       Graph G;
       try
       {
-        sg = new SymbolGraph(usastates, " ");
+        sg = new SymbolGraph(usastates, ",");
       }
       catch (Exception ex)
       {
