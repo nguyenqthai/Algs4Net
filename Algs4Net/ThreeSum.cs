@@ -32,89 +32,89 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>ThreeSum</c> class provides static methods for counting
-  /// and printing the number of triples in an array of integers that sum to 0
-  /// (ignoring integer overflow).</para><para>
-  /// This implementation uses a triply nested loop and takes proportional to N^3,
-  /// where N is the number of integers.</para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/ThreeSum.java.html">ThreeSum</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class ThreeSum
-  {
-    // Do not instantiate.
-    private ThreeSum() { }
-
-    /// <summary>
-    /// Prints to standard output the (i, j, k) with i &lt; j &lt; k such that 
-    /// a[i] + a[j] + a[k] == 0.</summary>
-    /// <param name="a">the array of integers</param>
+    /// <summary><para>
+    /// The <c>ThreeSum</c> class provides static methods for counting
+    /// and printing the number of triples in an array of integers that sum to 0
+    /// (ignoring integer overflow).</para><para>
+    /// This implementation uses a triply nested loop and takes proportional to N^3,
+    /// where N is the number of integers.</para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/ThreeSum.java.html">ThreeSum</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static void PrintAll(int[] a)
+    public class ThreeSum
     {
-      int N = a.Length;
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i + 1; j < N; j++)
-        {
-          for (int k = j + 1; k < N; k++)
-          {
-            if (a[i] + a[j] + a[k] == 0)
-            {
-              Console.WriteLine(a[i] + " " + a[j] + " " + a[k]);
-            }
-          }
-        }
-      }
-    }
+        // Do not instantiate.
+        private ThreeSum() { }
 
-    /// <summary>
-    /// Returns the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
-    /// <param name="a">the array of integers</param>
-    /// <returns>the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0</returns>
-    ///
-    public static int Count(int[] a)
-    {
-      int N = a.Length;
-      int cnt = 0;
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i + 1; j < N; j++)
+        /// <summary>
+        /// Prints to standard output the (i, j, k) with i &lt; j &lt; k such that 
+        /// a[i] + a[j] + a[k] == 0.</summary>
+        /// <param name="a">the array of integers</param>
+        ///
+        public static void PrintAll(int[] a)
         {
-          for (int k = j + 1; k < N; k++)
-          {
-            if (a[i] + a[j] + a[k] == 0)
+            int N = a.Length;
+            for (int i = 0; i < N; i++)
             {
-              cnt++;
+                for (int j = i + 1; j < N; j++)
+                {
+                    for (int k = j + 1; k < N; k++)
+                    {
+                        if (a[i] + a[j] + a[k] == 0)
+                        {
+                            Console.WriteLine(a[i] + " " + a[j] + " " + a[k]);
+                        }
+                    }
+                }
             }
-          }
         }
-      }
-      return cnt;
-    }
-    /// <summary>
-    /// Reads in a sequence of integers from a file, specified as a command-line argument;
-    /// counts the number of triples sum to exactly zero; prints out the time to perform
-    /// the computation.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd ThreeSum 1Kints.txt", "Sequence of integers from a file")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput(args[0]);
-      int[] a = StdIn.ReadAllInts();
 
-      Stopwatch timer = new Stopwatch();
-      int cnt = ThreeSum.Count(a);
-      Console.WriteLine("Elapsed time = " + timer.ElapsedTime());
-      Console.WriteLine(cnt);
+        /// <summary>
+        /// Returns the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
+        /// <param name="a">the array of integers</param>
+        /// <returns>the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0</returns>
+        ///
+        public static int Count(int[] a)
+        {
+            int N = a.Length;
+            int cnt = 0;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = i + 1; j < N; j++)
+                {
+                    for (int k = j + 1; k < N; k++)
+                    {
+                        if (a[i] + a[j] + a[k] == 0)
+                        {
+                            cnt++;
+                        }
+                    }
+                }
+            }
+            return cnt;
+        }
+        /// <summary>
+        /// Reads in a sequence of integers from a file, specified as a command-line argument;
+        /// counts the number of triples sum to exactly zero; prints out the time to perform
+        /// the computation.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd ThreeSum 1Kints.txt", "Sequence of integers from a file")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput(args[0]);
+            int[] a = StdIn.ReadAllInts();
+
+            Stopwatch timer = new Stopwatch();
+            int cnt = ThreeSum.Count(a);
+            Console.WriteLine("Elapsed time = " + timer.ElapsedTime());
+            Console.WriteLine(cnt);
+        }
     }
-  }
 }
 
 /******************************************************************************

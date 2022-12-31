@@ -27,82 +27,82 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>CPM</c> class provides a client that solves the
-  /// parallel precedence-constrained job scheduling problem
-  /// via the <c>Critical path method</c>. It reduces the problem
-  /// to the longest-paths problem in edge-weighted DAGs.
-  /// It builds an edge-weighted digraph (which must be a DAG)
-  /// from the job-scheduling problem specification,
-  /// finds the longest-paths tree, and computes the longest-paths
-  /// lengths (which are precisely the start times for each job).
-  /// </para><para>
-  /// This implementation uses <seealso cref="AcyclicLP"/> to find a longest
-  /// path in a DAG.
-  /// The running time is proportional to <c>V</c> + <c>E</c>,
-  /// where <c>V</c> is the number of jobs and <c>E</c> is the
-  /// number of precedence constraints.
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/CPM.java.html">CPM</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class CPM
-  {
-    // this class cannot be instantiated
-    private CPM() { }
-
-    /// <summary>
-    /// Reads the precedence constraints from standard input
-    /// and prints a feasible schedule to standard output.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd CPM < jobsPC.txt", "Input with the given job scheduling format")]
-    public static void MainTest(string[] args)
+    /// <summary><para>
+    /// The <c>CPM</c> class provides a client that solves the
+    /// parallel precedence-constrained job scheduling problem
+    /// via the <c>Critical path method</c>. It reduces the problem
+    /// to the longest-paths problem in edge-weighted DAGs.
+    /// It builds an edge-weighted digraph (which must be a DAG)
+    /// from the job-scheduling problem specification,
+    /// finds the longest-paths tree, and computes the longest-paths
+    /// lengths (which are precisely the start times for each job).
+    /// </para><para>
+    /// This implementation uses <seealso cref="AcyclicLP"/> to find a longest
+    /// path in a DAG.
+    /// The running time is proportional to <c>V</c> + <c>E</c>,
+    /// where <c>V</c> is the number of jobs and <c>E</c> is the
+    /// number of precedence constraints.
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/CPM.java.html">CPM</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class CPM
     {
-      TextInput StdIn = new TextInput();
-      // number of jobs
-      int N = StdIn.ReadInt();
+        // this class cannot be instantiated
+        private CPM() { }
 
-      // source and sink
-      int source = 2 * N;
-      int sink = 2 * N + 1;
-
-      // build network
-      EdgeWeightedDigraph G = new EdgeWeightedDigraph(2 * N + 2);
-      for (int i = 0; i < N; i++)
-      {
-        double duration = StdIn.ReadDouble();
-        G.AddEdge(new DirectedEdge(source, i, 0.0));
-        G.AddEdge(new DirectedEdge(i + N, sink, 0.0));
-        G.AddEdge(new DirectedEdge(i, i + N, duration));
-
-        // precedence constraints
-        int M = StdIn.ReadInt();
-        for (int j = 0; j < M; j++)
+        /// <summary>
+        /// Reads the precedence constraints from standard input
+        /// and prints a feasible schedule to standard output.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd CPM < jobsPC.txt", "Input with the given job scheduling format")]
+        public static void MainTest(string[] args)
         {
-          int precedent = StdIn.ReadInt();
-          G.AddEdge(new DirectedEdge(N + i, precedent, 0.0));
+            TextInput StdIn = new TextInput();
+            // number of jobs
+            int N = StdIn.ReadInt();
+
+            // source and sink
+            int source = 2 * N;
+            int sink = 2 * N + 1;
+
+            // build network
+            EdgeWeightedDigraph G = new EdgeWeightedDigraph(2 * N + 2);
+            for (int i = 0; i < N; i++)
+            {
+                double duration = StdIn.ReadDouble();
+                G.AddEdge(new DirectedEdge(source, i, 0.0));
+                G.AddEdge(new DirectedEdge(i + N, sink, 0.0));
+                G.AddEdge(new DirectedEdge(i, i + N, duration));
+
+                // precedence constraints
+                int M = StdIn.ReadInt();
+                for (int j = 0; j < M; j++)
+                {
+                    int precedent = StdIn.ReadInt();
+                    G.AddEdge(new DirectedEdge(N + i, precedent, 0.0));
+                }
+            }
+
+            // compute longest path
+            AcyclicLP lp = new AcyclicLP(G, source);
+
+            // print results
+            Console.WriteLine(" job   start  finish");
+            Console.WriteLine("--------------------");
+            for (int i = 0; i < N; i++)
+            {
+                Console.Write("{0,4} {1,7:F1} {2,7:F1}\n", i, lp.DistTo(i), lp.DistTo(i + N));
+            }
+            Console.Write("Finish time: {0,7:F1}\n", lp.DistTo(sink));
         }
-      }
 
-      // compute longest path
-      AcyclicLP lp = new AcyclicLP(G, source);
-
-      // print results
-      Console.WriteLine(" job   start  finish");
-      Console.WriteLine("--------------------");
-      for (int i = 0; i < N; i++)
-      {
-        Console.Write("{0,4} {1,7:F1} {2,7:F1}\n", i, lp.DistTo(i), lp.DistTo(i + N));
-      }
-      Console.Write("Finish time: {0,7:F1}\n", lp.DistTo(sink));
     }
-
-  }
 
 }
 

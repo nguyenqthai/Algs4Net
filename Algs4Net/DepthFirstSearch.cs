@@ -21,95 +21,95 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>DepthFirstSearch</c> class represents a data type for
-  /// determining the vertices connected to a given source vertex <c>S</c>
-  /// in an undirected graph. For versions that find the paths, see
-  /// <seealso cref="DepthFirstPaths"/> and <seealso cref="BreadthFirstPaths"/>.
-  /// This implementation uses depth-first search.</para><para>
-  /// The constructor takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// It uses extra space (not including the graph) proportional to <c>V</c>.</para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a>   
-  /// of <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DepthFirstSearch.java.html">DepthFirstSearch</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DepthFirstSearch
-  {
-    private bool[] marked;    // marked[v] = is there an s-v path?
-    private int count;        // number of vertices connected to s
-
-    /// <summary>Computes the vertices in graph <c>G</c> that are
-    /// connected to the source vertex <c>s</c>.</summary>
-    /// <param name="G">the graph</param>
-    /// <param name="s">the source vertex</param>
+    /// <summary><para>
+    /// The <c>DepthFirstSearch</c> class represents a data type for
+    /// determining the vertices connected to a given source vertex <c>S</c>
+    /// in an undirected graph. For versions that find the paths, see
+    /// <seealso cref="DepthFirstPaths"/> and <seealso cref="BreadthFirstPaths"/>.
+    /// This implementation uses depth-first search.</para><para>
+    /// The constructor takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// It uses extra space (not including the graph) proportional to <c>V</c>.</para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a>   
+    /// of <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DepthFirstSearch.java.html">DepthFirstSearch</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public DepthFirstSearch(Graph G, int s)
+    public class DepthFirstSearch
     {
-      marked = new bool[G.V];
-      dfs(G, s);
-    }
+        private bool[] marked;    // marked[v] = is there an s-v path?
+        private int count;        // number of vertices connected to s
 
-    // depth first search from v
-    private void dfs(Graph G, int v)
-    {
-      count++;
-      marked[v] = true;
-      foreach (int w in G.Adj(v))
-      {
-        if (!marked[w])
+        /// <summary>Computes the vertices in graph <c>G</c> that are
+        /// connected to the source vertex <c>s</c>.</summary>
+        /// <param name="G">the graph</param>
+        /// <param name="s">the source vertex</param>
+        ///
+        public DepthFirstSearch(Graph G, int s)
         {
-          dfs(G, w);
+            marked = new bool[G.V];
+            dfs(G, s);
         }
-      }
+
+        // depth first search from v
+        private void dfs(Graph G, int v)
+        {
+            count++;
+            marked[v] = true;
+            foreach (int w in G.Adj(v))
+            {
+                if (!marked[w])
+                {
+                    dfs(G, w);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Is there a path between the source vertex <c>s</c> and vertex <c>v</c>?</summary>
+        /// <param name="v">the vertex</param>
+        /// <returns><c>true</c> if there is a path, <c>false</c> otherwise</returns>
+        ///
+        public bool Marked(int v)
+        {
+            return marked[v];
+        }
+
+        /// <summary>
+        /// Returns the number of vertices connected to the source vertex <c>s</c>.</summary>
+        /// <returns>the number of vertices connected to the source vertex <c>s</c></returns>
+        ///
+        public int Count
+        {
+            get { return count; }
+        }
+
+        /// <summary>
+        /// Demo test the <c>DepthFirstSearch</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd DepthFirstSearch tinyG.txt s", "File with the pre-defined format for undirected graph and a source vertex")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            Graph G = new Graph(input);
+
+            int s = int.Parse(args[1]);
+            DepthFirstSearch search = new DepthFirstSearch(G, s);
+
+            for (int v = 0; v < G.V; v++)
+            {
+                if (search.Marked(v))
+                    Console.Write(v + " ");
+            }
+            Console.WriteLine();
+            if (search.Count != G.V) Console.WriteLine("NOT connected");
+            else Console.WriteLine("connected");
+        }
+
     }
-
-    /// <summary>
-    /// Is there a path between the source vertex <c>s</c> and vertex <c>v</c>?</summary>
-    /// <param name="v">the vertex</param>
-    /// <returns><c>true</c> if there is a path, <c>false</c> otherwise</returns>
-    ///
-    public bool Marked(int v)
-    {
-      return marked[v];
-    }
-
-    /// <summary>
-    /// Returns the number of vertices connected to the source vertex <c>s</c>.</summary>
-    /// <returns>the number of vertices connected to the source vertex <c>s</c></returns>
-    ///
-    public int Count
-    {
-      get { return count; }
-    }
-
-    /// <summary>
-    /// Demo test the <c>DepthFirstSearch</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd DepthFirstSearch tinyG.txt s", "File with the pre-defined format for undirected graph and a source vertex")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      Graph G = new Graph(input);
-
-      int s = int.Parse(args[1]);
-      DepthFirstSearch search = new DepthFirstSearch(G, s);
-
-      for (int v = 0; v < G.V; v++)
-      {
-        if (search.Marked(v))
-          Console.Write(v + " ");
-      }
-      Console.WriteLine();
-      if (search.Count != G.V) Console.WriteLine("NOT connected");
-      else Console.WriteLine("connected");
-    }
-
-  }
 
 
 }

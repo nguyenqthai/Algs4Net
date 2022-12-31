@@ -9,46 +9,46 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class LinkedQueueTests
-  {
-    private string IteratorToString(LinkedQueue<int> input)
+    [TestClass]
+    public class LinkedQueueTests
     {
-      StringBuilder sb = new StringBuilder();
-      foreach (int i in input) sb.Append(i + " ");
-      return sb.ToString();
+        private string IteratorToString(LinkedQueue<int> input)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (int i in input) sb.Append(i + " ");
+            return sb.ToString();
+        }
+
+        [TestMethod]
+        public void LinkedQueueTest1()
+        {
+            LinkedQueue<int> queue = new LinkedQueue<int>();
+
+            Assert.AreEqual(0, queue.Count, "New queue has zero size");
+            Assert.AreEqual(true, queue.IsEmpty, "New queue is empty");
+            Assert.AreEqual("", IteratorToString(queue));
+        }
+
+        [TestMethod]
+        public void LinkedQueueTest2()
+        {
+            int[] input = { 3, 2, 4, 6, 9 };
+            LinkedQueue<int> queue = new LinkedQueue<int>();
+
+            queue.Enqueue(3);
+            Assert.AreEqual("3 ", IteratorToString(queue));
+            queue.Enqueue(4);
+
+            Assert.AreEqual("3 4 ", IteratorToString(queue));
+            Assert.AreEqual(3, queue.Dequeue());
+            Assert.AreEqual(4, queue.Dequeue());
+            Assert.AreEqual(0, queue.Count, "New queue has zero size");
+
+            foreach (int i in input) queue.Enqueue(i);
+            Assert.AreEqual(input.Length, queue.Count);
+            Assert.AreEqual("3 2 4 6 9 ", IteratorToString(queue));
+        }
     }
-
-    [TestMethod]
-    public void LinkedQueueTest1()
-    {
-      LinkedQueue<int> queue = new LinkedQueue<int>();
-
-      Assert.AreEqual(0, queue.Count, "New queue has zero size");
-      Assert.AreEqual(true, queue.IsEmpty, "New queue is empty");
-      Assert.AreEqual("", IteratorToString(queue));
-    }
-
-    [TestMethod]
-    public void LinkedQueueTest2()
-    {
-      int[] input = { 3, 2, 4, 6, 9 };
-      LinkedQueue<int> queue = new LinkedQueue<int>();
-
-      queue.Enqueue(3);
-      Assert.AreEqual("3 ", IteratorToString(queue));
-      queue.Enqueue(4);
-
-      Assert.AreEqual("3 4 ", IteratorToString(queue));
-      Assert.AreEqual(3, queue.Dequeue());
-      Assert.AreEqual(4, queue.Dequeue());
-      Assert.AreEqual(0, queue.Count, "New queue has zero size");
-
-      foreach (int i in input) queue.Enqueue(i);
-      Assert.AreEqual(input.Length, queue.Count);
-      Assert.AreEqual("3 2 4 6 9 ", IteratorToString(queue));
-    }
-  }
 }
 
 /******************************************************************************

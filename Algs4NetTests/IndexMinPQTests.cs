@@ -9,57 +9,57 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class IndexMinPQTests
-  {
-    [TestMethod]
-    public void IndexMinPQTest1()
+    [TestClass]
+    public class IndexMinPQTests
     {
-      const int MaxSize = 8;
-      const double MinValue = 3.9;
-      const double MaxValue = MinValue * MaxSize + 32;
-      int index;
-      // MinValue index == 3, MaxValue index == 4
-      double[] items = { MinValue * 2, MinValue * 3, MinValue * 4, MinValue, MaxValue, MinValue * 5, MinValue * 6, MinValue * 7 };
-      StdRandom.Seed = 101;
+        [TestMethod]
+        public void IndexMinPQTest1()
+        {
+            const int MaxSize = 8;
+            const double MinValue = 3.9;
+            const double MaxValue = MinValue * MaxSize + 32;
+            int index;
+            // MinValue index == 3, MaxValue index == 4
+            double[] items = { MinValue * 2, MinValue * 3, MinValue * 4, MinValue, MaxValue, MinValue * 5, MinValue * 6, MinValue * 7 };
+            StdRandom.Seed = 101;
 
-      IndexMinPQ<double> pq = new IndexMinPQ<double>(MaxSize);
-      index = StdRandom.Uniform(items.Length);
-      Assert.IsFalse(pq.Contains(index));
-      Assert.IsTrue(pq.IsEmpty);
-      Assert.AreEqual(0, pq.Count);
+            IndexMinPQ<double> pq = new IndexMinPQ<double>(MaxSize);
+            index = StdRandom.Uniform(items.Length);
+            Assert.IsFalse(pq.Contains(index));
+            Assert.IsTrue(pq.IsEmpty);
+            Assert.AreEqual(0, pq.Count);
 
-      try
-      {
-        index = pq.DelMin();
-        Assert.Fail("Failed to catch exception");
-      }
-      catch (InvalidOperationException) { }
+            try
+            {
+                index = pq.DelMin();
+                Assert.Fail("Failed to catch exception");
+            }
+            catch (InvalidOperationException) { }
 
-      for (int i=0; i<items.Length; i++)
-      {
-        pq.Insert(i, items[i]);
-      }
-      Assert.AreEqual(items.Length, pq.Count);
-      Assert.AreEqual(MinValue, pq.MinKey);
-      Assert.AreEqual(3, pq.MinIndex);
-      Assert.AreEqual(MaxValue, pq.KeyOf(4));
+            for (int i = 0; i < items.Length; i++)
+            {
+                pq.Insert(i, items[i]);
+            }
+            Assert.AreEqual(items.Length, pq.Count);
+            Assert.AreEqual(MinValue, pq.MinKey);
+            Assert.AreEqual(3, pq.MinIndex);
+            Assert.AreEqual(MaxValue, pq.KeyOf(4));
 
-      index = StdRandom.Uniform(items.Length);
-      Assert.AreEqual(items[index], pq.KeyOf(index));
+            index = StdRandom.Uniform(items.Length);
+            Assert.AreEqual(items[index], pq.KeyOf(index));
 
-      pq.ChangeKey(1, pq.MinKey * 0.9); // make it the smallest item
-      Assert.AreEqual(1, pq.MinIndex);
+            pq.ChangeKey(1, pq.MinKey * 0.9); // make it the smallest item
+            Assert.AreEqual(1, pq.MinIndex);
 
-      pq.DecreaseKey(3, pq.MinKey * 0.87);
-      Assert.AreEqual(3, pq.MinIndex);
+            pq.DecreaseKey(3, pq.MinKey * 0.87);
+            Assert.AreEqual(3, pq.MinIndex);
 
-      pq.Delete(3);
-      Assert.AreNotEqual(3, pq.MinIndex);
+            pq.Delete(3);
+            Assert.AreNotEqual(3, pq.MinIndex);
 
-      Assert.AreEqual(1, pq.DelMin());
+            Assert.AreEqual(1, pq.DelMin());
+        }
     }
-  }
 }
 
 /******************************************************************************

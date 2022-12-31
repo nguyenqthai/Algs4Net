@@ -28,75 +28,75 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>FrequencyCounter</c> class provides a client for
-  /// reading in a sequence of words and printing a word (exceeding
-  /// a given length) that occurs most frequently. It is useful as
-  /// a test client for various symbol table implementations.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/31elementary">Section 3.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FrequencyCounter.java.html">FrequencyCounter</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class FrequencyCounter
-  {
-
-    // Do not instantiate. Place holder for future work
-    private FrequencyCounter() { }
-
     /// <summary>
-    /// Reads in a command-line integer and sequence of words from
-    /// standard input and prints out a word (whose length exceeds
-    /// the threshold) that occurs most frequently to standard output.
-    /// It also prints out the number of words whose length exceeds
-    /// the threshold and the number of distinct such words.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd FrequencyCounter Max < tinyTale.txt", "Max word length and input text")]
-    public static void MainTest(string[] args)
+    /// The <c>FrequencyCounter</c> class provides a client for
+    /// reading in a sequence of words and printing a word (exceeding
+    /// a given length) that occurs most frequently. It is useful as
+    /// a test client for various symbol table implementations.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/31elementary">Section 3.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FrequencyCounter.java.html">FrequencyCounter</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class FrequencyCounter
     {
-      TextInput StdIn = new TextInput("tale.txt");
 
-      int distinct = 0, words = 0;
-      int minlen = int.Parse(args[0]);
-      ST<string, int> st = new ST<string, int>();
+        // Do not instantiate. Place holder for future work
+        private FrequencyCounter() { }
 
-      int count = 0;
-      // compute frequency counts
-      while (!StdIn.IsEmpty)
-      {
-        string key = StdIn.ReadString();
-        count++;
-        if (key.Length < minlen) continue;
-        words++;
-        if (st.Contains(key))
+        /// <summary>
+        /// Reads in a command-line integer and sequence of words from
+        /// standard input and prints out a word (whose length exceeds
+        /// the threshold) that occurs most frequently to standard output.
+        /// It also prints out the number of words whose length exceeds
+        /// the threshold and the number of distinct such words.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd FrequencyCounter Max < tinyTale.txt", "Max word length and input text")]
+        public static void MainTest(string[] args)
         {
-          st[key] = st[key] + 1;
-        }
-        else
-        {
-          st[key] = 1;
-          distinct++;
-        }
-      }
+            TextInput StdIn = new TextInput("tale.txt");
 
-      // find a key with the highest frequency count
-      string max = "";
-      st[max] = 0; ;
-      foreach (string word in st.Keys())
-      {
-        if (st[word] > st[max])
-          max = word;
-      }
+            int distinct = 0, words = 0;
+            int minlen = int.Parse(args[0]);
+            ST<string, int> st = new ST<string, int>();
 
-      Console.WriteLine(max + " " + st[max]);
-      Console.WriteLine("distinct = " + distinct);
-      Console.WriteLine("words    = " + words);
+            int count = 0;
+            // compute frequency counts
+            while (!StdIn.IsEmpty)
+            {
+                string key = StdIn.ReadString();
+                count++;
+                if (key.Length < minlen) continue;
+                words++;
+                if (st.Contains(key))
+                {
+                    st[key] = st[key] + 1;
+                }
+                else
+                {
+                    st[key] = 1;
+                    distinct++;
+                }
+            }
+
+            // find a key with the highest frequency count
+            string max = "";
+            st[max] = 0; ;
+            foreach (string word in st.Keys())
+            {
+                if (st[word] > st[max])
+                    max = word;
+            }
+
+            Console.WriteLine(max + " " + st[max]);
+            Console.WriteLine("distinct = " + distinct);
+            Console.WriteLine("words    = " + words);
+        }
+
     }
-
-  }
 
 }
 

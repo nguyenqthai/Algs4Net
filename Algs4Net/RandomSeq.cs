@@ -18,64 +18,64 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>RandomSeq</c> class is a client that prints out a pseudorandom
-  /// sequence of real numbers in a given range.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/RandomSeq.java.html">RandomSeq</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class RandomSeq
-  {
-    // this class should not be instantiated
-    private RandomSeq() { }
-
     /// <summary>
-    /// Reads in two command-line arguments lo and hi and prints N uniformly
-    /// random real numbers in [lo, hi) to standard output.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd RandomSeq N lo hi",
-      "Number of randoms N, optionally followed by a range [lo, hi)")]
-    public static void MainTest(string[] args)
+    /// The <c>RandomSeq</c> class is a client that prints out a pseudorandom
+    /// sequence of real numbers in a given range.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/RandomSeq.java.html">RandomSeq</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class RandomSeq
     {
+        // this class should not be instantiated
+        private RandomSeq() { }
 
-      // command-line arguments
-      int N = int.Parse(args[0]);
-
-      // for backward compatibility with Intro to Programming in Java version of RandomSeq
-      if (args.Length == 1)
-      {
-        // generate and print N numbers between 0.0 and 1.0
-        for (int i = 0; i < N; i++)
+        /// <summary>
+        /// Reads in two command-line arguments lo and hi and prints N uniformly
+        /// random real numbers in [lo, hi) to standard output.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd RandomSeq N lo hi",
+          "Number of randoms N, optionally followed by a range [lo, hi)")]
+        public static void MainTest(string[] args)
         {
-          double x = StdRandom.Uniform();
-          Console.WriteLine(x);
-        }
-      }
-      else if (args.Length == 3)
-      {
-        double lo = double.Parse(args[1]);
-        double hi = double.Parse(args[2]);
 
-        // generate and print N numbers between lo and hi
-        for (int i = 0; i < N; i++)
-        {
-          double x = StdRandom.Uniform(lo, hi);
-          Console.Write("{0:F2}\n", x);
-        }
-      }
+            // command-line arguments
+            int N = int.Parse(args[0]);
 
-      else
-      {
-        throw new ArgumentException("Invalid number of arguments");
-      }
+            // for backward compatibility with Intro to Programming in Java version of RandomSeq
+            if (args.Length == 1)
+            {
+                // generate and print N numbers between 0.0 and 1.0
+                for (int i = 0; i < N; i++)
+                {
+                    double x = StdRandom.Uniform();
+                    Console.WriteLine(x);
+                }
+            }
+            else if (args.Length == 3)
+            {
+                double lo = double.Parse(args[1]);
+                double hi = double.Parse(args[2]);
+
+                // generate and print N numbers between lo and hi
+                for (int i = 0; i < N; i++)
+                {
+                    double x = StdRandom.Uniform(lo, hi);
+                    Console.Write("{0:F2}\n", x);
+                }
+            }
+
+            else
+            {
+                throw new ArgumentException("Invalid number of arguments");
+            }
+        }
+
     }
-
-  }
 
 }
 

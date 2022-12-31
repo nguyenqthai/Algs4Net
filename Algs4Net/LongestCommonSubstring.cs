@@ -15,103 +15,103 @@ using System.Text.RegularExpressions;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>LongestCommonSubstring</c> class provides a <seealso cref="SuffixArray"/>
-  /// client for computing the longest common substring that appears in two
-  /// given strings.</para><para>
-  /// This implementation computes the suffix array of each string and applies a
-  /// merging operation to determine the longest common substring.
-  /// For an alternate implementation, see
-  /// <a href = "http://algs4.cs.princeton.edu/63suffix/LongestCommonSubstringConcatenate.java.html">LongestCommonSubstringConcatenate.java</a>.
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LongestCommonSubstring.java.html">LongestCommonSubstring</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class LongestCommonSubstring
-  {
-
-    // Do not instantiate.
-    private LongestCommonSubstring() { }
-
-    // return the longest common prefix of suffix s[p..] and suffix t[q..]
-    private static string lcp(string s, int p, string t, int q)
-    {
-      int n = Math.Min(s.Length - p, t.Length - q);
-      for (int i = 0; i < n; i++)
-      {
-        if (s[p + i] != t[q + i])
-          return s.Substring(p, p + i - p);
-      }
-      return s.Substring(p, p + n - p);
-    }
-
-    // compare suffix s[p..] and suffix t[q..]
-    private static int compare(string s, int p, string t, int q)
-    {
-      int n = Math.Min(s.Length - p, t.Length - q);
-      for (int i = 0; i < n; i++)
-      {
-        if (s[p + i] != t[q + i])
-          return s[p + i] - t[q + i];
-      }
-      if (s.Length - p < t.Length - q) return -1;
-      else if (s.Length - p > t.Length - q) return +1;
-      else return 0;
-    }
-
-    /// <summary>
-    /// Returns the longest common string of the two specified strings.
-    /// </summary>
-    /// <param name="s">one string</param>
-    /// <param name="t">the other string</param>
-    /// <returns>the longest common string that appears as a substring
-    /// in both <c>s</c> and <c>t</c>; the empty string
-    /// if no such string</returns>
+    /// <summary><para>
+    /// The <c>LongestCommonSubstring</c> class provides a <seealso cref="SuffixArray"/>
+    /// client for computing the longest common substring that appears in two
+    /// given strings.</para><para>
+    /// This implementation computes the suffix array of each string and applies a
+    /// merging operation to determine the longest common substring.
+    /// For an alternate implementation, see
+    /// <a href = "http://algs4.cs.princeton.edu/63suffix/LongestCommonSubstringConcatenate.java.html">LongestCommonSubstringConcatenate.java</a>.
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LongestCommonSubstring.java.html">LongestCommonSubstring</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static string Lcs(string s, string t)
+    public class LongestCommonSubstring
     {
-      SuffixArray suffix1 = new SuffixArray(s);
-      SuffixArray suffix2 = new SuffixArray(t);
 
-      // find longest common substring by "merging" sorted suffixes
-      string lcs = "";
-      int i = 0, j = 0;
-      while (i < s.Length && j < t.Length)
-      {
-        int p = suffix1.Index(i);
-        int q = suffix2.Index(j);
-        string x = lcp(s, p, t, q);
-        if (x.Length > lcs.Length) lcs = x;
-        if (compare(s, p, t, q) < 0) i++;
-        else j++;
-      }
-      return lcs;
-    }
+        // Do not instantiate.
+        private LongestCommonSubstring() { }
 
-    /// <summary>
-    /// Demo test the <c>Lcs()</c> client.
-    /// Reads in two strings from files specified as command-line arguments;
-    /// computes the longest common substring; and prints the results to
-    /// standard output.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd LongestCommonSubstring text1.txt text2.txt")]
-    public static void MainTest(string[] args)
-    {
-      TextInput in1 = new TextInput(args[0]);
-      TextInput in2 = new TextInput(args[1]);
-      Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
-      string s = in1.ReadAll().Trim();
-      s = WhiteSpace.Replace(s, " ");
-      string t = in2.ReadAll().Trim();
-      t = WhiteSpace.Replace(t, " ");
-      Console.WriteLine("'" + LongestCommonSubstring.Lcs(s, t) + "'");
+        // return the longest common prefix of suffix s[p..] and suffix t[q..]
+        private static string lcp(string s, int p, string t, int q)
+        {
+            int n = Math.Min(s.Length - p, t.Length - q);
+            for (int i = 0; i < n; i++)
+            {
+                if (s[p + i] != t[q + i])
+                    return s.Substring(p, p + i - p);
+            }
+            return s.Substring(p, p + n - p);
+        }
+
+        // compare suffix s[p..] and suffix t[q..]
+        private static int compare(string s, int p, string t, int q)
+        {
+            int n = Math.Min(s.Length - p, t.Length - q);
+            for (int i = 0; i < n; i++)
+            {
+                if (s[p + i] != t[q + i])
+                    return s[p + i] - t[q + i];
+            }
+            if (s.Length - p < t.Length - q) return -1;
+            else if (s.Length - p > t.Length - q) return +1;
+            else return 0;
+        }
+
+        /// <summary>
+        /// Returns the longest common string of the two specified strings.
+        /// </summary>
+        /// <param name="s">one string</param>
+        /// <param name="t">the other string</param>
+        /// <returns>the longest common string that appears as a substring
+        /// in both <c>s</c> and <c>t</c>; the empty string
+        /// if no such string</returns>
+        ///
+        public static string Lcs(string s, string t)
+        {
+            SuffixArray suffix1 = new SuffixArray(s);
+            SuffixArray suffix2 = new SuffixArray(t);
+
+            // find longest common substring by "merging" sorted suffixes
+            string lcs = "";
+            int i = 0, j = 0;
+            while (i < s.Length && j < t.Length)
+            {
+                int p = suffix1.Index(i);
+                int q = suffix2.Index(j);
+                string x = lcp(s, p, t, q);
+                if (x.Length > lcs.Length) lcs = x;
+                if (compare(s, p, t, q) < 0) i++;
+                else j++;
+            }
+            return lcs;
+        }
+
+        /// <summary>
+        /// Demo test the <c>Lcs()</c> client.
+        /// Reads in two strings from files specified as command-line arguments;
+        /// computes the longest common substring; and prints the results to
+        /// standard output.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd LongestCommonSubstring text1.txt text2.txt")]
+        public static void MainTest(string[] args)
+        {
+            TextInput in1 = new TextInput(args[0]);
+            TextInput in2 = new TextInput(args[1]);
+            Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
+            string s = in1.ReadAll().Trim();
+            s = WhiteSpace.Replace(s, " ");
+            string t = in2.ReadAll().Trim();
+            t = WhiteSpace.Replace(t, " ");
+            Console.WriteLine("'" + LongestCommonSubstring.Lcs(s, t) + "'");
+        }
     }
-  }
 }
 
 /******************************************************************************

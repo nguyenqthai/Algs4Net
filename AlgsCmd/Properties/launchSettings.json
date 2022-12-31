@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "AlgsCmd": {
+      "commandName": "Project",
+      "commandLineArgs": "TextInput"
+    }
+  }
+}

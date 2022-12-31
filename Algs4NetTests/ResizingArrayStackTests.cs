@@ -9,46 +9,46 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class ResizingArrayStackTests
-  {
-    private string IteratorToString(ResizingArrayStack<int> input)
+    [TestClass]
+    public class ResizingArrayStackTests
     {
-      StringBuilder sb = new StringBuilder();
-      foreach (int i in input) sb.Append(i + " ");
-      return sb.ToString();
+        private string IteratorToString(ResizingArrayStack<int> input)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (int i in input) sb.Append(i + " ");
+            return sb.ToString();
+        }
+
+        [TestMethod]
+        public void ResizingArrayStackTest1()
+        {
+            ResizingArrayStack<int> stack = new ResizingArrayStack<int>();
+
+            Assert.AreEqual(0, stack.Count, "New stack has zero size");
+            Assert.AreEqual(true, stack.IsEmpty, "New stack is empty");
+            Assert.AreEqual("", IteratorToString(stack));
+        }
+
+        [TestMethod]
+        public void ResizingArrayStackTest2()
+        {
+            int[] input = { 3, 2, 4, 6, 9 };
+            ResizingArrayStack<int> stack = new ResizingArrayStack<int>();
+
+            stack.Push(3);
+            Assert.AreEqual("3 ", IteratorToString(stack));
+            stack.Push(4);
+
+            Assert.AreEqual("4 3 ", IteratorToString(stack));
+            Assert.AreEqual(4, stack.Pop());
+            Assert.AreEqual(3, stack.Pop());
+            Assert.AreEqual(0, stack.Count, "New stack has zero size");
+
+            foreach (int i in input) stack.Push(i);
+            Assert.AreEqual(input.Length, stack.Count);
+            Assert.AreEqual("9 6 4 2 3 ", IteratorToString(stack));
+        }
     }
-
-    [TestMethod]
-    public void ResizingArrayStackTest1()
-    {
-      ResizingArrayStack<int> stack = new ResizingArrayStack<int>();
-
-      Assert.AreEqual(0, stack.Count, "New stack has zero size");
-      Assert.AreEqual(true, stack.IsEmpty, "New stack is empty");
-      Assert.AreEqual("", IteratorToString(stack));
-    }
-
-    [TestMethod]
-    public void ResizingArrayStackTest2()
-    {
-      int[] input = { 3, 2, 4, 6, 9 };
-      ResizingArrayStack<int> stack = new ResizingArrayStack<int>();
-
-      stack.Push(3);
-      Assert.AreEqual("3 ", IteratorToString(stack));
-      stack.Push(4);
-
-      Assert.AreEqual("4 3 ", IteratorToString(stack));
-      Assert.AreEqual(4, stack.Pop());
-      Assert.AreEqual(3, stack.Pop());
-      Assert.AreEqual(0, stack.Count, "New stack has zero size");
-
-      foreach (int i in input) stack.Push(i);
-      Assert.AreEqual(input.Length, stack.Count);
-      Assert.AreEqual("9 6 4 2 3 ", IteratorToString(stack));
-    }
-  }
 
 }
 

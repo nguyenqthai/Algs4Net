@@ -37,51 +37,51 @@ using System.Threading.Tasks;
 namespace Algs4Net
 {
 
-  /// <summary>
-  /// The <c>BlackFilter</c> class provides a client for reading in a <c>Blacklist</c>
-  /// of words from a file; then, reading in a sequence of words from standard input, 
-  /// printing out each word that <c>Does not</c> appear in the file. 
-  /// It is useful as a test client for various symbol table implementations.</summary> 
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BlackFilter.java.html">BlackFilter</a>
-  /// implementation by the respective authors.</para></remarks>
-  /// 
-  public class BlackFilter
-  {
-
-    // Do not instantiate.
-    private BlackFilter() { }
-
     /// <summary>
-    /// Demo test the <c>BlackFilter</c> client.</summary>
-    /// <param name="args">Place holder for user arguments</param>
+    /// The <c>BlackFilter</c> class provides a client for reading in a <c>Blacklist</c>
+    /// of words from a file; then, reading in a sequence of words from standard input, 
+    /// printing out each word that <c>Does not</c> appear in the file. 
+    /// It is useful as a test client for various symbol table implementations.</summary> 
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BlackFilter.java.html">BlackFilter</a>
+    /// implementation by the respective authors.</para></remarks>
     /// 
-    [HelpText("algscmd BlackFilter list.txt < tinyTale.txt")]
-    public static void MainTest(string[] args)
+    public class BlackFilter
     {
-      TextInput StdIn = new TextInput();
-      SET<string> set = new SET<string>();
 
-      // read in strings and add to set
-      TextInput input = new TextInput(args[0]);
-      while (!input.IsEmpty)
-      {
-        string word = input.ReadString();
-        set.Add(word);
-      }
+        // Do not instantiate.
+        private BlackFilter() { }
 
-      // read in string from standard input, printing out all exceptions
-      while (!StdIn.IsEmpty)
-      {
-        string word = StdIn.ReadString();
-        if (!set.Contains(word))
-          Console.WriteLine(word);
-      }
+        /// <summary>
+        /// Demo test the <c>BlackFilter</c> client.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd BlackFilter list.txt < tinyTale.txt")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            SET<string> set = new SET<string>();
+
+            // read in strings and add to set
+            TextInput input = new TextInput(args[0]);
+            while (!input.IsEmpty)
+            {
+                string word = input.ReadString();
+                set.Add(word);
+            }
+
+            // read in string from standard input, printing out all exceptions
+            while (!StdIn.IsEmpty)
+            {
+                string word = StdIn.ReadString();
+                if (!set.Contains(word))
+                    Console.WriteLine(word);
+            }
+        }
     }
-  }
 }
 
 /******************************************************************************

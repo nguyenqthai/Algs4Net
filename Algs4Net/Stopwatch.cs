@@ -19,77 +19,77 @@ using System.Threading.Tasks;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Stopwatch</c> data type is for measuring the time that elapses 
-  /// between the start and end of a programming task (wall-clock time). 
-  /// For an alternative, see <see cref="StopwatchWin32"/>.
-  /// </summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Stopwatch.java.html">Stopwatch</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Stopwatch
-  {
-    private readonly DateTime start;
-
     /// <summary>
-    /// Initializes a new stopwatch.</summary>
+    /// The <c>Stopwatch</c> data type is for measuring the time that elapses 
+    /// between the start and end of a programming task (wall-clock time). 
+    /// For an alternative, see <see cref="StopwatchWin32"/>.
+    /// </summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Stopwatch.java.html">Stopwatch</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public Stopwatch()
+    public class Stopwatch
     {
-      Thread.Sleep(0);
-      start = DateTime.Now;
+        private readonly DateTime start;
+
+        /// <summary>
+        /// Initializes a new stopwatch.</summary>
+        ///
+        public Stopwatch()
+        {
+            Thread.Sleep(0);
+            start = DateTime.Now;
+        }
+
+        /// <summary>
+        /// Returns the elapsed CPU time (in seconds) since the stopwatch was created.</summary>
+        /// <returns>elapsed CPU time (in seconds) since the stopwatch was created</returns>
+        ///
+        public double ElapsedTime()
+        {
+            DateTime now = DateTime.Now;
+            return now.Subtract(start).TotalSeconds;
+        }
+
+        /// <summary>
+        /// Demo test the <c>Stopwatch</c> data type.
+        /// Takes a command-line argument <c>n</c> and computes the 
+        /// sum of the square roots of the first <c>n</c> positive integers,
+        /// first using <c>Math.Sqrt()</c>, then using <c>Math.Pow()</c>.
+        /// It prints to standard output the sum and the amount of time to
+        /// compute the sum. Note that the discrete sum can be approximated by
+        /// an integral - the sum should be approximately 2/3 power (n^(3/2) - 1).</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Stopwatch 100000000")]
+        public static void MainTest(string[] args)
+        {
+            int n = int.Parse(args[0]);
+
+            // sum of square roots of integers from 1 to n using Math.sqrt(x).
+            Stopwatch timer1 = new Stopwatch();
+            double sum1 = 0.0;
+            for (int i = 1; i <= n; i++)
+            {
+                sum1 += Math.Sqrt(i);
+            }
+            double time1 = timer1.ElapsedTime();
+            Console.Write("{0:e} ({1:F2} seconds)\n", sum1, time1);
+
+            // sum of square roots of integers from 1 to n using Math.pow(x, 0.5).
+            Stopwatch timer2 = new Stopwatch();
+            double sum2 = 0.0;
+            for (int i = 1; i <= n; i++)
+            {
+                sum2 += Math.Pow(i, 0.5);
+            }
+            double time2 = timer2.ElapsedTime();
+            Console.Write("{0:e} ({1:F2} seconds)\n", sum2, time2);
+        }
     }
-
-    /// <summary>
-    /// Returns the elapsed CPU time (in seconds) since the stopwatch was created.</summary>
-    /// <returns>elapsed CPU time (in seconds) since the stopwatch was created</returns>
-    ///
-    public double ElapsedTime()
-    {
-      DateTime now = DateTime.Now;
-      return now.Subtract(start).TotalSeconds;
-    }
-
-    /// <summary>
-    /// Demo test the <c>Stopwatch</c> data type.
-    /// Takes a command-line argument <c>n</c> and computes the 
-    /// sum of the square roots of the first <c>n</c> positive integers,
-    /// first using <c>Math.Sqrt()</c>, then using <c>Math.Pow()</c>.
-    /// It prints to standard output the sum and the amount of time to
-    /// compute the sum. Note that the discrete sum can be approximated by
-    /// an integral - the sum should be approximately 2/3 power (n^(3/2) - 1).</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Stopwatch 100000000")]
-    public static void MainTest(string[] args)
-    {
-      int n = int.Parse(args[0]);
-
-      // sum of square roots of integers from 1 to n using Math.sqrt(x).
-      Stopwatch timer1 = new Stopwatch();
-      double sum1 = 0.0;
-      for (int i = 1; i <= n; i++)
-      {
-        sum1 += Math.Sqrt(i);
-      }
-      double time1 = timer1.ElapsedTime();
-      Console.Write("{0:e} ({1:F2} seconds)\n", sum1, time1);
-
-      // sum of square roots of integers from 1 to n using Math.pow(x, 0.5).
-      Stopwatch timer2 = new Stopwatch();
-      double sum2 = 0.0;
-      for (int i = 1; i <= n; i++)
-      {
-        sum2 += Math.Pow(i, 0.5);
-      }
-      double time2 = timer2.ElapsedTime();
-      Console.Write("{0:e} ({1:F2} seconds)\n", sum2, time2);
-    }
-  }
 }
 
 /******************************************************************************

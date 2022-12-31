@@ -53,164 +53,164 @@ namespace Algs4Net
     /// implementation by the respective authors.</para></remarks>
     /// 
     public class Bag<Item> : IEnumerable<Item>
-  {
-    private Node first;    // beginning of bag
-    private int N;         // number of elements in bag
-
-    // helper linked list class
-    private class Node
     {
-      public Item item;
-      public Node next;
-    }
+        private Node first;    // beginning of bag
+        private int N;         // number of elements in bag
 
-    /// <summary>Initializes an empty bag.</summary>
-    public Bag()
-    {
-      first = null;
-      N = 0;
-    }
-
-    /// <summary>
-    /// Returns true if this bag is empty.</summary>
-    /// <returns><c>true</c> if this bag is empty;<c>false</c> otherwise</returns>
-    ///
-    public bool IsEmpty
-    {
-      get { return first == null; }
-    }
-
-    /// <summary>Returns the number of items in this bag.</summary>
-    /// <returns>the number of items in this bag</returns>
-    ///
-    public int Count
-    {
-      get { return N; }
-    }
-
-    /// <summary>Adds the item to this bag.</summary>
-    /// <param name="item"> item the item to add to this bag</param>
-    ///
-    public void Add(Item item)
-    {
-      Node oldFirst = first;
-      first = new Node();
-      first.item = item;
-      first.next = oldFirst;
-      N++;
-    }
-
-    /// <summary>
-    /// Returns an enumerator that iterates over the items in this bag in arbitrary order.</summary>
-    /// <returns>an enumerator that iterates over the items in this bag in arbitrary order</returns>
-    ///
-    public IEnumerator<Item> GetEnumerator()
-    {
-      return new ListIEnumerator(first);
-    }
-
-    /// <summary>
-    /// Returns an iterator that iterates over the items in this queue in FIFO order.</summary>
-    /// <returns>an iterator that iterates over the items in this queue in FIFO order</returns>
-    ///
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-      return GetEnumerator();
-    }
-
-    // an iterator, doesn't implement Displose() since it's optional
-    private class ListIEnumerator : IEnumerator<Item>
-    {
-      private Node current = null;
-      private Node first;
-      private bool firstCall = true;
-
-      public ListIEnumerator(Node first)
-      {
-        this.first = first;
-      }
-
-      public Item Current
-      {
-        get
+        // helper linked list class
+        private class Node
         {
-          if (current == null)
-            throw new InvalidOperationException("Past end of collection!");
-          return current.item;
+            public Item item;
+            public Node next;
         }
-      }
 
-      object IEnumerator.Current
-      {
-        get { return Current as object; }
-      }
-
-      public bool MoveNext()
-      {
-        if (firstCall)
+        /// <summary>Initializes an empty bag.</summary>
+        public Bag()
         {
-          current = first;
-          firstCall = false;
-          return current != null;
+            first = null;
+            N = 0;
         }
-        if (current != null)
+
+        /// <summary>
+        /// Returns true if this bag is empty.</summary>
+        /// <returns><c>true</c> if this bag is empty;<c>false</c> otherwise</returns>
+        ///
+        public bool IsEmpty
         {
-          current = current.next;
-          return current != null;
+            get { return first == null; }
         }
-        return false;
-      }
 
-      public void Reset()
-      {
-        current = null;
-        firstCall = true;
-      }
+        /// <summary>Returns the number of items in this bag.</summary>
+        /// <returns>the number of items in this bag</returns>
+        ///
+        public int Count
+        {
+            get { return N; }
+        }
 
-      public void Dispose() { }
+        /// <summary>Adds the item to this bag.</summary>
+        /// <param name="item"> item the item to add to this bag</param>
+        ///
+        public void Add(Item item)
+        {
+            Node oldFirst = first;
+            first = new Node();
+            first.item = item;
+            first.next = oldFirst;
+            N++;
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates over the items in this bag in arbitrary order.</summary>
+        /// <returns>an enumerator that iterates over the items in this bag in arbitrary order</returns>
+        ///
+        public IEnumerator<Item> GetEnumerator()
+        {
+            return new ListIEnumerator(first);
+        }
+
+        /// <summary>
+        /// Returns an iterator that iterates over the items in this queue in FIFO order.</summary>
+        /// <returns>an iterator that iterates over the items in this queue in FIFO order</returns>
+        ///
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        // an iterator, doesn't implement Displose() since it's optional
+        private class ListIEnumerator : IEnumerator<Item>
+        {
+            private Node current = null;
+            private Node first;
+            private bool firstCall = true;
+
+            public ListIEnumerator(Node first)
+            {
+                this.first = first;
+            }
+
+            public Item Current
+            {
+                get
+                {
+                    if (current == null)
+                        throw new InvalidOperationException("Past end of collection!");
+                    return current.item;
+                }
+            }
+
+            object IEnumerator.Current
+            {
+                get { return Current as object; }
+            }
+
+            public bool MoveNext()
+            {
+                if (firstCall)
+                {
+                    current = first;
+                    firstCall = false;
+                    return current != null;
+                }
+                if (current != null)
+                {
+                    current = current.next;
+                    return current != null;
+                }
+                return false;
+            }
+
+            public void Reset()
+            {
+                current = null;
+                firstCall = true;
+            }
+
+            public void Dispose() { }
+        }
+
+        /// <summary>
+        /// Returns a string representation in the format "it1 it2 it3 ... itn" (LIFO order)
+        /// </summary>
+        /// <returns>the format string</returns>
+        public override string ToString()
+        {
+            if (IsEmpty) return string.Empty;
+
+            StringBuilder sb = new StringBuilder();
+            Node current = first;
+            while (current != null)
+            {
+                sb.Append(string.Format("{0} ", current.item));
+                current = current.next;
+            }
+            sb.Remove(sb.Length - 1, 1); // remove last space
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Demo test for the <c>Bag</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText(@"algscmd Bag < tobe.txt", "Items separated by space or new line")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            Bag<string> bag = new Bag<string>();
+            while (!StdIn.IsEmpty)
+            {
+                string item = StdIn.ReadString();
+                bag.Add(item);
+            }
+
+            Console.WriteLine("Size of bag = " + bag.Count);
+            foreach (string s in bag)
+            {
+                Console.WriteLine(s);
+            }
+        }
     }
-
-    /// <summary>
-    /// Returns a string representation in the format "it1 it2 it3 ... itn" (LIFO order)
-    /// </summary>
-    /// <returns>the format string</returns>
-    public override string ToString()
-    {
-      if (IsEmpty) return string.Empty;
-
-      StringBuilder sb = new StringBuilder();
-      Node current = first;
-      while (current != null)
-      {
-        sb.Append(string.Format("{0} ", current.item));
-        current = current.next;
-      }
-      sb.Remove(sb.Length - 1, 1); // remove last space
-      return sb.ToString();
-    }
-
-    /// <summary>
-    /// Demo test for the <c>Bag</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText(@"algscmd Bag < tobe.txt", "Items separated by space or new line")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      Bag<string> bag = new Bag<string>();
-      while (!StdIn.IsEmpty)
-      {
-        string item = StdIn.ReadString();
-        bag.Add(item);
-      }
-
-      Console.WriteLine("Size of bag = " + bag.Count);
-      foreach (string s in bag)
-      {
-        Console.WriteLine(s);
-      }
-    }
-  }
 }
 
 /******************************************************************************

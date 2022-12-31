@@ -9,58 +9,58 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class IndexMaxPQTests
-  {
-    [TestMethod]
-    public void IndexMaxPQTest1()
+    [TestClass]
+    public class IndexMaxPQTests
     {
-      const int MaxSize = 8;
-      const double MinValue = 3.9;
-      const double MaxValue = MinValue * MaxSize + 32;
-      int index;
-      // MaxValue index == 3, MinValue index == 4
-      double[] items = { MinValue * 2, MinValue * 3, MinValue * 4, MaxValue, MinValue, MinValue * 5, MinValue * 6, MinValue * 7 };
-      StdRandom.Seed = 101;
+        [TestMethod]
+        public void IndexMaxPQTest1()
+        {
+            const int MaxSize = 8;
+            const double MinValue = 3.9;
+            const double MaxValue = MinValue * MaxSize + 32;
+            int index;
+            // MaxValue index == 3, MinValue index == 4
+            double[] items = { MinValue * 2, MinValue * 3, MinValue * 4, MaxValue, MinValue, MinValue * 5, MinValue * 6, MinValue * 7 };
+            StdRandom.Seed = 101;
 
-      IndexMaxPQ<double> pq = new IndexMaxPQ<double>(MaxSize);
-      index = StdRandom.Uniform(items.Length);
-      Assert.IsFalse(pq.Contains(index));
-      Assert.IsTrue(pq.IsEmpty);
-      Assert.AreEqual(0, pq.Count);
+            IndexMaxPQ<double> pq = new IndexMaxPQ<double>(MaxSize);
+            index = StdRandom.Uniform(items.Length);
+            Assert.IsFalse(pq.Contains(index));
+            Assert.IsTrue(pq.IsEmpty);
+            Assert.AreEqual(0, pq.Count);
 
-      try
-      {
-        index = pq.DelMax();
-        Assert.Fail("Failed to catch exception");
-      }
-      catch (InvalidOperationException) { }
+            try
+            {
+                index = pq.DelMax();
+                Assert.Fail("Failed to catch exception");
+            }
+            catch (InvalidOperationException) { }
 
-      for (int i = 0; i < items.Length; i++)
-      {
-        pq.Insert(i, items[i]);
-      }
-      Assert.AreEqual(items.Length, pq.Count);
-      Assert.AreEqual(MaxValue, pq.MaxKey);
-      Assert.AreEqual(3, pq.MaxIndex);
-      Assert.AreEqual(MinValue, pq.KeyOf(4));
+            for (int i = 0; i < items.Length; i++)
+            {
+                pq.Insert(i, items[i]);
+            }
+            Assert.AreEqual(items.Length, pq.Count);
+            Assert.AreEqual(MaxValue, pq.MaxKey);
+            Assert.AreEqual(3, pq.MaxIndex);
+            Assert.AreEqual(MinValue, pq.KeyOf(4));
 
-      index = StdRandom.Uniform(items.Length);
-      Assert.AreEqual(items[index], pq.KeyOf(index));
+            index = StdRandom.Uniform(items.Length);
+            Assert.AreEqual(items[index], pq.KeyOf(index));
 
-      pq.ChangeKey(1, pq.MaxKey * 1.9); // make it the largest item
-      Assert.AreEqual(1, pq.MaxIndex);
+            pq.ChangeKey(1, pq.MaxKey * 1.9); // make it the largest item
+            Assert.AreEqual(1, pq.MaxIndex);
 
-      pq.IncreaseKey(3, pq.MaxKey * 1.87);
-      Assert.AreEqual(3, pq.MaxIndex);
+            pq.IncreaseKey(3, pq.MaxKey * 1.87);
+            Assert.AreEqual(3, pq.MaxIndex);
 
-      pq.Delete(3);
-      Assert.AreNotEqual(3, pq.MaxIndex);
+            pq.Delete(3);
+            Assert.AreNotEqual(3, pq.MaxIndex);
 
-      Assert.AreEqual(1, pq.DelMax());
+            Assert.AreEqual(1, pq.DelMax());
 
+        }
     }
-  }
 }
 
 /******************************************************************************

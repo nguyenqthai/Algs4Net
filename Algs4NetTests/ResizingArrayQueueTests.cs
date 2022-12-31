@@ -9,46 +9,46 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class ResizingArrayQueueTests
-  {
-    private string IteratorToString(ResizingArrayQueue<int> input)
+    [TestClass]
+    public class ResizingArrayQueueTests
     {
-      StringBuilder sb = new StringBuilder();
-      foreach (int i in input) sb.Append(i + " ");
-      return sb.ToString();
+        private string IteratorToString(ResizingArrayQueue<int> input)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (int i in input) sb.Append(i + " ");
+            return sb.ToString();
+        }
+
+        [TestMethod]
+        public void ResizingArrayQueueTest1()
+        {
+            ResizingArrayQueue<int> queue = new ResizingArrayQueue<int>();
+
+            Assert.AreEqual(0, queue.Count, "New queue has zero size");
+            Assert.AreEqual(true, queue.IsEmpty, "New queue is empty");
+            Assert.AreEqual("", IteratorToString(queue));
+        }
+
+        [TestMethod]
+        public void ResizingArrayQueueTest2()
+        {
+            int[] input = { 3, 2, 4, 6, 9 };
+            ResizingArrayQueue<int> queue = new ResizingArrayQueue<int>();
+
+            queue.Enqueue(3);
+            Assert.AreEqual("3 ", IteratorToString(queue));
+            queue.Enqueue(4);
+
+            Assert.AreEqual("3 4 ", IteratorToString(queue));
+            Assert.AreEqual(3, queue.Dequeue());
+            Assert.AreEqual(4, queue.Dequeue());
+            Assert.AreEqual(0, queue.Count, "New queue has zero size");
+
+            foreach (int i in input) queue.Enqueue(i);
+            Assert.AreEqual(input.Length, queue.Count);
+            Assert.AreEqual("3 2 4 6 9 ", IteratorToString(queue));
+        }
     }
-
-    [TestMethod]
-    public void ResizingArrayQueueTest1()
-    {
-      ResizingArrayQueue<int> queue = new ResizingArrayQueue<int>();
-
-      Assert.AreEqual(0, queue.Count, "New queue has zero size");
-      Assert.AreEqual(true, queue.IsEmpty, "New queue is empty");
-      Assert.AreEqual("", IteratorToString(queue));
-    }
-
-    [TestMethod]
-    public void ResizingArrayQueueTest2()
-    {
-      int[] input = { 3, 2, 4, 6, 9 };
-      ResizingArrayQueue<int> queue = new ResizingArrayQueue<int>();
-
-      queue.Enqueue(3);
-      Assert.AreEqual("3 ", IteratorToString(queue));
-      queue.Enqueue(4);
-
-      Assert.AreEqual("3 4 ", IteratorToString(queue));
-      Assert.AreEqual(3, queue.Dequeue());
-      Assert.AreEqual(4, queue.Dequeue());
-      Assert.AreEqual(0, queue.Count, "New queue has zero size");
-
-      foreach (int i in input) queue.Enqueue(i);
-      Assert.AreEqual(input.Length, queue.Count);
-      Assert.AreEqual("3 2 4 6 9 ", IteratorToString(queue));
-    }
-  }
 }
 
 /******************************************************************************

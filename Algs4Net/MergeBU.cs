@@ -27,79 +27,79 @@ using System.Diagnostics;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>MergeBU</c> class provides static methods for sorting an
-  /// array using bottom-up mergesort.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/MergeBU.java.html">MergeBU</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class MergeBU
-  {
-    // This class should not be instantiated.
-    private MergeBU() { }
-
-    // stably merge a[lo..mid] with a[mid+1..hi] using aux[lo..hi]
-    private static void merge(IComparable[] a, IComparable[] aux, int lo, int mid, int hi)
-    {
-      // copy to aux[]
-      for (int k = lo; k <= hi; k++)
-      {
-        aux[k] = a[k];
-      }
-
-      // merge back to a[]
-      int i = lo, j = mid + 1;
-      for (int k = lo; k <= hi; k++)
-      {
-        if (i > mid) a[k] = aux[j++];  // this copying is unneccessary
-        else if (j > hi) a[k] = aux[i++];
-        else if (OrderHelper.Less(aux[j], aux[i])) a[k] = aux[j++];
-        else a[k] = aux[i++];
-      }
-
-    }
-
     /// <summary>
-    /// Rearranges the array in ascending order, using the natural order.</summary>
-    /// <param name="a">the array to be sorted</param>
+    /// The <c>MergeBU</c> class provides static methods for sorting an
+    /// array using bottom-up mergesort.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/MergeBU.java.html">MergeBU</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static void Sort(IComparable[] a)
+    public class MergeBU
     {
-      int N = a.Length;
-      IComparable[] aux = new IComparable[N];
-      for (int n = 1; n < N; n = n + n)
-      {
-        for (int i = 0; i < N - n; i += n + n)
+        // This class should not be instantiated.
+        private MergeBU() { }
+
+        // stably merge a[lo..mid] with a[mid+1..hi] using aux[lo..hi]
+        private static void merge(IComparable[] a, IComparable[] aux, int lo, int mid, int hi)
         {
-          int lo = i;
-          int m = i + n - 1;
-          int hi = Math.Min(i + n + n - 1, N - 1);
-          merge(a, aux, lo, m, hi);
+            // copy to aux[]
+            for (int k = lo; k <= hi; k++)
+            {
+                aux[k] = a[k];
+            }
+
+            // merge back to a[]
+            int i = lo, j = mid + 1;
+            for (int k = lo; k <= hi; k++)
+            {
+                if (i > mid) a[k] = aux[j++];  // this copying is unneccessary
+                else if (j > hi) a[k] = aux[i++];
+                else if (OrderHelper.Less(aux[j], aux[i])) a[k] = aux[j++];
+                else a[k] = aux[i++];
+            }
+
         }
-      }
-      Debug.Assert(OrderHelper.IsSorted(a));
+
+        /// <summary>
+        /// Rearranges the array in ascending order, using the natural order.</summary>
+        /// <param name="a">the array to be sorted</param>
+        ///
+        public static void Sort(IComparable[] a)
+        {
+            int N = a.Length;
+            IComparable[] aux = new IComparable[N];
+            for (int n = 1; n < N; n = n + n)
+            {
+                for (int i = 0; i < N - n; i += n + n)
+                {
+                    int lo = i;
+                    int m = i + n - 1;
+                    int hi = Math.Min(i + n + n - 1, N - 1);
+                    merge(a, aux, lo, m, hi);
+                }
+            }
+            Debug.Assert(OrderHelper.IsSorted(a));
+        }
+
+        /// <summary>
+        /// Reads in a sequence of strings from standard input; mergesorts them;
+        /// and prints them to standard output in ascending order.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd MergeBU < words3.txt", "Input strings to be printed in sorted order")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+
+            MergeBU.Sort(a);
+            OrderHelper.Show(a);
+        }
+
     }
-
-    /// <summary>
-    /// Reads in a sequence of strings from standard input; mergesorts them;
-    /// and prints them to standard output in ascending order.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd MergeBU < words3.txt", "Input strings to be printed in sorted order")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
-
-      MergeBU.Sort(a);
-      OrderHelper.Show(a);
-    }
-
-  }
 }
 
 /******************************************************************************

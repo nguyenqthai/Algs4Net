@@ -22,46 +22,46 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Average</c> class provides a client for reading in a sequence
-  /// of real numbers and printing out their average.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Average.java.html">Average</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Average
-  {
-    // this class should not be instantiated
-    private Average() { }
-
-    /// <summary>Reads in a sequence of real numbers from standard input and prints
-    /// out their average to standard output.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Average < tinyW.txt", "Numbers separated by space or new line")]
-    public static void MainTest(string[] args)
+    /// <summary>
+    /// The <c>Average</c> class provides a client for reading in a sequence
+    /// of real numbers and printing out their average.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Average.java.html">Average</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class Average
     {
-      TextInput StdIn = new TextInput();
+        // this class should not be instantiated
+        private Average() { }
 
-      int count = 0;       // number input values
-      double sum = 0.0;    // sum of input values
-      // read data and compute statistics
-      while (!StdIn.IsEmpty)
-      {
-        double value = StdIn.ReadDouble();
-        sum += value;
-        count++;
-      }
-      // compute the average
-      double average = sum / count;
+        /// <summary>Reads in a sequence of real numbers from standard input and prints
+        /// out their average to standard output.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Average < tinyW.txt", "Numbers separated by space or new line")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
 
-      // print results
-      Console.WriteLine("Average is " + average);
+            int count = 0;       // number input values
+            double sum = 0.0;    // sum of input values
+                                 // read data and compute statistics
+            while (!StdIn.IsEmpty)
+            {
+                double value = StdIn.ReadDouble();
+                sum += value;
+                count++;
+            }
+            // compute the average
+            double average = sum / count;
+
+            // print results
+            Console.WriteLine("Average is " + average);
+        }
     }
-  }
 
 }
 

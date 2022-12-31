@@ -24,101 +24,101 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>RunLength</c> class provides methods for compressing
-  /// and expanding a binary input using run-length coding with 8-bit
-  /// run lengths.</summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/RunLength.java.html">RunLength</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public sealed class RunLength
-  {
-    private const int R = 256;
-    private const int LG_R = 8;
-
-    private BinaryInput input;
-    private BinaryOutput output;
-
     /// <summary>
-    /// Uses file names to direct input and output
-    /// </summary>
-    /// <param name="outputFileName">user input file, empty if from console</param>
-    /// <param name="inputFileName">user output file</param>
-    public RunLength(string inputFileName, string outputFileName)
-    {
-      //Console.WriteLine("RunLength with InFile={0} and OutFile={1}", inputFileName, outputFileName);
-      input = new BinaryInput(inputFileName);
-      output = new BinaryOutput(outputFileName);
-    }
-
-    /// <summary>Reads a sequence of bits from standard input (that are encoded
-    /// using run-length encoding with 8-bit run lengths); decodes them;
-    /// and writes the results to standard output.</summary>
+    /// The <c>RunLength</c> class provides methods for compressing
+    /// and expanding a binary input using run-length coding with 8-bit
+    /// run lengths.</summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/RunLength.java.html">RunLength</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public void Expand()
+    public sealed class RunLength
     {
-      bool b = false;
-      while (!input.IsEmpty)
-      {
-        int run = input.ReadInt(LG_R);
-        for (int i = 0; i < run; i++)
-          output.Write(b);
-        b = !b;
-      }
-      output.Close();
-    }
+        private const int R = 256;
+        private const int LG_R = 8;
 
-    /// <summary>
-    /// Reads a sequence of bits from standard input; compresses
-    /// them using run-length coding with 8-bit run lengths; and writes the
-    /// results to standard output.</summary>
-    ///
-    public void Compress()
-    {
-      int run = 0;
-      bool old = false;
-      while (!input.IsEmpty)
-      {
-        bool b = input.ReadBoolean();
-        if (b != old)
-        {
-          output.Write(run, LG_R);
-          run = 1;
-          old = !old;
-        }
-        else
-        {
-          if (run == R - 1)
-          {
-            output.Write(run, LG_R);
-            run = 0;
-            output.Write(run, LG_R);
-          }
-          run++;
-        }
-      }
-      output.Write(run, LG_R);
-      output.Close();
-    }
+        private BinaryInput input;
+        private BinaryOutput output;
 
-    /// <summary>
-    /// Sample client that calls <c>compress()</c> if the command-line
-    /// argument is "-" an <c>expand()</c> if it is "+".</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd RunLength (-|+) input_file output_file")]
-    public static void MainTest(string[] args)
-    {
-      RunLength algorithm = new RunLength(args[1], args[2]);
-      if (args[0].Equals("-")) algorithm.Compress();
-      else if (args[0].Equals("+")) algorithm.Expand();
-      else throw new ArgumentException("Illegal command line argument");
+        /// <summary>
+        /// Uses file names to direct input and output
+        /// </summary>
+        /// <param name="outputFileName">user input file, empty if from console</param>
+        /// <param name="inputFileName">user output file</param>
+        public RunLength(string inputFileName, string outputFileName)
+        {
+            //Console.WriteLine("RunLength with InFile={0} and OutFile={1}", inputFileName, outputFileName);
+            input = new BinaryInput(inputFileName);
+            output = new BinaryOutput(outputFileName);
+        }
+
+        /// <summary>Reads a sequence of bits from standard input (that are encoded
+        /// using run-length encoding with 8-bit run lengths); decodes them;
+        /// and writes the results to standard output.</summary>
+        ///
+        public void Expand()
+        {
+            bool b = false;
+            while (!input.IsEmpty)
+            {
+                int run = input.ReadInt(LG_R);
+                for (int i = 0; i < run; i++)
+                    output.Write(b);
+                b = !b;
+            }
+            output.Close();
+        }
+
+        /// <summary>
+        /// Reads a sequence of bits from standard input; compresses
+        /// them using run-length coding with 8-bit run lengths; and writes the
+        /// results to standard output.</summary>
+        ///
+        public void Compress()
+        {
+            int run = 0;
+            bool old = false;
+            while (!input.IsEmpty)
+            {
+                bool b = input.ReadBoolean();
+                if (b != old)
+                {
+                    output.Write(run, LG_R);
+                    run = 1;
+                    old = !old;
+                }
+                else
+                {
+                    if (run == R - 1)
+                    {
+                        output.Write(run, LG_R);
+                        run = 0;
+                        output.Write(run, LG_R);
+                    }
+                    run++;
+                }
+            }
+            output.Write(run, LG_R);
+            output.Close();
+        }
+
+        /// <summary>
+        /// Sample client that calls <c>compress()</c> if the command-line
+        /// argument is "-" an <c>expand()</c> if it is "+".</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd RunLength (-|+) input_file output_file")]
+        public static void MainTest(string[] args)
+        {
+            RunLength algorithm = new RunLength(args[1], args[2]);
+            if (args[0].Equals("-")) algorithm.Compress();
+            else if (args[0].Equals("+")) algorithm.Expand();
+            else throw new ArgumentException("Illegal command line argument");
+        }
     }
-  }
 }
 
 /******************************************************************************

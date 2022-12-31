@@ -11,85 +11,85 @@
  *
  ******************************************************************************/
 
-using System;
-using System.Threading;
-using System.Runtime.InteropServices;
-using System.ComponentModel;
+//using System;
+//using System.Threading;
+//using System.Runtime.InteropServices;
+//using System.ComponentModel;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// A version of Stopwatch that uses Win32 performance counter.
-  /// For regular use, use the <see cref="Stopwatch"/> class. Since .NET dose not have
-  /// a close equivalence of the Java ThreadMXBean class, we will not port the  
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StopwatchCPU.java.html">StopwatchCPU</a>
-  /// class. Instead, we use this class as a demonstration of an alternative Stopwatch implementation.</summary>
-  /// <remarks>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</remarks>
-  /// 
-  public class StopwatchWin32
-  {
-    [DllImport("Kernel32.dll")]
-    private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
-    [DllImport("Kernel32.dll")]
-    private static extern bool QueryPerformanceFrequency(out long lpFrequency);
-
-    private long start, stop, freq;
-
-    /// <summary>Initializes a new stopwatch.</summary>
-    ///
-    public StopwatchWin32()
-    {
-      if (QueryPerformanceFrequency(out freq) == false)
-      {
-        throw new Win32Exception("win32-performance counter not supported");
-      }
-      QueryPerformanceCounter(out start);
-    }
-
     /// <summary>
-    /// Returns the elapsed CPU time (in seconds) since the stopwatch was created.</summary>
-    /// <returns>elapsed CPU time (in seconds) since the stopwatch was created</returns>
-    ///
-    public double ElapsedTime()
-    {
-      QueryPerformanceCounter(out stop);
-      return (stop - start) / (double)freq;
-    }
-
-    /// <summary>
-    /// Demo test for the <c></c> data type.
-    /// </summary>
-    /// <param name="args">Place holder for user arguments</param>
+    /// A version of Stopwatch that uses Win32 performance counter.
+    /// For regular use, use the <see cref="Stopwatch"/> class. Since .NET dose not have
+    /// a close equivalence of the Java ThreadMXBean class, we will not port the  
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/StopwatchCPU.java.html">StopwatchCPU</a>
+    /// class. Instead, we use this class as a demonstration of an alternative Stopwatch implementation.</summary>
+    /// <remarks>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</remarks>
     /// 
-    [HelpText("algscmd StopwatchWin32 100000000")]
-    public static void MainTest(string[] args)
-    {
-      int n = int.Parse(args[0]);
+    //public class StopwatchWin32
+    //{
+    //    [DllImport("Kernel32.dll")]
+    //    private static extern bool QueryPerformanceCounter(out long lpPerformanceCount);
+    //    [DllImport("Kernel32.dll")]
+    //    private static extern bool QueryPerformanceFrequency(out long lpFrequency);
 
-      // sum of square roots of integers from 1 to n using Math.sqrt(x).
-      StopwatchWin32 timer1 = new StopwatchWin32();
-      double sum1 = 0.0;
-      for (int i = 1; i <= n; i++)
-      {
-        sum1 += Math.Sqrt(i);
-      }
-      double time1 = timer1.ElapsedTime();
-      Console.Write("{0:e} ({1:F2} seconds)\n", sum1, time1);
+    //    private long start, stop, freq;
 
-      // sum of square roots of integers from 1 to n using Math.pow(x, 0.5).
-      StopwatchWin32 timer2 = new StopwatchWin32();
-      double sum2 = 0.0;
-      for (int i = 1; i <= n; i++)
-      {
-        sum2 += Math.Pow(i, 0.5);
-      }
-      double time2 = timer2.ElapsedTime();
-      Console.Write("{0:e} ({1:F2} seconds)\n", sum2, time2);
-    }
+    //    /// <summary>Initializes a new stopwatch.</summary>
+    //    ///
+    //    public StopwatchWin32()
+    //    {
+    //        if (QueryPerformanceFrequency(out freq) == false)
+    //        {
+    //            throw new Win32Exception("win32-performance counter not supported");
+    //        }
+    //        QueryPerformanceCounter(out start);
+    //    }
 
-  }
+    //    /// <summary>
+    //    /// Returns the elapsed CPU time (in seconds) since the stopwatch was created.</summary>
+    //    /// <returns>elapsed CPU time (in seconds) since the stopwatch was created</returns>
+    //    ///
+    //    public double ElapsedTime()
+    //    {
+    //        QueryPerformanceCounter(out stop);
+    //        return (stop - start) / (double)freq;
+    //    }
+
+    //    /// <summary>
+    //    /// Demo test for the <c></c> data type.
+    //    /// </summary>
+    //    /// <param name="args">Place holder for user arguments</param>
+    //    /// 
+    //    [HelpText("algscmd StopwatchWin32 100000000")]
+    //    public static void MainTest(string[] args)
+    //    {
+    //        int n = int.Parse(args[0]);
+
+    //        // sum of square roots of integers from 1 to n using Math.sqrt(x).
+    //        StopwatchWin32 timer1 = new StopwatchWin32();
+    //        double sum1 = 0.0;
+    //        for (int i = 1; i <= n; i++)
+    //        {
+    //            sum1 += Math.Sqrt(i);
+    //        }
+    //        double time1 = timer1.ElapsedTime();
+    //        Console.Write("{0:e} ({1:F2} seconds)\n", sum1, time1);
+
+    //        // sum of square roots of integers from 1 to n using Math.pow(x, 0.5).
+    //        StopwatchWin32 timer2 = new StopwatchWin32();
+    //        double sum2 = 0.0;
+    //        for (int i = 1; i <= n; i++)
+    //        {
+    //            sum2 += Math.Pow(i, 0.5);
+    //        }
+    //        double time2 = timer2.ElapsedTime();
+    //        Console.Write("{0:e} ({1:F2} seconds)\n", sum2, time2);
+    //    }
+
+    //}
 }
 
 /******************************************************************************

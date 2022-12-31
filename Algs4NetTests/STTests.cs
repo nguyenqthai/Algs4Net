@@ -10,88 +10,88 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class STTests
-  {
-    [TestMethod]
-    [ExpectedException(typeof(NullReferenceException))]
-    public void STTest1()
+    [TestClass]
+    public class STTests
     {
-      // testing Get/Put semantics
-      ST<string, int> st = new ST<string, int>();
-      Assert.IsTrue(st.IsEmpty);
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void STTest1()
+        {
+            // testing Get/Put semantics
+            ST<string, int> st = new ST<string, int>();
+            Assert.IsTrue(st.IsEmpty);
 
-      string[] keys = { "to", "be", "or", "not", "to", "be", "is", "quest" };
-      for (int i = 0; i < keys.Length; i++)
-      {
-        st.Put(keys[i], i);
-      }
-      Assert.IsTrue(!(st.IsEmpty) && (st.Count == 6));
+            string[] keys = { "to", "be", "or", "not", "to", "be", "is", "quest" };
+            for (int i = 0; i < keys.Length; i++)
+            {
+                st.Put(keys[i], i);
+            }
+            Assert.IsTrue(!(st.IsEmpty) && (st.Count == 6));
 
-      string key = "not";
-      Assert.IsTrue(st.Contains(key));
-      st.Delete(key);
-      Assert.IsFalse(st.Contains(key));
-      Assert.IsNull(st.Get(key));
+            string key = "not";
+            Assert.IsTrue(st.Contains(key));
+            st.Delete(key);
+            Assert.IsFalse(st.Contains(key));
+            Assert.IsNull(st.Get(key));
 
-      object value = st.Get("is");
-      Assert.AreEqual(6, value);
+            object value = st.Get("is");
+            Assert.AreEqual(6, value);
 
-      value = st.Get("world");
-      Assert.IsNull(value);
+            value = st.Get("world");
+            Assert.IsNull(value);
 
-      int dummy = (int)st.Get("hello"); // generate null exception
+            int dummy = (int)st.Get("hello"); // generate null exception
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(NullReferenceException))]
+        public void STTest2()
+        {
+            // testing indexer semantics
+            ST<int, string> st = new ST<int, string>();
+            st[99] = null;
+            Assert.AreEqual(st.Count, 0);
+            st[3] = "abc";
+            st[2] = "cde";
+            Assert.AreEqual(st[2], "cde");
+            st[99] = null;
+            st[2] = null;
+            Assert.AreEqual(st.Count, 1);
+            st.Delete(3);
+            Assert.AreEqual(st.Count, 0);
+            try
+            {
+                string dummyS = st[99];
+                Assert.IsNull(dummyS);
+            }
+            catch (Exception)
+            {
+                Assert.Fail("it is possible to look up an empty table");
+            }
+
+            st[4] = "def";
+            Assert.IsNull(st[99]);
+            Assert.IsNull(st[3]);
+            Assert.IsNull(st[2]);
+            st[3] = "101";
+            int oldCount = st.Count;
+            // delete non-existing key does nothing
+            st.Delete(123456);
+            Assert.AreEqual(oldCount, st.Count);
+
+            ST<int, int> st2 = new ST<int, int>();
+            st2[3] = 22;
+            st2[2] = 33;
+            st2[99] = 44;
+            st2[2] = 55;
+            st2.Delete(3);
+            Assert.IsFalse(st2.Contains(3));
+            st2[3] = 101;
+            Assert.AreEqual(101, st2[3]);
+            st2.Delete(99);
+            int dummy = st2[99]; // generate null exception
+        }
     }
-
-    [TestMethod]
-    [ExpectedException(typeof(NullReferenceException))]
-    public void STTest2()
-    {
-      // testing indexer semantics
-      ST<int, string> st = new ST<int, string>();
-      st[99] = null;
-      Assert.AreEqual(st.Count, 0);
-      st[3] = "abc";
-      st[2] = "cde";
-      Assert.AreEqual(st[2], "cde");
-      st[99] = null;
-      st[2] = null;
-      Assert.AreEqual(st.Count, 1);
-      st.Delete(3);
-      Assert.AreEqual(st.Count, 0);
-      try
-      {
-        string dummyS = st[99];
-        Assert.IsNull(dummyS);
-      }
-      catch (Exception)
-      {
-        Assert.Fail("it is possible to look up an empty table");
-      }
-
-      st[4] = "def";
-      Assert.IsNull(st[99]);
-      Assert.IsNull(st[3]);
-      Assert.IsNull(st[2]);
-      st[3] = "101";
-      int oldCount = st.Count;
-      // delete non-existing key does nothing
-      st.Delete(123456);
-      Assert.AreEqual(oldCount, st.Count);
-
-      ST<int, int> st2 = new ST<int, int>();
-      st2[3] = 22;
-      st2[2] = 33;
-      st2[99] = 44;
-      st2[2] = 55;
-      st2.Delete(3);
-      Assert.IsFalse(st2.Contains(3));
-      st2[3] = 101;
-      Assert.AreEqual(101, st2[3]);
-      st2.Delete(99);
-      int dummy = st2[99]; // generate null exception
-    }
-  }
 }
 
 /******************************************************************************

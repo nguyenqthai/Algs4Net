@@ -26,68 +26,68 @@ using System.Diagnostics;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Quick3way</c> class provides static methods for sorting an
-  /// array using quicksort with 3-way partitioning.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Quick3way.java.html">Quick3way</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Quick3way
-  {
-
-    // This class should not be instantiated.
-    private Quick3way() { }
-
     /// <summary>
-    /// Rearranges the array in ascending order, using the natural order.</summary>
-    /// <param name="a">the array to be sorted</param>
+    /// The <c>Quick3way</c> class provides static methods for sorting an
+    /// array using quicksort with 3-way partitioning.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Quick3way.java.html">Quick3way</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static void Sort(IComparable[] a)
+    public class Quick3way
     {
-      StdRandom.Shuffle(a);
-      Sort(a, 0, a.Length - 1);
-      Debug.Assert(OrderHelper.IsSorted(a));
-    }
 
-    // quicksort the subarray a[lo .. hi] using 3-way partitioning
-    private static void Sort(IComparable[] a, int lo, int hi)
-    {
-      if (hi <= lo) return;
-      int lt = lo, gt = hi;
-      IComparable v = a[lo];
-      int i = lo;
-      while (i <= gt)
-      {
-        int cmp = a[i].CompareTo(v);
-        if (cmp < 0) OrderHelper.Exch(a, lt++, i++);
-        else if (cmp > 0) OrderHelper.Exch(a, i, gt--);
-        else i++;
-      }
+        // This class should not be instantiated.
+        private Quick3way() { }
 
-      // a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi].
-      Sort(a, lo, lt - 1);
-      Sort(a, gt + 1, hi);
-      Debug.Assert(OrderHelper.IsSorted(a, lo, hi));
-    }
+        /// <summary>
+        /// Rearranges the array in ascending order, using the natural order.</summary>
+        /// <param name="a">the array to be sorted</param>
+        ///
+        public static void Sort(IComparable[] a)
+        {
+            StdRandom.Shuffle(a);
+            Sort(a, 0, a.Length - 1);
+            Debug.Assert(OrderHelper.IsSorted(a));
+        }
 
-    /// <summary>
-    /// Reads in a sequence of strings from standard input; 3-way
-    /// quicksorts them; and prints them to standard output in ascending order. </summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Quick3way < words3.txt", "Input strings to be printed in sorted order")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
-      Quick3way.Sort(a);
-      OrderHelper.Show(a);
+        // quicksort the subarray a[lo .. hi] using 3-way partitioning
+        private static void Sort(IComparable[] a, int lo, int hi)
+        {
+            if (hi <= lo) return;
+            int lt = lo, gt = hi;
+            IComparable v = a[lo];
+            int i = lo;
+            while (i <= gt)
+            {
+                int cmp = a[i].CompareTo(v);
+                if (cmp < 0) OrderHelper.Exch(a, lt++, i++);
+                else if (cmp > 0) OrderHelper.Exch(a, i, gt--);
+                else i++;
+            }
+
+            // a[lo..lt-1] < v = a[lt..gt] < a[gt+1..hi].
+            Sort(a, lo, lt - 1);
+            Sort(a, gt + 1, hi);
+            Debug.Assert(OrderHelper.IsSorted(a, lo, hi));
+        }
+
+        /// <summary>
+        /// Reads in a sequence of strings from standard input; 3-way
+        /// quicksorts them; and prints them to standard output in ascending order. </summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Quick3way < words3.txt", "Input strings to be printed in sorted order")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+            Quick3way.Sort(a);
+            OrderHelper.Show(a);
+        }
     }
-  }
 }
 
 /******************************************************************************

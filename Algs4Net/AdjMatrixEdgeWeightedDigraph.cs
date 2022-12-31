@@ -23,217 +23,217 @@ using System.Text;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>AdjMatrixEdgeWeightedDigraph</c> class represents a edge-weighted
-  /// digraph of vertices named 0 through <c>V</c> - 1, where each
-  /// directed edge is of type <seealso cref="DirectedEdge"/> and has a real-valued weight.
-  /// It supports the following two primary operations: add a directed edge
-  /// to the digraph and iterate over all of edges incident from a given vertex.
-  /// It also provides methods for returning the number of vertices <c>V</c> and the number
-  /// of edges <c>E</c>. Parallel edges are disallowed; self-loops are permitted.
-  /// </para><para>
-  /// This implementation uses an adjacency-matrix representation.
-  /// All operations take constant time (in the worst case) except
-  /// iterating over the edges incident from a given vertex, which takes
-  /// time proportional to <c>V</c>.</para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/AdjMatrixEdgeWeightedDigraph.java.html">AdjMatrixEdgeWeightedDigraph</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class AdjMatrixEdgeWeightedDigraph
-  {
-    private static readonly string NEWLINE = Environment.NewLine;
-
-    private int numVertices;
-    private int numEdges;
-    private DirectedEdge[,] adj;
-
-    /// <summary>
-    /// Initializes an empty edge-weighted digraph with <c>V</c> vertices and 0 edges.</summary>
-    /// <param name="V">the number of vertices</param>
-    /// <exception cref="ArgumentException">if <c>V</c> &lt; 0</exception>
+    /// <summary><para>
+    /// The <c>AdjMatrixEdgeWeightedDigraph</c> class represents a edge-weighted
+    /// digraph of vertices named 0 through <c>V</c> - 1, where each
+    /// directed edge is of type <seealso cref="DirectedEdge"/> and has a real-valued weight.
+    /// It supports the following two primary operations: add a directed edge
+    /// to the digraph and iterate over all of edges incident from a given vertex.
+    /// It also provides methods for returning the number of vertices <c>V</c> and the number
+    /// of edges <c>E</c>. Parallel edges are disallowed; self-loops are permitted.
+    /// </para><para>
+    /// This implementation uses an adjacency-matrix representation.
+    /// All operations take constant time (in the worst case) except
+    /// iterating over the edges incident from a given vertex, which takes
+    /// time proportional to <c>V</c>.</para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/AdjMatrixEdgeWeightedDigraph.java.html">AdjMatrixEdgeWeightedDigraph</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public AdjMatrixEdgeWeightedDigraph(int V)
+    public class AdjMatrixEdgeWeightedDigraph
     {
-      if (V < 0) throw new ArgumentException("Number of vertices must be nonnegative");
-      numVertices = V;
-      numEdges = 0;
-      adj = new DirectedEdge[V,V];
-    }
+        private static readonly string NEWLINE = Environment.NewLine;
 
-    /// <summary>
-    /// Initializes a random edge-weighted digraph with <c>V</c> vertices and <c>E</c> edges.</summary>
-    /// <param name="V">the number of vertices</param>
-    /// <param name="E">the number of edges</param>
-    /// <exception cref="ArgumentException">if <c>V</c> &lt; 0</exception>
-    /// <exception cref="ArgumentException">if <c>E</c> &lt; 0</exception>
-    ///
-    public AdjMatrixEdgeWeightedDigraph(int V, int E) : this(V)
-    {
-      if (E < 0) throw new ArgumentException("Number of edges must be nonnegative");
-      if (E > V * V) throw new ArgumentException("Too many edges");
+        private int numVertices;
+        private int numEdges;
+        private DirectedEdge[,] adj;
 
-      // can be inefficient
-      while (numEdges != E)
-      {
-        int v = StdRandom.Uniform(V);
-        int w = StdRandom.Uniform(V);
-        double weight = Math.Round(100 * StdRandom.Uniform()) / 100.0;
-        AddEdge(new DirectedEdge(v, w, weight));
-      }
-    }
-
-    /// <summary>
-    /// Initializes an edge-weighted digraph from a text input stream.
-    /// The format is the number of vertices <c>V</c>,
-    /// followed by the number of edges <c>E</c>,
-    /// followed by <c>E</c> pairs of vertices and edge weights,
-    /// with each entry separated by whitespace.</summary>
-    /// <param name="input">the input stream</param>
-    /// <exception cref="IndexOutOfRangeException">if the endpoints of any edge are not in prescribed range</exception>
-    /// <exception cref="ArgumentException">if the number of vertices or edges is negative</exception>
-    ///
-    public AdjMatrixEdgeWeightedDigraph(TextInput input) : this(input.ReadInt())
-    {
-      int E = input.ReadInt();
-      if (E < 0) throw new ArgumentException("Number of edges must be nonnegative");
-      for (int i = 0; i < E; i++)
-      {
-        int v = input.ReadInt();
-        int w = input.ReadInt();
-        // validation wil be done from within AddEdge
-        double weight = input.ReadDouble();
-        AddEdge(new DirectedEdge(v, w, weight));
-      }
-    }
-
-    /// <summary>
-    /// Returns the number of vertices in the edge-weighted digraph.</summary>
-    /// <returns>the number of vertices in the edge-weighted digraph</returns>
-    ///
-    public int V
-    {
-      get { return numVertices; }
-    }
-
-    /// <summary>
-    /// Returns the number of edges in the edge-weighted digraph.</summary>
-    /// <returns>the number of edges in the edge-weighted digraph</returns>
-    ///
-    public int E
-    {
-      get { return numEdges; }
-    }
-
-    /// <summary>
-    /// Adds the directed edge <c>e</c> to the edge-weighted digraph (if there
-    /// is not already an edge with the same endpoints).</summary>
-    /// <param name="e">the edge</param>
-    ///
-    public void AddEdge(DirectedEdge e)
-    {
-      int v = e.From;
-      int w = e.To;
-      if (adj[v,w] == null)
-      {
-        numEdges++;
-        adj[v,w] = e;
-      }
-    }
-
-    /// <summary>
-    /// Returns the directed edges incident from vertex <c>v</c>.</summary>
-    /// <param name="v">the vertex</param>
-    /// <returns>the directed edges incident from vertex <c>v</c> as an Iterable</returns>
-    /// <exception cref="IndexOutOfRangeException">unless 0 &lt;= v &lt; V</exception>
-    ///
-    public IEnumerable<DirectedEdge> Adj(int v)
-    {
-      return new AdjIEnumerator(adj, v);
-    }
-
-    // support iteration over graph vertices
-    private class AdjIEnumerator : IEnumerable<DirectedEdge>
-    {
-      //List<DirectedEdge> adjacents;
-      DirectedEdge[,] adj;
-      private int v;    // the vertex under consideration
-
-      public AdjIEnumerator(DirectedEdge[,] adj, int v)
-      {
-        //adjacents = new List<DirectedEdge>();
-        //int V = adj.GetLength(0);
-        //for (int e=0; i<V; i++)
-
-        this.adj = adj;
-        this.v = v;
-      }
-
-      public IEnumerator<DirectedEdge> GetEnumerator()
-      {
-        int V = adj.GetLength(0);
-        int e = 0;
-        while (e < V && adj[v, e] == null) e++;
-        if (e < V)
+        /// <summary>
+        /// Initializes an empty edge-weighted digraph with <c>V</c> vertices and 0 edges.</summary>
+        /// <param name="V">the number of vertices</param>
+        /// <exception cref="ArgumentException">if <c>V</c> &lt; 0</exception>
+        ///
+        public AdjMatrixEdgeWeightedDigraph(int V)
         {
-          DirectedEdge current = adj[v, e];
-          while (e < V)
-          {
-            yield return current;
-            e++;
-            while (e < V && adj[v, e] == null) e++;
-            if (e == V) break;
-            current = adj[v, e];
-          }
+            if (V < 0) throw new ArgumentException("Number of vertices must be nonnegative");
+            numVertices = V;
+            numEdges = 0;
+            adj = new DirectedEdge[V, V];
         }
-      }
 
-      IEnumerator IEnumerable.GetEnumerator()
-      {
-        return GetEnumerator();
-      }
-
-    }
-
-    /// <summary>
-    /// Returns a string representation of the edge-weighted digraph. This method takes
-    /// time proportional to <c>V</c><sup>2</sup>.</summary>
-    /// <returns>the number of vertices <c>V</c>, followed by the number of edges <c>E</c>,
-    /// followed by the <c>V</c> adjacency lists of edges</returns>
-    ///
-    public override string ToString()
-    {
-      StringBuilder s = new StringBuilder();
-      s.Append(V + " " + E + NEWLINE);
-      for (int v = 0; v < V; v++)
-      {
-        s.Append(v + ": ");
-        IEnumerable<DirectedEdge> adjacents = Adj(v);
-        foreach (DirectedEdge e in adjacents)
+        /// <summary>
+        /// Initializes a random edge-weighted digraph with <c>V</c> vertices and <c>E</c> edges.</summary>
+        /// <param name="V">the number of vertices</param>
+        /// <param name="E">the number of edges</param>
+        /// <exception cref="ArgumentException">if <c>V</c> &lt; 0</exception>
+        /// <exception cref="ArgumentException">if <c>E</c> &lt; 0</exception>
+        ///
+        public AdjMatrixEdgeWeightedDigraph(int V, int E) : this(V)
         {
-          s.Append(e + "  ");
-        }
-        s.Append(NEWLINE);
-      }
-      return s.ToString();
-    }
+            if (E < 0) throw new ArgumentException("Number of edges must be nonnegative");
+            if (E > V * V) throw new ArgumentException("Too many edges");
 
-    /// <summary>
-    /// Demo test the <c>AdjMatrixEdgeWeightedDigraph</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd AdjMatrixEdgeWeightedDigraph V E", "V, E-number of vertices and number of edges")]
-    public static void MainTest(string[] args)
-    {
-      int V = int.Parse(args[0]);
-      int E = int.Parse(args[1]);
-      AdjMatrixEdgeWeightedDigraph G = new AdjMatrixEdgeWeightedDigraph(V, E);
-      Console.WriteLine(G);
+            // can be inefficient
+            while (numEdges != E)
+            {
+                int v = StdRandom.Uniform(V);
+                int w = StdRandom.Uniform(V);
+                double weight = Math.Round(100 * StdRandom.Uniform()) / 100.0;
+                AddEdge(new DirectedEdge(v, w, weight));
+            }
+        }
+
+        /// <summary>
+        /// Initializes an edge-weighted digraph from a text input stream.
+        /// The format is the number of vertices <c>V</c>,
+        /// followed by the number of edges <c>E</c>,
+        /// followed by <c>E</c> pairs of vertices and edge weights,
+        /// with each entry separated by whitespace.</summary>
+        /// <param name="input">the input stream</param>
+        /// <exception cref="IndexOutOfRangeException">if the endpoints of any edge are not in prescribed range</exception>
+        /// <exception cref="ArgumentException">if the number of vertices or edges is negative</exception>
+        ///
+        public AdjMatrixEdgeWeightedDigraph(TextInput input) : this(input.ReadInt())
+        {
+            int E = input.ReadInt();
+            if (E < 0) throw new ArgumentException("Number of edges must be nonnegative");
+            for (int i = 0; i < E; i++)
+            {
+                int v = input.ReadInt();
+                int w = input.ReadInt();
+                // validation wil be done from within AddEdge
+                double weight = input.ReadDouble();
+                AddEdge(new DirectedEdge(v, w, weight));
+            }
+        }
+
+        /// <summary>
+        /// Returns the number of vertices in the edge-weighted digraph.</summary>
+        /// <returns>the number of vertices in the edge-weighted digraph</returns>
+        ///
+        public int V
+        {
+            get { return numVertices; }
+        }
+
+        /// <summary>
+        /// Returns the number of edges in the edge-weighted digraph.</summary>
+        /// <returns>the number of edges in the edge-weighted digraph</returns>
+        ///
+        public int E
+        {
+            get { return numEdges; }
+        }
+
+        /// <summary>
+        /// Adds the directed edge <c>e</c> to the edge-weighted digraph (if there
+        /// is not already an edge with the same endpoints).</summary>
+        /// <param name="e">the edge</param>
+        ///
+        public void AddEdge(DirectedEdge e)
+        {
+            int v = e.From;
+            int w = e.To;
+            if (adj[v, w] == null)
+            {
+                numEdges++;
+                adj[v, w] = e;
+            }
+        }
+
+        /// <summary>
+        /// Returns the directed edges incident from vertex <c>v</c>.</summary>
+        /// <param name="v">the vertex</param>
+        /// <returns>the directed edges incident from vertex <c>v</c> as an Iterable</returns>
+        /// <exception cref="IndexOutOfRangeException">unless 0 &lt;= v &lt; V</exception>
+        ///
+        public IEnumerable<DirectedEdge> Adj(int v)
+        {
+            return new AdjIEnumerator(adj, v);
+        }
+
+        // support iteration over graph vertices
+        private class AdjIEnumerator : IEnumerable<DirectedEdge>
+        {
+            //List<DirectedEdge> adjacents;
+            DirectedEdge[,] adj;
+            private int v;    // the vertex under consideration
+
+            public AdjIEnumerator(DirectedEdge[,] adj, int v)
+            {
+                //adjacents = new List<DirectedEdge>();
+                //int V = adj.GetLength(0);
+                //for (int e=0; i<V; i++)
+
+                this.adj = adj;
+                this.v = v;
+            }
+
+            public IEnumerator<DirectedEdge> GetEnumerator()
+            {
+                int V = adj.GetLength(0);
+                int e = 0;
+                while (e < V && adj[v, e] == null) e++;
+                if (e < V)
+                {
+                    DirectedEdge current = adj[v, e];
+                    while (e < V)
+                    {
+                        yield return current;
+                        e++;
+                        while (e < V && adj[v, e] == null) e++;
+                        if (e == V) break;
+                        current = adj[v, e];
+                    }
+                }
+            }
+
+            IEnumerator IEnumerable.GetEnumerator()
+            {
+                return GetEnumerator();
+            }
+
+        }
+
+        /// <summary>
+        /// Returns a string representation of the edge-weighted digraph. This method takes
+        /// time proportional to <c>V</c><sup>2</sup>.</summary>
+        /// <returns>the number of vertices <c>V</c>, followed by the number of edges <c>E</c>,
+        /// followed by the <c>V</c> adjacency lists of edges</returns>
+        ///
+        public override string ToString()
+        {
+            StringBuilder s = new StringBuilder();
+            s.Append(V + " " + E + NEWLINE);
+            for (int v = 0; v < V; v++)
+            {
+                s.Append(v + ": ");
+                IEnumerable<DirectedEdge> adjacents = Adj(v);
+                foreach (DirectedEdge e in adjacents)
+                {
+                    s.Append(e + "  ");
+                }
+                s.Append(NEWLINE);
+            }
+            return s.ToString();
+        }
+
+        /// <summary>
+        /// Demo test the <c>AdjMatrixEdgeWeightedDigraph</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd AdjMatrixEdgeWeightedDigraph V E", "V, E-number of vertices and number of edges")]
+        public static void MainTest(string[] args)
+        {
+            int V = int.Parse(args[0]);
+            int E = int.Parse(args[1]);
+            AdjMatrixEdgeWeightedDigraph G = new AdjMatrixEdgeWeightedDigraph(V, E);
+            Console.WriteLine(G);
+        }
     }
-  }
 }
 
 /******************************************************************************

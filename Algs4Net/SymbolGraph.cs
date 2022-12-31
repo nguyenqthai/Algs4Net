@@ -45,155 +45,157 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>SymbolGraph</c> class represents an undirected graph, where the
-  /// vertex names are arbitrary strings.
-  /// By providing mappings between string vertex names and integers,
-  /// it serves as a wrapper around the
-  /// <seealso cref="Graph"/> data type, which assumes the vertex names are integers
-  /// between 0 and <c>V</c> - 1.
-  /// It also supports initializing a symbol graph from a file.
-  /// </para><para>
-  /// This implementation uses an <seealso cref="ST{Key, Value}"/> to map from strings to integers,
-  /// an array to map from integers to strings, and a <seealso cref="Graph"/> to store
-  /// the underlying graph.
-  /// The <c>Index</c> and <c>Contains</c> operations take time 
-  /// proportional to log <c>V</c>, where <c>V</c> is the number of vertices.
-  /// The <c>Name</c> operation takes constant time.
-  /// </para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SymbolGraph.java.html">SymbolGraph</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class SymbolGraph
-  {
-    private ST<string, int> st;   // string -> index
-    private string[] keys;        // index  -> string
-    private Graph innerGraph;
-
-    /// <summary>
-    /// Initializes a graph from a file using the specified delimiter.
-    /// Each line in the file contains
-    /// the name of a vertex, followed by a list of the names
-    /// of the vertices adjacent to that vertex, separated by the delimiter.</summary>
-    /// <param name="filename">the name of the file</param>
-    /// <param name="delimiter">the delimiter between fields</param>
+    /// <summary><para>
+    /// The <c>SymbolGraph</c> class represents an undirected graph, where the
+    /// vertex names are arbitrary strings.
+    /// By providing mappings between string vertex names and integers,
+    /// it serves as a wrapper around the
+    /// <seealso cref="Graph"/> data type, which assumes the vertex names are integers
+    /// between 0 and <c>V</c> - 1.
+    /// It also supports initializing a symbol graph from a file.
+    /// </para><para>
+    /// This implementation uses an <seealso cref="ST{Key, Value}"/> to map from strings to integers,
+    /// an array to map from integers to strings, and a <seealso cref="Graph"/> to store
+    /// the underlying graph.
+    /// The <c>Index</c> and <c>Contains</c> operations take time 
+    /// proportional to log <c>V</c>, where <c>V</c> is the number of vertices.
+    /// The <c>Name</c> operation takes constant time.
+    /// </para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/SymbolGraph.java.html">SymbolGraph</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public SymbolGraph(string filename, string delimiter)
+    public class SymbolGraph
     {
-      st = new ST<string, int>();
+        private ST<string, int> st;   // string -> index
+        private string[] keys;        // index  -> string
+        private Graph innerGraph;
 
-      // First pass builds the index by reading strings to associate
-      // distinct strings with an index
-      TextInput input = new TextInput(filename);
-      // while (in.hasNextLine()) {
-      while (!input.IsEmpty) {
-        string[] a = input.ReadLine().Split(delimiter.ToCharArray());
-        for (int i = 0; i < a.Length; i++)
+        /// <summary>
+        /// Initializes a graph from a file using the specified delimiter.
+        /// Each line in the file contains
+        /// the name of a vertex, followed by a list of the names
+        /// of the vertices adjacent to that vertex, separated by the delimiter.</summary>
+        /// <param name="filename">the name of the file</param>
+        /// <param name="delimiter">the delimiter between fields</param>
+        ///
+        public SymbolGraph(string filename, string delimiter)
         {
-          if (!st.Contains(a[i]))
-            st[a[i]] = st.Count;
+            st = new ST<string, int>();
+
+            // First pass builds the index by reading strings to associate
+            // distinct strings with an index
+            TextInput input = new TextInput(filename);
+            // while (in.hasNextLine()) {
+            while (!input.IsEmpty)
+            {
+                string[] a = input.ReadLine().Split(delimiter.ToCharArray());
+                for (int i = 0; i < a.Length; i++)
+                {
+                    if (!st.Contains(a[i]))
+                        st[a[i]] = st.Count;
+                }
+            }
+            Console.WriteLine("Done reading " + filename);
+
+            // inverted index to get string keys in an aray
+            keys = new string[st.Count];
+            foreach (string name in st.Keys())
+            {
+                keys[st[name]] = name;
+            }
+
+            // second pass builds the graph by connecting first vertex on each
+            // line to all others
+            innerGraph = new Graph(st.Count);
+            input = new TextInput(filename);
+            while (input.HasNextLine())
+            {
+                string[] a = input.ReadLine().Split(delimiter.ToCharArray());
+                int v = st[a[0]];
+                for (int i = 1; i < a.Length; i++)
+                {
+                    int w = st[a[i]];
+                    innerGraph.AddEdge(v, w);
+                }
+            }
         }
-      }
-      Console.WriteLine("Done reading " + filename);
 
-      // inverted index to get string keys in an aray
-      keys = new string[st.Count];
-      foreach (string name in st.Keys())
-      {
-        keys[st[name]] = name;
-      }
-
-      // second pass builds the graph by connecting first vertex on each
-      // line to all others
-      innerGraph = new Graph(st.Count);
-      input = new TextInput(filename);
-      while (input.HasNextLine()) {
-        string[] a = input.ReadLine().Split(delimiter.ToCharArray());
-        int v = st[a[0]];
-        for (int i = 1; i < a.Length; i++)
+        /// <summary>
+        /// Does the graph contain the vertex named <c>s</c>?</summary>
+        /// <param name="s">the name of a vertex</param>
+        /// <returns><c>true</c> if <c>s</c> is the name of a vertex, and <c>false</c> otherwise</returns>
+        ///
+        public bool Contains(string s)
         {
-          int w = st[a[i]];
-          innerGraph.AddEdge(v, w);
+            return st.Contains(s);
         }
-      }
-    }
 
-    /// <summary>
-    /// Does the graph contain the vertex named <c>s</c>?</summary>
-    /// <param name="s">the name of a vertex</param>
-    /// <returns><c>true</c> if <c>s</c> is the name of a vertex, and <c>false</c> otherwise</returns>
-    ///
-    public bool Contains(string s)
-    {
-      return st.Contains(s);
-    }
-
-    /// <summary>
-    /// Returns the integer associated with the vertex named <c>s</c>.</summary>
-    /// <param name="s">the name of a vertex</param>
-    /// <returns>the integer (between 0 and <c>V</c> - 1) associated with the vertex named <c>s</c></returns>
-    ///
-    public int Index(string s)
-    {
-      return st[s];
-    }
-
-    /// <summary>
-    /// Returns the name of the vertex associated with the integer <c>v</c>.</summary>
-    /// <param name="v">the integer corresponding to a vertex (between 0 and <c>V</c> - 1) </param>
-    /// <returns>the name of the vertex associated with the integer <c>v</c></returns>
-    ///
-    public string Name(int v)
-    {
-      return keys[v];
-    }
-
-    /// <summary>
-    /// Returns the graph assoicated with the symbol graph. It is the client's responsibility
-    /// not to mutate the graph.</summary>
-    /// <returns>the graph associated with the symbol graph</returns>
-    ///
-    public Graph G
-    {
-      get { return innerGraph; }
-    }
-
-    /// <summary>
-    /// Demo test the <c>SymbolGraph</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd SymbolGraph routes.txt \" \"", "File format with symbols and theirs adjacents, separated by a delimiter")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-
-      string filename = args[0];
-      string delimiter = args[1];
-      SymbolGraph sg = new SymbolGraph(filename, delimiter);
-      Graph G = sg.G;
-      while (StdIn.HasNextLine())
-      {
-        string source = StdIn.ReadLine();
-        if (sg.Contains(source))
+        /// <summary>
+        /// Returns the integer associated with the vertex named <c>s</c>.</summary>
+        /// <param name="s">the name of a vertex</param>
+        /// <returns>the integer (between 0 and <c>V</c> - 1) associated with the vertex named <c>s</c></returns>
+        ///
+        public int Index(string s)
         {
-          int s = sg.Index(source);
-          foreach (int v in G.Adj(s))
-          {
-            Console.WriteLine("   " + sg.Name(v));
-          }
+            return st[s];
         }
-        else
-        {
-          Console.WriteLine("input not contain '" + source + "'");
-        }
-      }
-    }
 
-  }
+        /// <summary>
+        /// Returns the name of the vertex associated with the integer <c>v</c>.</summary>
+        /// <param name="v">the integer corresponding to a vertex (between 0 and <c>V</c> - 1) </param>
+        /// <returns>the name of the vertex associated with the integer <c>v</c></returns>
+        ///
+        public string Name(int v)
+        {
+            return keys[v];
+        }
+
+        /// <summary>
+        /// Returns the graph assoicated with the symbol graph. It is the client's responsibility
+        /// not to mutate the graph.</summary>
+        /// <returns>the graph associated with the symbol graph</returns>
+        ///
+        public Graph G
+        {
+            get { return innerGraph; }
+        }
+
+        /// <summary>
+        /// Demo test the <c>SymbolGraph</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd SymbolGraph routes.txt \" \"", "File format with symbols and theirs adjacents, separated by a delimiter")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+
+            string filename = args[0];
+            string delimiter = args[1];
+            SymbolGraph sg = new SymbolGraph(filename, delimiter);
+            Graph G = sg.G;
+            while (StdIn.HasNextLine())
+            {
+                string source = StdIn.ReadLine();
+                if (sg.Contains(source))
+                {
+                    int s = sg.Index(source);
+                    foreach (int v in G.Adj(s))
+                    {
+                        Console.WriteLine("   " + sg.Name(v));
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("input not contain '" + source + "'");
+                }
+            }
+        }
+
+    }
 }
 
 /******************************************************************************

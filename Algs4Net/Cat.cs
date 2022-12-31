@@ -28,47 +28,47 @@ using System.IO;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Cat</c> class provides a client for concatenating the results
-  /// of several text files.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Cat.java.html">Cat</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Cat
-  {
-    // this class should not be instantiated
-    private Cat() { }
-
     /// <summary>
-    /// Reads in a sequence of text files specified as the first command-line
-    /// arguments, concatenates them, and writes the results to the file
-    /// specified as the last command-line argument. The code demonstrates
-    /// .NET's using statements and Stream I/O classes. If a single file name
-    /// is provided, the file is rewritten using its content (unchanged).</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Cat in1.txt in2.txt out.txt",
-      "Input file names followed by an output file name")]
-    public static void MainTest(string[] args)
+    /// The <c>Cat</c> class provides a client for concatenating the results
+    /// of several text files.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Cat.java.html">Cat</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class Cat
     {
-      using (StreamWriter output = new StreamWriter(args[args.Length - 1]))
-      {
-        for (int i = 0; i < args.Length - 1; i++)
-        {
-          using (StreamReader input = new StreamReader(args[i]))
-          {
-            string s = input.ReadToEnd().TrimEnd(); // remove EOF space chars
-            output.WriteLine(s);
-          }
-        }
-      }
-    }
+        // this class should not be instantiated
+        private Cat() { }
 
-  }
+        /// <summary>
+        /// Reads in a sequence of text files specified as the first command-line
+        /// arguments, concatenates them, and writes the results to the file
+        /// specified as the last command-line argument. The code demonstrates
+        /// .NET's using statements and Stream I/O classes. If a single file name
+        /// is provided, the file is rewritten using its content (unchanged).</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Cat in1.txt in2.txt out.txt",
+          "Input file names followed by an output file name")]
+        public static void MainTest(string[] args)
+        {
+            using (StreamWriter output = new StreamWriter(args[args.Length - 1]))
+            {
+                for (int i = 0; i < args.Length - 1; i++)
+                {
+                    using (StreamReader input = new StreamReader(args[i]))
+                    {
+                        string s = input.ReadToEnd().TrimEnd(); // remove EOF space chars
+                        output.WriteLine(s);
+                    }
+                }
+            }
+        }
+
+    }
 
 }
 

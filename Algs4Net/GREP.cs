@@ -29,49 +29,49 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>GREP</c> class provides a client for reading in a sequence of
-  /// lines from standard input and printing to standard output those lines
-  /// that contain a substring matching a specified regular expression.
-  /// </summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/31elementary">Section 3.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/GREP.java.html">GREP</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class GREP
-  {
-
-    // do not instantiate
-    private GREP() { }
-
     /// <summary>
-    /// Interprets the command-line argument as a regular expression
-    /// (supporting closure, binary or, parentheses, and wildcard)
-    /// reads in lines from standard input; writes to standard output
-    /// those lines that contain a substring matching the regular
-    /// expression.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd GREP \"pattern\" < tinyL.txt")]
-    public static void MainTest(string[] args)
+    /// The <c>GREP</c> class provides a client for reading in a sequence of
+    /// lines from standard input and printing to standard output those lines
+    /// that contain a substring matching a specified regular expression.
+    /// </summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/31elementary">Section 3.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/GREP.java.html">GREP</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class GREP
     {
-      TextInput StdIn = new TextInput();
-      string regexp = "(.*" + args[0] + ".*)";
-      NFA nfa = new NFA(regexp);
-      while (StdIn.HasNextLine())
-      {
-        string line = StdIn.ReadLine();
-        if (nfa.Recognizes(line))
-        {
-          Console.WriteLine(line);
-        }
-      }
-    }
 
-  }
+        // do not instantiate
+        private GREP() { }
+
+        /// <summary>
+        /// Interprets the command-line argument as a regular expression
+        /// (supporting closure, binary or, parentheses, and wildcard)
+        /// reads in lines from standard input; writes to standard output
+        /// those lines that contain a substring matching the regular
+        /// expression.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd GREP \"pattern\" < tinyL.txt")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string regexp = "(.*" + args[0] + ".*)";
+            NFA nfa = new NFA(regexp);
+            while (StdIn.HasNextLine())
+            {
+                string line = StdIn.ReadLine();
+                if (nfa.Recognizes(line))
+                {
+                    Console.WriteLine(line);
+                }
+            }
+        }
+
+    }
 }
 
 /******************************************************************************

@@ -33,46 +33,46 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Count</c> class provides an <seealso cref="Alphabet"/> client for reading
-  /// in a piece of text and computing the frequency of occurrence of each
-  /// character over a given alphabet.</summary>
-  /// <remarks><para>
-  /// For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Count.java.html">Count</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Count
-  {
-    private Count() {}
-
-    /// <summary>Reads in text from standard input; calculates the frequency of
-    /// occurrence of each character over the alphabet specified as a
-    /// commmand-line argument; and prints the frequencies to standard
-    /// output.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Count ABCDR < abra.txt", "alphas-the string with all the alphabet's chars")]
-    public static void MainTest(string[] args)
+    /// <summary>
+    /// The <c>Count</c> class provides an <seealso cref="Alphabet"/> client for reading
+    /// in a piece of text and computing the frequency of occurrence of each
+    /// character over a given alphabet.</summary>
+    /// <remarks><para>
+    /// For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Count.java.html">Count</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class Count
     {
-      TextInput StdIn = new TextInput();
-      Alphabet alphabet = new Alphabet(args[0]);
-      int R = alphabet.Radix;
-      int[] count = new int[R];
-      while (StdIn.HasNextChar())
-      {
-        char c = StdIn.ReadChar();
-        if (alphabet.Contains(c))
-          count[alphabet.ToIndex(c)]++;
-      }
-      for (int c = 0; c < R; c++)
-        Console.WriteLine(alphabet.ToChar(c) + " " + count[c]);
-    }
+        private Count() { }
 
-  }
+        /// <summary>Reads in text from standard input; calculates the frequency of
+        /// occurrence of each character over the alphabet specified as a
+        /// commmand-line argument; and prints the frequencies to standard
+        /// output.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Count ABCDR < abra.txt", "alphas-the string with all the alphabet's chars")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            Alphabet alphabet = new Alphabet(args[0]);
+            int R = alphabet.Radix;
+            int[] count = new int[R];
+            while (StdIn.HasNextChar())
+            {
+                char c = StdIn.ReadChar();
+                if (alphabet.Contains(c))
+                    count[alphabet.ToIndex(c)]++;
+            }
+            for (int c = 0; c < R; c++)
+                Console.WriteLine(alphabet.ToChar(c) + " " + count[c]);
+        }
+
+    }
 
 }
 

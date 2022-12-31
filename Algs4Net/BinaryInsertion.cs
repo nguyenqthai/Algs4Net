@@ -31,71 +31,71 @@ using System.Threading.Tasks;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>BinaryInsertion</c> class provides a static method for sorting an
-  /// array using an optimized binary insertion sort with half exchanges.
-  /// </para><para>
-  /// This implementation makes ~ N lg N compares for any array of length N.
-  /// However, in the worst case, the running time is quadratic because the
-  /// number of array accesses can be proportional to N^2 (e.g, if the array
-  /// is reverse sorted). As such, it is not suitable for sorting large
-  /// arrays (unOrderHelper.Less the number of inversions is small).
-  /// </para><para>
-  /// The sorting algorithm is stable and uses O(1) extra memory.
-  /// </para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinaryInsertion.java.html">BinaryInsertion</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class BinaryInsertion
-  {
-    // This class should not be instantiated.
-    private BinaryInsertion() { }
-
-    /// <summary>Rearranges the array in ascending order, using the natural order.</summary>
-    /// <param name="a">the array to be sorted</param>
+    /// <summary><para>
+    /// The <c>BinaryInsertion</c> class provides a static method for sorting an
+    /// array using an optimized binary insertion sort with half exchanges.
+    /// </para><para>
+    /// This implementation makes ~ N lg N compares for any array of length N.
+    /// However, in the worst case, the running time is quadratic because the
+    /// number of array accesses can be proportional to N^2 (e.g, if the array
+    /// is reverse sorted). As such, it is not suitable for sorting large
+    /// arrays (unOrderHelper.Less the number of inversions is small).
+    /// </para><para>
+    /// The sorting algorithm is stable and uses O(1) extra memory.
+    /// </para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinaryInsertion.java.html">BinaryInsertion</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static void Sort(IComparable[] a)
+    public class BinaryInsertion
     {
-      int N = a.Length;
-      for (int i = 1; i < N; i++)
-      {
-        // binary search to determine index j at which to insert a[i]
-        IComparable v = a[i];
-        int lo = 0, hi = i;
-        while (lo < hi)
+        // This class should not be instantiated.
+        private BinaryInsertion() { }
+
+        /// <summary>Rearranges the array in ascending order, using the natural order.</summary>
+        /// <param name="a">the array to be sorted</param>
+        ///
+        public static void Sort(IComparable[] a)
         {
-          int mid = lo + (hi - lo) / 2;
-          if (OrderHelper.Less(v, a[mid])) hi = mid;
-          else lo = mid + 1;
+            int N = a.Length;
+            for (int i = 1; i < N; i++)
+            {
+                // binary search to determine index j at which to insert a[i]
+                IComparable v = a[i];
+                int lo = 0, hi = i;
+                while (lo < hi)
+                {
+                    int mid = lo + (hi - lo) / 2;
+                    if (OrderHelper.Less(v, a[mid])) hi = mid;
+                    else lo = mid + 1;
+                }
+
+                // insetion sort with "half exchanges"
+                // (insert a[i] at index j and shift a[j], ..., a[i-1] to right)
+                for (int j = i; j > lo; --j)
+                    a[j] = a[j - 1];
+                a[lo] = v;
+            }
+            Debug.Assert(OrderHelper.IsSorted(a));
         }
 
-        // insetion sort with "half exchanges"
-        // (insert a[i] at index j and shift a[j], ..., a[i-1] to right)
-        for (int j = i; j > lo; --j)
-          a[j] = a[j - 1];
-        a[lo] = v;
-      }
-      Debug.Assert(OrderHelper.IsSorted(a));
+        /// <summary>
+        /// Reads in a sequence of strings from standard input; insertion sorts them;
+        /// and prints them to standard output in ascending order.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd BinaryInsertion < words3.txt", "Input strings to be printed in sorted order")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+            BinaryInsertion.Sort(a);
+            OrderHelper.Show(a);
+        }
     }
-
-    /// <summary>
-    /// Reads in a sequence of strings from standard input; insertion sorts them;
-    /// and prints them to standard output in ascending order.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd BinaryInsertion < words3.txt", "Input strings to be printed in sorted order")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
-      BinaryInsertion.Sort(a);
-      OrderHelper.Show(a);
-    }
-  }
 
 }
 
