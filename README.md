@@ -8,17 +8,21 @@ environment.
 
 ## Documentation
 
-<p>The library was delivered as a <a href = href="https://www.visualstudio.com/">Visual Studio 2015</a>
+The library was delivered as a <a href = href="https://www.visualstudio.com/">Visual Studio 2015</a>
 solution. Once the solution is build, the utility program algscmd.exe can be run from 
 either the command line or IDE.
-</p>
-<p>
+
 For more information, please visit the <a href="http://nguyenqthai.github.io/Algs4Net/">Algs4Net page</a>.
-</p>
+
+
+## .NET Core Support
+
+Currently a new branch [net-core-6-port](https://github.com/nguyenqthai/Algs4Net/tree/net-core-6-port) is dedicated
+to port the code base to the new [.NET Core](https://learn.microsoft.com/en-us/dotnet/). This is work in progress.
 
 ## Copyright
 
-Copyright &copy; 2016
+Copyright &copy; 2016-2022
 
 ## License
 
