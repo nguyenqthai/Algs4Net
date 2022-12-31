@@ -1,18 +1,18 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algs4NetTests", "Algs4NetTests\Algs4NetTests.csproj", "{4F736279-C62E-4112-A8C3-3B3AF221585D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algs4Net", "Algs4Net\Algs4Net.csproj", "{954842CA-7E68-4F45-BC39-3D8E6E193133}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgsCmd", "AlgsCmd\AlgsCmd.csproj", "{F9632328-4C12-4CC2-AE9B-5AF59D8BC6E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AlgsCmd", "AlgsCmd\AlgsCmd.csproj", "{DE024656-F6D8-4AFB-840B-CDE116EF124E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algs4Net", "Algs4Net\Algs4Net.csproj", "{36E3E1C6-A4E2-451E-AAF4-3FC8EC0AB2C3}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B611D85A-6EC0-4FCB-822E-5CADE0D16910}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{EC55A9B8-7AA6-48B9-AE87-39DCB9DF7D08}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
+		.editorconfig = .editorconfig
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algs4NetTests", "Algs4NetTests\Algs4NetTests.csproj", "{1D91C3DE-066C-4D4A-AD5D-8A417D0A73E9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -20,20 +20,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{4F736279-C62E-4112-A8C3-3B3AF221585D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4F736279-C62E-4112-A8C3-3B3AF221585D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4F736279-C62E-4112-A8C3-3B3AF221585D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4F736279-C62E-4112-A8C3-3B3AF221585D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F9632328-4C12-4CC2-AE9B-5AF59D8BC6E4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F9632328-4C12-4CC2-AE9B-5AF59D8BC6E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F9632328-4C12-4CC2-AE9B-5AF59D8BC6E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F9632328-4C12-4CC2-AE9B-5AF59D8BC6E4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{36E3E1C6-A4E2-451E-AAF4-3FC8EC0AB2C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{36E3E1C6-A4E2-451E-AAF4-3FC8EC0AB2C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{36E3E1C6-A4E2-451E-AAF4-3FC8EC0AB2C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{36E3E1C6-A4E2-451E-AAF4-3FC8EC0AB2C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{954842CA-7E68-4F45-BC39-3D8E6E193133}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{954842CA-7E68-4F45-BC39-3D8E6E193133}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{954842CA-7E68-4F45-BC39-3D8E6E193133}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{954842CA-7E68-4F45-BC39-3D8E6E193133}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE024656-F6D8-4AFB-840B-CDE116EF124E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE024656-F6D8-4AFB-840B-CDE116EF124E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE024656-F6D8-4AFB-840B-CDE116EF124E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE024656-F6D8-4AFB-840B-CDE116EF124E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D91C3DE-066C-4D4A-AD5D-8A417D0A73E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D91C3DE-066C-4D4A-AD5D-8A417D0A73E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D91C3DE-066C-4D4A-AD5D-8A417D0A73E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D91C3DE-066C-4D4A-AD5D-8A417D0A73E9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3586AE0F-F9F9-40A3-BEBA-1B3127861FDB}
 	EndGlobalSection
 EndGlobal

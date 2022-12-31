@@ -51,66 +51,66 @@ using System.Threading.Tasks;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>Knuth</c> class provides a client for reading in a
-  /// sequence of strings and <c>Shuffling</c> them using the Knuth (or Fisher-Yates)
-  /// shuffling algorithm. This algorithm guarantees to rearrange the
-  /// elements in uniformly random order, under
-  /// the assumption that Math.random() generates independent and
-  /// uniformly distributed numbers between 0 and 1.</para><para>
-  /// See <seealso cref="StdRandom"/> for versions that shuffle arrays and
-  /// subarrays of objects, doubles, and ints.</para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Knuth.java.html">Knuth</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Knuth
-  {
-    // this class should not be instantiated
-    private Knuth() { }
-
-    /// <summary>
-    /// Rearranges an array of objects in uniformly random order
-    /// (under the assumption that <c>Math.random()</c> generates independent
-    /// and uniformly distributed numbers between 0 and 1).</summary>
-    /// <param name="a">the array to be shuffled</param>
+    /// <summary><para>
+    /// The <c>Knuth</c> class provides a client for reading in a
+    /// sequence of strings and <c>Shuffling</c> them using the Knuth (or Fisher-Yates)
+    /// shuffling algorithm. This algorithm guarantees to rearrange the
+    /// elements in uniformly random order, under
+    /// the assumption that Math.random() generates independent and
+    /// uniformly distributed numbers between 0 and 1.</para><para>
+    /// See <seealso cref="StdRandom"/> for versions that shuffle arrays and
+    /// subarrays of objects, doubles, and ints.</para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Knuth.java.html">Knuth</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static void Shuffle(object[] a)
+    public class Knuth
     {
-      int N = a.Length;
-      Random rnd = new Random(DateTime.Now.Millisecond);
-      for (int i = 0; i < N; i++)
-      {
-        // choose index uniformly in [i, N-1]
-        int r = rnd.Next(i, N);
-        object swap = a[r];
-        a[r] = a[i];
-        a[i] = swap;
-      }
-    }
+        // this class should not be instantiated
+        private Knuth() { }
 
-    /// <summary>
-    /// Reads in a sequence of strings from standard input, shuffles
-    /// them, and prints out the results.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Knuth < cards.txt", "A list of strings to display in random order")]
-    public static void MainTest(string[] args)
-    {
-      // read in the data
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
+        /// <summary>
+        /// Rearranges an array of objects in uniformly random order
+        /// (under the assumption that <c>Math.random()</c> generates independent
+        /// and uniformly distributed numbers between 0 and 1).</summary>
+        /// <param name="a">the array to be shuffled</param>
+        ///
+        public static void Shuffle(object[] a)
+        {
+            int N = a.Length;
+            Random rnd = new Random(DateTime.Now.Millisecond);
+            for (int i = 0; i < N; i++)
+            {
+                // choose index uniformly in [i, N-1]
+                int r = rnd.Next(i, N);
+                object swap = a[r];
+                a[r] = a[i];
+                a[i] = swap;
+            }
+        }
 
-      // shuffle the array
-      Knuth.Shuffle(a);
-      // print results.
-      for (int i = 0; i < a.Length; i++)
-        Console.WriteLine(a[i]);
+        /// <summary>
+        /// Reads in a sequence of strings from standard input, shuffles
+        /// them, and prints out the results.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Knuth < cards.txt", "A list of strings to display in random order")]
+        public static void MainTest(string[] args)
+        {
+            // read in the data
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+
+            // shuffle the array
+            Knuth.Shuffle(a);
+            // print results.
+            for (int i = 0; i < a.Length; i++)
+                Console.WriteLine(a[i]);
+        }
     }
-  }
 }
 
 /******************************************************************************

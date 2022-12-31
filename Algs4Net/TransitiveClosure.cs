@@ -34,83 +34,83 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>TransitiveClosure</c> class represents a data type for
-  /// computing the transitive closure of a digraph.
-  /// </para><para>This implementation runs depth-first search from each vertex.
-  /// The constructor takes time proportional to <c>V</c>(<c>V</c> + <c>E</c>)
-  /// (in the worst case) and uses space proportional to <c>V</c><sup>2</sup>,
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// </para><para>For large digraphs, you may want to consider a more sophisticated algorithm.
-  /// <a href = "http://www.cs.hut.fi/~enu/thesis.html">Nuutila</a> proposes two
-  /// algorithm for the problem (based on strong components and an interval representation)
-  /// that runs in <c>E</c> + <c>V</c> time on typical digraphs.</para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/42digraph">Section 4.2</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/TransitiveClosure.java.html">TransitiveClosure</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class TransitiveClosure
-  {
-    private DirectedDFS[] tc;  // tc[v] = reachable from v
-
-    /// <summary>Computes the transitive closure of the digraph <c>G</c>.</summary>
-    /// <param name="G">the digraph</param>
+    /// <summary><para>
+    /// The <c>TransitiveClosure</c> class represents a data type for
+    /// computing the transitive closure of a digraph.
+    /// </para><para>This implementation runs depth-first search from each vertex.
+    /// The constructor takes time proportional to <c>V</c>(<c>V</c> + <c>E</c>)
+    /// (in the worst case) and uses space proportional to <c>V</c><sup>2</sup>,
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// </para><para>For large digraphs, you may want to consider a more sophisticated algorithm.
+    /// <a href = "http://www.cs.hut.fi/~enu/thesis.html">Nuutila</a> proposes two
+    /// algorithm for the problem (based on strong components and an interval representation)
+    /// that runs in <c>E</c> + <c>V</c> time on typical digraphs.</para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/42digraph">Section 4.2</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/TransitiveClosure.java.html">TransitiveClosure</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public TransitiveClosure(Digraph G)
+    public class TransitiveClosure
     {
-      tc = new DirectedDFS[G.V];
-      for (int v = 0; v < G.V; v++)
-        tc[v] = new DirectedDFS(G, v);
-    }
+        private DirectedDFS[] tc;  // tc[v] = reachable from v
 
-    /// <summary>
-    /// Is there a directed path from vertex <c>v</c> to vertex <c>w</c> in the digraph?</summary>
-    /// <param name="v">the source vertex</param>
-    /// <param name="w">the target vertex</param>
-    /// <returns><c>true</c> if there is a directed path from <c>v</c> to <c>w</c>,
-    ///   <c>false</c> otherwise</returns>
-    ///
-    public bool Reachable(int v, int w)
-    {
-      return tc[v].Marked(w);
-    }
-
-    /// <summary>
-    /// Demo test the <c>TransitiveClosure</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd TransitiveClosure tinyDG.txt", "File with the pre-defined format for directed graph")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      Digraph G = new Digraph(input);
-
-      TransitiveClosure tc = new TransitiveClosure(G);
-
-      // print header
-      Console.Write("     ");
-      for (int v = 0; v < G.V; v++)
-        Console.Write(" {0,2}", v);
-      Console.WriteLine();
-      Console.WriteLine("--------------------------------------------");
-
-      // print transitive closure
-      for (int v = 0; v < G.V; v++)
-      {
-        Console.Write(" {0,2}: ", v);
-        for (int w = 0; w < G.V; w++)
+        /// <summary>Computes the transitive closure of the digraph <c>G</c>.</summary>
+        /// <param name="G">the digraph</param>
+        ///
+        public TransitiveClosure(Digraph G)
         {
-          if (tc.Reachable(v, w)) Console.Write("  T");
-          else Console.Write("   ");
+            tc = new DirectedDFS[G.V];
+            for (int v = 0; v < G.V; v++)
+                tc[v] = new DirectedDFS(G, v);
         }
-        Console.WriteLine();
-      }
-    }
 
-  }
+        /// <summary>
+        /// Is there a directed path from vertex <c>v</c> to vertex <c>w</c> in the digraph?</summary>
+        /// <param name="v">the source vertex</param>
+        /// <param name="w">the target vertex</param>
+        /// <returns><c>true</c> if there is a directed path from <c>v</c> to <c>w</c>,
+        ///   <c>false</c> otherwise</returns>
+        ///
+        public bool Reachable(int v, int w)
+        {
+            return tc[v].Marked(w);
+        }
+
+        /// <summary>
+        /// Demo test the <c>TransitiveClosure</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd TransitiveClosure tinyDG.txt", "File with the pre-defined format for directed graph")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            Digraph G = new Digraph(input);
+
+            TransitiveClosure tc = new TransitiveClosure(G);
+
+            // print header
+            Console.Write("     ");
+            for (int v = 0; v < G.V; v++)
+                Console.Write(" {0,2}", v);
+            Console.WriteLine();
+            Console.WriteLine("--------------------------------------------");
+
+            // print transitive closure
+            for (int v = 0; v < G.V; v++)
+            {
+                Console.Write(" {0,2}: ", v);
+                for (int w = 0; w < G.V; w++)
+                {
+                    if (tc.Reachable(v, w)) Console.Write("  T");
+                    else Console.Write("   ");
+                }
+                Console.WriteLine();
+            }
+        }
+
+    }
 
 }
 

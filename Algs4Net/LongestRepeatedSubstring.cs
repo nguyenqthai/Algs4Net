@@ -30,76 +30,76 @@ using System.Text.RegularExpressions;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>LongestRepeatedSubstring</c> class provides a <seealso cref="SuffixArray"/>
-  /// client for computing the longest repeated substring of a string that
-  /// appears at least twice. The repeated substrings may overlap (but must
-  /// be distinct). See also <seealso cref="LongestCommonSubstring"/>.</summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LongestRepeatedSubstring.java.html">LongestRepeatedSubstring</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class LongestRepeatedSubstring
-  {
-
-    // Do not instantiate.
-    private LongestRepeatedSubstring() { }
-
     /// <summary>
-    /// Returns the longest common string of the two specified strings.</summary>
-    /// <param name="s">one string</param>
-    /// <param name="t">the other string</param>
-    /// <returns>the longest common string that appears as a substring</returns>
+    /// The <c>LongestRepeatedSubstring</c> class provides a <seealso cref="SuffixArray"/>
+    /// client for computing the longest repeated substring of a string that
+    /// appears at least twice. The repeated substrings may overlap (but must
+    /// be distinct). See also <seealso cref="LongestCommonSubstring"/>.</summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LongestRepeatedSubstring.java.html">LongestRepeatedSubstring</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    private static string Lcs(string s, string t)
+    public class LongestRepeatedSubstring
     {
-      throw new NotImplementedException();
-    }
 
-    /// <summary>
-    /// Returns the longest repeated substring of the specified string.</summary>
-    /// <param name="text">the string</param>
-    /// <returns>the longest repeated substring that appears in <c>text</c>;
-    ///        the empty string if no such string</returns>
-    ///
-    public static string Lrs(string text)
-    {
-      int N = text.Length;
-      SuffixArray sa = new SuffixArray(text);
-      string lrs = "";
-      for (int i = 1; i < N; i++)
-      {
-        int length = sa.Lcp(i);
-        if (length > lrs.Length)
+        // Do not instantiate.
+        private LongestRepeatedSubstring() { }
+
+        /// <summary>
+        /// Returns the longest common string of the two specified strings.</summary>
+        /// <param name="s">one string</param>
+        /// <param name="t">the other string</param>
+        /// <returns>the longest common string that appears as a substring</returns>
+        ///
+        private static string Lcs(string s, string t)
         {
-          lrs = text.Substring(sa.Index(i), sa.Index(i) + length - sa.Index(i));
+            throw new NotImplementedException();
         }
-      }
-      return lrs;
+
+        /// <summary>
+        /// Returns the longest repeated substring of the specified string.</summary>
+        /// <param name="text">the string</param>
+        /// <returns>the longest repeated substring that appears in <c>text</c>;
+        ///        the empty string if no such string</returns>
+        ///
+        public static string Lrs(string text)
+        {
+            int N = text.Length;
+            SuffixArray sa = new SuffixArray(text);
+            string lrs = "";
+            for (int i = 1; i < N; i++)
+            {
+                int length = sa.Lcp(i);
+                if (length > lrs.Length)
+                {
+                    lrs = text.Substring(sa.Index(i), sa.Index(i) + length - sa.Index(i));
+                }
+            }
+            return lrs;
+        }
+
+        /// <summary>
+        /// Demo test the <c>Lrs()</c> client.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd LongestRepeatedSubstring < tinyTale.txt")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+
+            Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
+            string text = StdIn.ReadAll();
+            text = WhiteSpace.Replace(text, " ");
+            SuffixArray suffix = new SuffixArray(text.Trim());
+
+            //Console.WriteLine(text);
+            Console.WriteLine("'" + LongestRepeatedSubstring.Lrs(text) + "'");
+        }
+
     }
-
-    /// <summary>
-    /// Demo test the <c>Lrs()</c> client.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd LongestRepeatedSubstring < tinyTale.txt")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-
-      Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
-      string text = StdIn.ReadAll();
-      text = WhiteSpace.Replace(text, " ");
-      SuffixArray suffix = new SuffixArray(text.Trim());
-
-      //Console.WriteLine(text);
-      Console.WriteLine("'" + LongestRepeatedSubstring.Lrs(text) + "'");
-    }
-
-  }
 
 }
 

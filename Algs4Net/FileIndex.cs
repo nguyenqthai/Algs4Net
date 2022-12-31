@@ -32,86 +32,86 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>FileIndex</c> class provides a client for indexing a set of files,
-  /// specified as command-line arguments. It takes queries from standard input
-  /// and prints each file that contains the given query.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FileIndex.java.html">FileIndex</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class FileIndex
-  {
-    private FileIndex() { }
-
     /// <summary>
-    /// Returns the list of files from the name-pattern list in the current directory
-    /// </summary>
-    /// <param name="namePatterns">file name that may consist of wildcard characters</param>
-    /// <returns>the list of files</returns>
-    public static string[] GetFileNames(string[] namePatterns)
+    /// The <c>FileIndex</c> class provides a client for indexing a set of files,
+    /// specified as command-line arguments. It takes queries from standard input
+    /// and prints each file that contains the given query.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FileIndex.java.html">FileIndex</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class FileIndex
     {
-      DirectoryInfo di = new DirectoryInfo(Environment.CurrentDirectory);
-      List<string> fileNames = new List<string>();
-      foreach (var pattern in namePatterns)
-      {
-        FileInfo[] fileInfos = di.GetFiles(pattern);
-        foreach (var fi in fileInfos)
+        private FileIndex() { }
+
+        /// <summary>
+        /// Returns the list of files from the name-pattern list in the current directory
+        /// </summary>
+        /// <param name="namePatterns">file name that may consist of wildcard characters</param>
+        /// <returns>the list of files</returns>
+        public static string[] GetFileNames(string[] namePatterns)
         {
-          fileNames.Add(fi.Name);
+            DirectoryInfo di = new DirectoryInfo(Environment.CurrentDirectory);
+            List<string> fileNames = new List<string>();
+            foreach (var pattern in namePatterns)
+            {
+                FileInfo[] fileInfos = di.GetFiles(pattern);
+                foreach (var fi in fileInfos)
+                {
+                    fileNames.Add(fi.Name);
+                }
+            }
+            return fileNames.ToArray();
         }
-      }
-      return fileNames.ToArray();
+
+        /// <summary>
+        /// Implementation of the <c>FileIndex</c> client.
+        /// </summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd FileIndex ex*.txt < keywords.txt")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            // key = word, value = set of files containing that word
+            ST<string, SET<string>> st = new ST<string, SET<string>>();
+
+            // create inverted index of all files
+            Console.WriteLine("Indexing files");
+            string[] allFileNames = FileIndex.GetFileNames(args);
+
+            foreach (string filename in allFileNames)
+            {
+                Console.WriteLine("  " + filename);
+                TextInput input = new TextInput(filename);
+                while (!input.IsEmpty)
+                {
+                    string word = input.ReadString();
+                    if (!st.Contains(word)) st[word] = new SET<string>();
+                    SET<string> set = st[word];
+                    set.Add(filename);
+                }
+            }
+
+            // read queries from standard input, one per line
+            while (!StdIn.IsEmpty)
+            {
+                string query = StdIn.ReadString();
+                if (st.Contains(query))
+                {
+                    SET<string> set = st[query];
+                    foreach (string filename in set)
+                    {
+                        Console.WriteLine("  " + filename);
+                    }
+                }
+            }
+        }
+
     }
-
-    /// <summary>
-    /// Implementation of the <c>FileIndex</c> client.
-    /// </summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd FileIndex ex*.txt < keywords.txt")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      // key = word, value = set of files containing that word
-      ST<string, SET<string>> st = new ST<string, SET<string>>();
-
-      // create inverted index of all files
-      Console.WriteLine("Indexing files");
-      string[] allFileNames = FileIndex.GetFileNames(args);
-
-      foreach (string filename in allFileNames)
-      {
-        Console.WriteLine("  " + filename);
-        TextInput input = new TextInput(filename);
-        while (!input.IsEmpty)
-        {
-          string word = input.ReadString();
-          if (!st.Contains(word)) st[word] = new SET<string>();
-          SET<string> set = st[word];
-          set.Add(filename);
-        }
-      }
-
-      // read queries from standard input, one per line
-      while (!StdIn.IsEmpty)
-      {
-        string query = StdIn.ReadString();
-        if (st.Contains(query))
-        {
-          SET<string> set = st[query];
-          foreach (string filename in set)
-          {
-            Console.WriteLine("  " + filename);
-          }
-        }
-      }
-    }
-
-  }
 
 }
 

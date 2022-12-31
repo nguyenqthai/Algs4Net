@@ -28,64 +28,64 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>HexDump</c> class provides a client for displaying the contents
-  /// of a binary file in hexadecimal.</para><para>
-  /// See also <seealso cref="BinaryDump"/>. For more full-featured versions, 
-  /// see the Unix utilities
-  /// <c>od</c> (octal dump) and <c>hexdump</c> (hexadecimal dump).
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/HexDump.java.html">HexDump</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class HexDump
-  {
-
-    // Do not instantiate.
-    private HexDump() { }
-
-    /// <summary>
-    /// Reads in a sequence of bytes from standard input and writes
-    /// them to standard output using hexademical notation, k hex digits
-    /// per line, where k is given as a command-line integer (defaults
-    /// to 16 if no integer is specified); also writes the number
-    /// of bits.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    [HelpText("algscmd HexDump [chars_per_line] < 4runs.bin")]
-    public static void MainTest(string[] args)
+    /// <summary><para>
+    /// The <c>HexDump</c> class provides a client for displaying the contents
+    /// of a binary file in hexadecimal.</para><para>
+    /// See also <seealso cref="BinaryDump"/>. For more full-featured versions, 
+    /// see the Unix utilities
+    /// <c>od</c> (octal dump) and <c>hexdump</c> (hexadecimal dump).
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/HexDump.java.html">HexDump</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class HexDump
     {
-      int bytesPerLine = 16;
-      if (args.Length == 1)
-      {
-        bytesPerLine = int.Parse(args[0]);
-      }
-      BinaryInput input;
-      if (args.Length == 2)
-        input = new BinaryInput(args[1]);
-      else
-        input = new BinaryInput();
-      int i;
-      for (i = 0; !input.IsEmpty; i++)
-      {
-        if (bytesPerLine == 0)
+
+        // Do not instantiate.
+        private HexDump() { }
+
+        /// <summary>
+        /// Reads in a sequence of bytes from standard input and writes
+        /// them to standard output using hexademical notation, k hex digits
+        /// per line, where k is given as a command-line integer (defaults
+        /// to 16 if no integer is specified); also writes the number
+        /// of bits.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        [HelpText("algscmd HexDump [chars_per_line] < 4runs.bin")]
+        public static void MainTest(string[] args)
         {
-          input.ReadChar();
-          continue;
+            int bytesPerLine = 16;
+            if (args.Length == 1)
+            {
+                bytesPerLine = int.Parse(args[0]);
+            }
+            BinaryInput input;
+            if (args.Length == 2)
+                input = new BinaryInput(args[1]);
+            else
+                input = new BinaryInput();
+            int i;
+            for (i = 0; !input.IsEmpty; i++)
+            {
+                if (bytesPerLine == 0)
+                {
+                    input.ReadChar();
+                    continue;
+                }
+                if (i == 0) Console.Write("");
+                else if (i % bytesPerLine == 0) Console.Write("\n", i);
+                else Console.Write(" ");
+                char c = input.ReadChar();
+                Console.Write("{0:X2}", c & 0xff);
+            }
+            if (bytesPerLine != 0) Console.WriteLine();
+            Console.WriteLine((i * 8) + " bits");
         }
-        if (i == 0) Console.Write("");
-        else if (i % bytesPerLine == 0) Console.Write("\n", i);
-        else Console.Write(" ");
-        char c = input.ReadChar();
-        Console.Write("{0:X2}", c & 0xff);
-      }
-      if (bytesPerLine != 0) Console.WriteLine();
-      Console.WriteLine((i * 8) + " bits");
     }
-  }
 
 }
 

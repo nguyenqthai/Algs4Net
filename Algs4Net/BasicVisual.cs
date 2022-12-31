@@ -5,87 +5,87 @@
  *
  ******************************************************************************/
 
-using System.Diagnostics;
-using System.Windows.Media;
+//using System.Diagnostics;
+//using System.Windows.Media;
 
-namespace Algs4Net
-{
-  /// <summary>
-  /// The base class to faciliate drawing while keeping track of the drawing
-  /// visual object. See a derived class such as <see cref="Point2D"/> for
-  /// an example
-  /// </summary>
-  public abstract class BasicVisual
-  {
-    private DrawingVisual _visual = null;
-    private DrawingWindow _target = null;
+//namespace Algs4Net
+//{
+//  /// <summary>
+//  /// The base class to faciliate drawing while keeping track of the drawing
+//  /// visual object. See a derived class such as <see cref="Point2D"/> for
+//  /// an example
+//  /// </summary>
+//  public abstract class BasicVisual
+//  {
+//    private DrawingVisual _visual = null;
+//    private DrawingWindow _target = null;
 
-    /// <summary>
-    /// Default constructor. Use this when other members such as
-    /// the <c>Display</c> property is not needed in the derived
-    /// class's application.
-    /// </summary>
-    public BasicVisual() { }
+//    /// <summary>
+//    /// Default constructor. Use this when other members such as
+//    /// the <c>Display</c> property is not needed in the derived
+//    /// class's application.
+//    /// </summary>
+//    public BasicVisual() { }
 
-    /// <summary>
-    /// Derived classes have to call to initiaze the drawing window 
-    /// </summary>
-    /// <param name="target">the drawing window</param>
-    public BasicVisual(DrawingWindow target)
-    {
-      Debug.Assert(target != null);
-      _target = target;
-    }
+//    /// <summary>
+//    /// Derived classes have to call to initiaze the drawing window 
+//    /// </summary>
+//    /// <param name="target">the drawing window</param>
+//    public BasicVisual(DrawingWindow target)
+//    {
+//      Debug.Assert(target != null);
+//      _target = target;
+//    }
 
-    /// <summary>
-    /// Uses to set the display as needed
-    /// </summary>
-    public DrawingWindow Display
-    {
-      get { return _target; }
-      set
-      {
-        Debug.Assert(value != null, "The drawing target is null!");
-        _target = value;
-      }
-    }
+//    /// <summary>
+//    /// Uses to set the display as needed
+//    /// </summary>
+//    public DrawingWindow Display
+//    {
+//      get { return _target; }
+//      set
+//      {
+//        Debug.Assert(value != null, "The drawing target is null!");
+//        _target = value;
+//      }
+//    }
 
-    /// <summary>
-    /// Derived class needs to implement this method
-    /// </summary>
-    public abstract void Draw();
+//    /// <summary>
+//    /// Derived class needs to implement this method
+//    /// </summary>
+//    public abstract void Draw();
 
-    /// <summary>
-    /// The <see cref="DrawingVisual"/> associated with the <c>Draw</c>
-    /// operation.
-    /// </summary>
-    protected DrawingVisual Visual
-    {
-      get { return _visual; }
-      set { _visual = value; }
-    }
+//    /// <summary>
+//    /// The <see cref="DrawingVisual"/> associated with the <c>Draw</c>
+//    /// operation.
+//    /// </summary>
+//    protected DrawingVisual Visual
+//    {
+//      get { return _visual; }
+//      set { _visual = value; }
+//    }
 
-    /// <summary>
-    /// Remove existing <c>Vidual</c>
-    /// </summary>
-    protected void Clear()
-    {
-      if (_visual != null)
-      {
-        _target.DeleteVisual(_visual);
-      }
-    }
+//    /// <summary>
+//    /// Remove existing <c>Vidual</c>
+//    /// </summary>
+//    protected void Clear()
+//    {
+//      if (_visual != null)
+//      {
+//        _target.DeleteVisual(_visual);
+//      }
+//    }
 
-    /// <summary>
-    /// Dereferences components
-    /// </summary>
-    ~BasicVisual()
-    {
-      _visual = null;
-      _target = null;
-    }
-  }
-}
+//    /// <summary>
+//    /// Dereferences components
+//    /// </summary>
+//    ~BasicVisual()
+//    {
+//      _visual = null;
+//      _target = null;
+//    }
+//  }
+//}
 
 /******************************************************************************
  *  Copyright 2016, Thai Nguyen.

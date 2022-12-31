@@ -13,79 +13,79 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>DijkstraAllPairsSP</c> class represents a data type for solving the
-  /// all-pairs shortest paths problem in edge-weighted digraphs
-  /// where the edge weights are nonnegative.
-  /// </para><para>
-  /// This implementation runs Dijkstra's algorithm from each vertex.
-  /// The constructor takes time proportional to <c>V</c> (<c>E</c> log <c>V</c>)
-  /// and uses space proprtional to <c>V</c><sup>2</sup>,
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// Afterwards, the <c>Dist()</c> and <c>hasPath()</c> methods take
-  /// constant time and the <c>Path()</c> method takes time proportional to the
-  /// number of edges in the shortest path returned.</para></summary>
-  /// <remarks><para>For additional documentation,    
-  /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of    
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne. </para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DijkstraAllPairsSP.java.html">DijkstraAllPairsSP</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DijkstraAllPairsSP
-  {
-    private DijkstraSP[] all;
-
-    /// <summary>
-    /// Computes a shortest paths tree from each vertex to to every other vertex in
-    /// the edge-weighted digraph <c>G</c>.</summary>
-    /// <param name="G">the edge-weighted digraph</param>
-    /// <exception cref="ArgumentException">if an edge weight is negative</exception>
-    /// <exception cref="ArgumentException">unless 0 &lt;= <c>s</c> &lt;= <c>V</c> - 1</exception>
+    /// <summary><para>
+    /// The <c>DijkstraAllPairsSP</c> class represents a data type for solving the
+    /// all-pairs shortest paths problem in edge-weighted digraphs
+    /// where the edge weights are nonnegative.
+    /// </para><para>
+    /// This implementation runs Dijkstra's algorithm from each vertex.
+    /// The constructor takes time proportional to <c>V</c> (<c>E</c> log <c>V</c>)
+    /// and uses space proprtional to <c>V</c><sup>2</sup>,
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// Afterwards, the <c>Dist()</c> and <c>hasPath()</c> methods take
+    /// constant time and the <c>Path()</c> method takes time proportional to the
+    /// number of edges in the shortest path returned.</para></summary>
+    /// <remarks><para>For additional documentation,    
+    /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of    
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne. </para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DijkstraAllPairsSP.java.html">DijkstraAllPairsSP</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public DijkstraAllPairsSP(EdgeWeightedDigraph G)
+    public class DijkstraAllPairsSP
     {
-      all = new DijkstraSP[G.V];
-      for (int v = 0; v < G.V; v++)
-        all[v] = new DijkstraSP(G, v);
-    }
+        private DijkstraSP[] all;
 
-    /// <summary>
-    /// Returns a shortest path from vertex <c>s</c> to vertex <c>t</c>.</summary>
-    /// <param name="s">the source vertex</param>
-    /// <param name="t">the destination vertex</param>
-    /// <returns>a shortest path from vertex <c>s</c> to vertex <c>t</c>
-    ///   as an iterable of edges, and <c>null</c> if no such path</returns>
-    ///
-    public IEnumerable<DirectedEdge> Path(int s, int t)
-    {
-      return all[s].PathTo(t);
-    }
+        /// <summary>
+        /// Computes a shortest paths tree from each vertex to to every other vertex in
+        /// the edge-weighted digraph <c>G</c>.</summary>
+        /// <param name="G">the edge-weighted digraph</param>
+        /// <exception cref="ArgumentException">if an edge weight is negative</exception>
+        /// <exception cref="ArgumentException">unless 0 &lt;= <c>s</c> &lt;= <c>V</c> - 1</exception>
+        ///
+        public DijkstraAllPairsSP(EdgeWeightedDigraph G)
+        {
+            all = new DijkstraSP[G.V];
+            for (int v = 0; v < G.V; v++)
+                all[v] = new DijkstraSP(G, v);
+        }
 
-    /// <summary>
-    /// Is there a path from the vertex <c>s</c> to vertex <c>t</c>?</summary>
-    /// <param name="s">the source vertex</param>
-    /// <param name="t">the destination vertex</param>
-    /// <returns><c>true</c> if there is a path from vertex <c>s</c> </returns>
-    ///   to vertex <c>t</c>, and <c>false</c> otherwise
-    ///
-    public bool HasPath(int s, int t)
-    {
-      return Dist(s, t) < double.PositiveInfinity;
-    }
+        /// <summary>
+        /// Returns a shortest path from vertex <c>s</c> to vertex <c>t</c>.</summary>
+        /// <param name="s">the source vertex</param>
+        /// <param name="t">the destination vertex</param>
+        /// <returns>a shortest path from vertex <c>s</c> to vertex <c>t</c>
+        ///   as an iterable of edges, and <c>null</c> if no such path</returns>
+        ///
+        public IEnumerable<DirectedEdge> Path(int s, int t)
+        {
+            return all[s].PathTo(t);
+        }
 
-    /// <summary>
-    /// Returns the length of a shortest path from vertex <c>s</c> to vertex <c>t</c>.</summary>
-    /// <param name="s">the source vertex</param>
-    /// <param name="t">the destination vertex</param>
-    /// <returns>the length of a shortest path from vertex <c>s</c> to vertex <c>t</c>;
-    ///   <c>double.PositiveInfinity</c> if no such path</returns>
-    ///
-    public double Dist(int s, int t)
-    {
-      return all[s].DistTo(t);
+        /// <summary>
+        /// Is there a path from the vertex <c>s</c> to vertex <c>t</c>?</summary>
+        /// <param name="s">the source vertex</param>
+        /// <param name="t">the destination vertex</param>
+        /// <returns><c>true</c> if there is a path from vertex <c>s</c> </returns>
+        ///   to vertex <c>t</c>, and <c>false</c> otherwise
+        ///
+        public bool HasPath(int s, int t)
+        {
+            return Dist(s, t) < double.PositiveInfinity;
+        }
+
+        /// <summary>
+        /// Returns the length of a shortest path from vertex <c>s</c> to vertex <c>t</c>.</summary>
+        /// <param name="s">the source vertex</param>
+        /// <param name="t">the destination vertex</param>
+        /// <returns>the length of a shortest path from vertex <c>s</c> to vertex <c>t</c>;
+        ///   <c>double.PositiveInfinity</c> if no such path</returns>
+        ///
+        public double Dist(int s, int t)
+        {
+            return all[s].DistTo(t);
+        }
     }
-  }
 }
 
 /******************************************************************************

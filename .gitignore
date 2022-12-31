@@ -88,3 +88,4 @@ AppPackages/
 
 # Ignore NuGet3 lock file
 project.lock.json
+/.editorconfig

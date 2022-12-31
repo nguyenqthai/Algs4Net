@@ -53,92 +53,92 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>DegreesOfSeparation</c> class provides a client for finding
-  /// the degree of separation between one distinguished individual and
-  /// every other individual in a social network.
-  /// As an example, if the social network consists of actors in which
-  /// two actors are connected by a link if they appeared in the same movie,
-  /// and Kevin Bacon is the distinguished individual, then the client
-  /// computes the Kevin Bacon number of every actor in the network.
-  /// </para><para>
-  /// The running time is proportional to the number of individuals and
-  /// connections in the network. If the connections are given implicitly,
-  /// as in the movie network example (where every two actors are connected
-  /// if they appear in the same movie), the efficiency of the algorithm
-  /// is improved by allowing both movie and actor vertices and connecting
-  /// each movie to all of the actors that appear in that movie.
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DegreesOfSeparation.java.html">DegreesOfSeparation</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DegreesOfSeparation
-  {
-    // an empty class for future development
-    // this class cannot be instantiated
-    private DegreesOfSeparation() { }
-
-    /// <summary>Reads in a social network from a file, and then repeatedly reads in
-    /// individuals from standard input and prints out their degrees of
-    /// separation.
-    /// Takes three command-line arguments: the name of a file,
-    /// a delimiter, and the name of the distinguished individual.
-    /// Each line in the file contains the name of a vertex, followed by a
-    /// list of the names of the vertices adjacent to that vertex,
-    /// separated by the delimiter.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd DegreesOfSeparation routes.txt \" \" \"JFK\"",
-      "File format with symbols and their adjacents, separated by a delimiter and a star symbol")]
-    public static void MainTest(string[] args)
+    /// <summary><para>
+    /// The <c>DegreesOfSeparation</c> class provides a client for finding
+    /// the degree of separation between one distinguished individual and
+    /// every other individual in a social network.
+    /// As an example, if the social network consists of actors in which
+    /// two actors are connected by a link if they appeared in the same movie,
+    /// and Kevin Bacon is the distinguished individual, then the client
+    /// computes the Kevin Bacon number of every actor in the network.
+    /// </para><para>
+    /// The running time is proportional to the number of individuals and
+    /// connections in the network. If the connections are given implicitly,
+    /// as in the movie network example (where every two actors are connected
+    /// if they appear in the same movie), the efficiency of the algorithm
+    /// is improved by allowing both movie and actor vertices and connecting
+    /// each movie to all of the actors that appear in that movie.
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DegreesOfSeparation.java.html">DegreesOfSeparation</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class DegreesOfSeparation
     {
-      string filename = args[0];
-      string delimiter = args[1];
-      string source = args[2];
+        // an empty class for future development
+        // this class cannot be instantiated
+        private DegreesOfSeparation() { }
 
-      SymbolGraph sg = new SymbolGraph(filename, delimiter);
-      Graph G = sg.G;
-
-      if (!sg.Contains(source))
-      {
-        Console.WriteLine(source + " not in database.");
-        return;
-      }
-
-      int s = sg.Index(source);
-      BreadthFirstPaths bfs = new BreadthFirstPaths(G, s);
-
-      TextInput StdIn = new TextInput();
-      while (!StdIn.IsEmpty)
-      {
-        string sink = StdIn.ReadLine();
-        if (sg.Contains(sink))
+        /// <summary>Reads in a social network from a file, and then repeatedly reads in
+        /// individuals from standard input and prints out their degrees of
+        /// separation.
+        /// Takes three command-line arguments: the name of a file,
+        /// a delimiter, and the name of the distinguished individual.
+        /// Each line in the file contains the name of a vertex, followed by a
+        /// list of the names of the vertices adjacent to that vertex,
+        /// separated by the delimiter.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd DegreesOfSeparation routes.txt \" \" \"JFK\"",
+          "File format with symbols and their adjacents, separated by a delimiter and a star symbol")]
+        public static void MainTest(string[] args)
         {
-          int t = sg.Index(sink);
-          if (bfs.HasPathTo(t))
-          {
-            foreach (int v in bfs.PathTo(t))
+            string filename = args[0];
+            string delimiter = args[1];
+            string source = args[2];
+
+            SymbolGraph sg = new SymbolGraph(filename, delimiter);
+            Graph G = sg.G;
+
+            if (!sg.Contains(source))
             {
-              Console.WriteLine("   " + sg.Name(v));
+                Console.WriteLine(source + " not in database.");
+                return;
             }
-          }
-          else
-          {
-            Console.WriteLine("Not connected");
-          }
-        }
-        else
-        {
-          Console.WriteLine("   Not in database.");
-        }
-      }
-    }
 
-  }
+            int s = sg.Index(source);
+            BreadthFirstPaths bfs = new BreadthFirstPaths(G, s);
+
+            TextInput StdIn = new TextInput();
+            while (!StdIn.IsEmpty)
+            {
+                string sink = StdIn.ReadLine();
+                if (sg.Contains(sink))
+                {
+                    int t = sg.Index(sink);
+                    if (bfs.HasPathTo(t))
+                    {
+                        foreach (int v in bfs.PathTo(t))
+                        {
+                            Console.WriteLine("   " + sg.Name(v));
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("Not connected");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("   Not in database.");
+                }
+            }
+        }
+
+    }
 
 }
 

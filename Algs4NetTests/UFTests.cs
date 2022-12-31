@@ -9,56 +9,57 @@ using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class UFTests
-  {
-    private UF Union(Tuple<int, int>[] links, int N)
+    [TestClass]
+    public class UFTests
     {
-      UF uf = new UF(N);
-      foreach (var pair in links)
-      {
-        int p = pair.Item1;
-        int q = pair.Item2;
-        if (uf.Connected(p, q)) continue;
-        uf.Union(pair.Item1, pair.Item2);
-      }
-      return uf;
-    }
+        private UF Union(Tuple<int, int>[] links, int N)
+        {
+            UF uf = new UF(N);
+            foreach (var pair in links)
+            {
+                int p = pair.Item1;
+                int q = pair.Item2;
+                if (uf.Connected(p, q)) continue;
+                uf.Union(pair.Item1, pair.Item2);
+            }
+            return uf;
+        }
 
-    [TestMethod]
-    [ExpectedException(typeof(IndexOutOfRangeException))]
-    public void UFTest1()
-    {
-      // no connected components
-      Tuple<int, int>[] set1 =
-      {
+        [TestMethod]
+        [ExpectedException(typeof(IndexOutOfRangeException))]
+        public void UFTest1()
+        {
+            // no connected components
+            Tuple<int, int>[] set1 =
+            {
         new Tuple<int, int>(1, 1),
         new Tuple<int, int>(2, 2),
         new Tuple<int, int>(3, 3),
         new Tuple<int, int>(0, 0)
       };
 
-      UF uf = Union(set1,set1.Length);
-      Assert.AreEqual(uf.Count, set1.Length);
+            UF uf = Union(set1, set1.Length);
+            Assert.AreEqual(uf.Count, set1.Length);
 
-      // three connected components
-      Tuple<int, int>[] set2 =
-      {
+            // three connected components
+            Tuple<int, int>[] set2 =
+            {
         new Tuple<int, int>(0, 1),
         new Tuple<int, int>(2, 3),
         new Tuple<int, int>(4, 5),
         new Tuple<int, int>(6, 0),
         new Tuple<int, int>(7, 1)
       };
-      uf = Union(set2, 8);
-      Assert.AreEqual(uf.Count, 3);
+            uf = Union(set2, 8);
+            Assert.AreEqual(uf.Count, 3);
 
-      set2[0] = new Tuple<int, int>(7, 8);
-      uf = Union(set2, 8); // generate exception
+            set2[0] = new Tuple<int, int>(7, 8);
+            uf = Union(set2, 8); // generate exception
 
+        }
     }
-  }
 }
+
 /******************************************************************************
  *  Copyright 2016, Thai Nguyen.
  *  Copyright 2002-2015, Robert Sedgewick and Kevin Wayne.

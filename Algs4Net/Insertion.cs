@@ -27,145 +27,145 @@ using System.Diagnostics;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>Insertion</c> class provides static methods for sorting an
-  /// array using insertion sort.
-  /// </para><para>
-  /// This implementation makes ~ 1/2 N^2 compares and OrderHelper.Exchanges in
-  /// the worst case, so it is not suitable for sorting large arbitrary arrays.
-  /// More precisely, the number of OrderHelper.Exchanges is exactly equal to the number
-  /// of inversions. So, for example, it sorts a partially-sorted array
-  /// in linear time.
-  /// </para><para>
-  /// The sorting algorithm is stable and uses O(1) extra memory.
-  /// </para>
-  /// <para>
-  /// See <a href="http://algs4.cs.princeton.edu/21elementary/InsertionPedantic.java.html">InsertionPedantic.java</a>
-  /// for a version that eliminates the compiler warning.
-  /// </para></summary>
-  /// <remarks>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
-  /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Insertion.java.html">Insertion</a> implementation by
-  /// Robert Sedgewick and Kevin Wayne.
-  /// </para></remarks>
-  ///
-  public class Insertion
-  {
-
-    // This class should not be instantiated.
-    private Insertion() { }
-
-    /// <summary>
-    /// Rearranges the array in ascending order, using the natural order.</summary>
-    /// <param name="a">a the array to be sorted</param>
+    /// <summary><para>
+    /// The <c>Insertion</c> class provides static methods for sorting an
+    /// array using insertion sort.
+    /// </para><para>
+    /// This implementation makes ~ 1/2 N^2 compares and OrderHelper.Exchanges in
+    /// the worst case, so it is not suitable for sorting large arbitrary arrays.
+    /// More precisely, the number of OrderHelper.Exchanges is exactly equal to the number
+    /// of inversions. So, for example, it sorts a partially-sorted array
+    /// in linear time.
+    /// </para><para>
+    /// The sorting algorithm is stable and uses O(1) extra memory.
+    /// </para>
+    /// <para>
+    /// See <a href="http://algs4.cs.princeton.edu/21elementary/InsertionPedantic.java.html">InsertionPedantic.java</a>
+    /// for a version that eliminates the compiler warning.
+    /// </para></summary>
+    /// <remarks>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+    /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Insertion.java.html">Insertion</a> implementation by
+    /// Robert Sedgewick and Kevin Wayne.
+    /// </para></remarks>
     ///
-    public static void Sort(IComparable[] a)
+    public class Insertion
     {
-      int N = a.Length;
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i; j > 0 && OrderHelper.Less(a[j], a[j - 1]); j--)
+
+        // This class should not be instantiated.
+        private Insertion() { }
+
+        /// <summary>
+        /// Rearranges the array in ascending order, using the natural order.</summary>
+        /// <param name="a">a the array to be sorted</param>
+        ///
+        public static void Sort(IComparable[] a)
         {
-          OrderHelper.Exch(a, j, j - 1);
+            int N = a.Length;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = i; j > 0 && OrderHelper.Less(a[j], a[j - 1]); j--)
+                {
+                    OrderHelper.Exch(a, j, j - 1);
+                }
+                Debug.Assert(OrderHelper.IsSorted(a, 0, i));
+            }
+            Debug.Assert(OrderHelper.IsSorted(a));
         }
-        Debug.Assert(OrderHelper.IsSorted(a, 0, i));
-      }
-      Debug.Assert(OrderHelper.IsSorted(a));
-    }
 
-    /// <summary>
-    /// Rearranges the subarray a[lo..hi] in ascending order, using the natural order.</summary>
-    /// <param name="a">a the array to be sorted</param>
-    /// <param name="lo">lo left endpoint</param>
-    /// <param name="hi">hi right endpoint</param>
-    ///
-    public static void Sort(IComparable[] a, int lo, int hi)
-    {
-      for (int i = lo; i <= hi; i++)
-      {
-        for (int j = i; j > lo && OrderHelper.Less(a[j], a[j - 1]); j--)
+        /// <summary>
+        /// Rearranges the subarray a[lo..hi] in ascending order, using the natural order.</summary>
+        /// <param name="a">a the array to be sorted</param>
+        /// <param name="lo">lo left endpoint</param>
+        /// <param name="hi">hi right endpoint</param>
+        ///
+        public static void Sort(IComparable[] a, int lo, int hi)
         {
-          OrderHelper.Exch(a, j, j - 1);
+            for (int i = lo; i <= hi; i++)
+            {
+                for (int j = i; j > lo && OrderHelper.Less(a[j], a[j - 1]); j--)
+                {
+                    OrderHelper.Exch(a, j, j - 1);
+                }
+            }
+            Debug.Assert(OrderHelper.IsSorted(a, lo, hi));
         }
-      }
-      Debug.Assert(OrderHelper.IsSorted(a, lo, hi));
-    }
 
-    /// <summary>
-    /// Rearranges the array in ascending order, using a comparator.</summary>
-    /// <param name="a">a the array</param>
-    /// <param name="comparator">comparator the comparator specifying the order</param>
-    ///
-    public static void Sort(object[] a, System.Collections.Comparer comparator)
-    {
-      int N = a.Length;
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i; j > 0 && OrderHelper.Less(a[j], a[j - 1], comparator); j--)
+        /// <summary>
+        /// Rearranges the array in ascending order, using a comparator.</summary>
+        /// <param name="a">a the array</param>
+        /// <param name="comparator">comparator the comparator specifying the order</param>
+        ///
+        public static void Sort(object[] a, System.Collections.Comparer comparator)
         {
-          OrderHelper.Exch(a, j, j - 1);
+            int N = a.Length;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = i; j > 0 && OrderHelper.Less(a[j], a[j - 1], comparator); j--)
+                {
+                    OrderHelper.Exch(a, j, j - 1);
+                }
+                Debug.Assert(OrderHelper.IsSorted(a, 0, i, comparator));
+            }
+            Debug.Assert(OrderHelper.IsSorted(a, comparator));
         }
-        Debug.Assert(OrderHelper.IsSorted(a, 0, i, comparator));
-      }
-      Debug.Assert(OrderHelper.IsSorted(a, comparator));
-    }
 
-    /// <summary>
-    /// Rearranges the subarray a[lo..hi] in ascending order, using a generic comparator.</summary>
-    /// <param name="a">a the array</param>
-    /// <param name="lo">lo left endpoint</param>
-    /// <param name="hi">hi right endpoint</param>
-    /// <param name="comparator">comparator the comparator specifying the order</param>
-    ///
-    public static void Sort<T>(T[] a, int lo, int hi, Comparer<T> comparator)
-    {
-      for (int i = lo; i <= hi; i++)
-      {
-        for (int j = i; j > lo && OrderHelper.Less(a[j], a[j - 1], comparator); j--)
+        /// <summary>
+        /// Rearranges the subarray a[lo..hi] in ascending order, using a generic comparator.</summary>
+        /// <param name="a">a the array</param>
+        /// <param name="lo">lo left endpoint</param>
+        /// <param name="hi">hi right endpoint</param>
+        /// <param name="comparator">comparator the comparator specifying the order</param>
+        ///
+        public static void Sort<T>(T[] a, int lo, int hi, Comparer<T> comparator)
         {
-          OrderHelper.Exch<T>(a, j, j - 1);
+            for (int i = lo; i <= hi; i++)
+            {
+                for (int j = i; j > lo && OrderHelper.Less(a[j], a[j - 1], comparator); j--)
+                {
+                    OrderHelper.Exch<T>(a, j, j - 1);
+                }
+            }
+            Debug.Assert(OrderHelper.IsSorted(a, lo, hi, comparator));
         }
-      }
-      Debug.Assert(OrderHelper.IsSorted(a, lo, hi, comparator));
+
+        /// <summary>
+        /// Returns a permutation that gives the elements in the array in ascending order,
+        /// while not changing the original array a[]</summary>
+        /// <param name="a">a the array</param>
+        /// <returns>a permutation <c>p[]</c> such that <c>a[p[0]]</c>, <c>a[p[1]]</c>,
+        /// ..., <c>a[p[N-1]]</c> are in ascending order</returns>
+        ///
+        public static int[] IndexSort(int[] a)
+        {
+            int N = a.Length;
+            int[] index = new int[N];
+            for (int i = 0; i < N; i++)
+                index[i] = i;
+
+            for (int i = 0; i < N; i++)
+                for (int j = i; j > 0 && OrderHelper.Less(a[index[j]], a[index[j - 1]]); j--)
+                    OrderHelper.Exch(index, j, j - 1);
+
+            return index;
+        }
+
+        /// <summary>
+        /// Reads in a sequence of strings from standard input; insertion sorts them;
+        /// and prints them to standard output in ascending order.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        ///
+        [HelpText("algscmd Insertion < words3.txt", "Input strings to be printed in sorted order")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+            Insertion.Sort(a);
+            OrderHelper.Show(a);
+        }
     }
-
-    /// <summary>
-    /// Returns a permutation that gives the elements in the array in ascending order,
-    /// while not changing the original array a[]</summary>
-    /// <param name="a">a the array</param>
-    /// <returns>a permutation <c>p[]</c> such that <c>a[p[0]]</c>, <c>a[p[1]]</c>,
-    /// ..., <c>a[p[N-1]]</c> are in ascending order</returns>
-    ///
-    public static int[] IndexSort(int[] a)
-    {
-      int N = a.Length;
-      int[] index = new int[N];
-      for (int i = 0; i < N; i++)
-        index[i] = i;
-
-      for (int i = 0; i < N; i++)
-        for (int j = i; j > 0 && OrderHelper.Less(a[index[j]], a[index[j - 1]]); j--)
-          OrderHelper.Exch(index, j, j - 1);
-
-      return index;
-    }
-
-    /// <summary>
-    /// Reads in a sequence of strings from standard input; insertion sorts them;
-    /// and prints them to standard output in ascending order.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    ///
-    [HelpText("algscmd Insertion < words3.txt", "Input strings to be printed in sorted order")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
-      Insertion.Sort(a);
-      OrderHelper.Show(a);
-    }
-  }
 }
 
 /******************************************************************************

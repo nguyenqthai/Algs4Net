@@ -5,147 +5,147 @@
  *
  ******************************************************************************/
  
-using System;
-using System.Windows;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using Microsoft.Win32;
+//using System;
+//using System.Windows;
+//using System.Windows.Input;
+//using System.Windows.Media;
+//using System.Windows.Media.Imaging;
+//using Microsoft.Win32;
 
 namespace Algs4Net
 {
-  public partial class DrawingWindow : Window
-  {
-    private EventHandler onRenderHandler;
-    private bool frameMode = false;
+  //public partial class DrawingWindow : Window
+  //{
+  //  private EventHandler onRenderHandler;
+  //  private bool frameMode = false;
 
-    /// <summary>
-    /// Allows derived class to plug in the render action
-    /// </summary>
-    protected EventHandler FrameUpdateHandler
-    {
-      set
-      {
-        onRenderHandler = value;
-      }
-      get
-      {
-        return onRenderHandler;
-      }
-    }
+  //  /// <summary>
+  //  /// Allows derived class to plug in the render action
+  //  /// </summary>
+  //  protected EventHandler FrameUpdateHandler
+  //  {
+  //    set
+  //    {
+  //      onRenderHandler = value;
+  //    }
+  //    get
+  //    {
+  //      return onRenderHandler;
+  //    }
+  //  }
 
-    /// <summary>
-    /// Set the frame to run for the specificed time in milliseconds
-    /// </summary>
-    /// <param name="t">frame time in milliseconds</param>
-    protected void ShowFrame(int t)
-    {
-      // TODO: improve it to be more precise
-      System.Threading.Thread.Sleep(t);
-    }
+  //  /// <summary>
+  //  /// Set the frame to run for the specificed time in milliseconds
+  //  /// </summary>
+  //  /// <param name="t">frame time in milliseconds</param>
+  //  protected void ShowFrame(int t)
+  //  {
+  //    // TODO: improve it to be more precise
+  //    System.Threading.Thread.Sleep(t);
+  //  }
 
-    private void StartClicked(object sender, RoutedEventArgs e)
-    {
-      if (!frameMode && onRenderHandler != null)
-      {
-        CompositionTarget.Rendering += onRenderHandler;
-        frameMode = true;
-      }
-    }
+  //  private void StartClicked(object sender, RoutedEventArgs e)
+  //  {
+  //    if (!frameMode && onRenderHandler != null)
+  //    {
+  //      CompositionTarget.Rendering += onRenderHandler;
+  //      frameMode = true;
+  //    }
+  //  }
 
-    private void StopClicked(object sender, RoutedEventArgs e)
-    {
-      if (frameMode && onRenderHandler != null)
-      {
-        CompositionTarget.Rendering -= onRenderHandler;
-        frameMode = false;
-      }
-    }
+  //  private void StopClicked(object sender, RoutedEventArgs e)
+  //  {
+  //    if (frameMode && onRenderHandler != null)
+  //    {
+  //      CompositionTarget.Rendering -= onRenderHandler;
+  //      frameMode = false;
+  //    }
+  //  }
 
-    private void ExitOnClick(object sender, RoutedEventArgs e)
-    {
-      Close();
-    }
+  //  private void ExitOnClick(object sender, RoutedEventArgs e)
+  //  {
+  //    Close();
+  //  }
 
-    private void SaveOnExecute(object sender, ExecutedRoutedEventArgs args)
-    {
-      string filter = "PNG (*.png)|JPEG (*.jpg)|GIF (*.gif)|TIFF (*.tif)";
-      SaveFileDialog saveDialog = new SaveFileDialog();
-      saveDialog.Title = Title;
-      saveDialog.Filter = filter;
-      saveDialog.AddExtension = true;
-      //saveDialog.FileName = "Untitled"
-      if ((bool)saveDialog.ShowDialog(this))
-      {
-        try
-        {
-          SaveFile(saveDialog.FileName);
-        }
-        catch (Exception exc)
-        {
-          MessageBox.Show("Error on File Save" + exc.Message, Title,
-                          MessageBoxButton.OK, MessageBoxImage.Asterisk);
-        }
-      }
-    }
+  //  private void SaveOnExecute(object sender, ExecutedRoutedEventArgs args)
+  //  {
+  //    string filter = "PNG (*.png)|JPEG (*.jpg)|GIF (*.gif)|TIFF (*.tif)";
+  //    SaveFileDialog saveDialog = new SaveFileDialog();
+  //    saveDialog.Title = Title;
+  //    saveDialog.Filter = filter;
+  //    saveDialog.AddExtension = true;
+  //    //saveDialog.FileName = "Untitled"
+  //    if ((bool)saveDialog.ShowDialog(this))
+  //    {
+  //      try
+  //      {
+  //        SaveFile(saveDialog.FileName);
+  //      }
+  //      catch (Exception exc)
+  //      {
+  //        MessageBox.Show("Error on File Save" + exc.Message, Title,
+  //                        MessageBoxButton.OK, MessageBoxImage.Asterisk);
+  //      }
+  //    }
+  //  }
 
-    private void SaveFile(string fileName)
-    {
-      RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
-          (int)canvas.Width, (int)canvas.Height,
-          96d, 96d, System.Windows.Media.PixelFormats.Default);
+  //  private void SaveFile(string fileName)
+  //  {
+  //    RenderTargetBitmap renderBitmap = new RenderTargetBitmap(
+  //        (int)canvas.Width, (int)canvas.Height,
+  //        96d, 96d, System.Windows.Media.PixelFormats.Default);
 
-      canvas.Measure(new Size((int)canvas.Width, (int)canvas.Height));
-      canvas.Arrange(new Rect(new Size((int)canvas.Width, (int)canvas.Height)));
+  //    canvas.Measure(new Size((int)canvas.Width, (int)canvas.Height));
+  //    canvas.Arrange(new Rect(new Size((int)canvas.Width, (int)canvas.Height)));
 
-      renderBitmap.Render(canvas);
-      string extenstion = System.IO.Path.GetExtension(fileName);
+  //    renderBitmap.Render(canvas);
+  //    string extenstion = System.IO.Path.GetExtension(fileName);
 
-      // TODO: fix this repetitive code
-      if (extenstion.Contains(".png"))
-      {
-        PngBitmapEncoder encoder = new PngBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+  //    // TODO: fix this repetitive code
+  //    if (extenstion.Contains(".png"))
+  //    {
+  //      PngBitmapEncoder encoder = new PngBitmapEncoder();
+  //      encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-        using (System.IO.FileStream file = System.IO.File.Create(fileName))
-        {
-          encoder.Save(file);
-        }
-      }
-      else if (extenstion.Contains(".gif"))
-      {
-        GifBitmapEncoder encoder = new GifBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+  //      using (System.IO.FileStream file = System.IO.File.Create(fileName))
+  //      {
+  //        encoder.Save(file);
+  //      }
+  //    }
+  //    else if (extenstion.Contains(".gif"))
+  //    {
+  //      GifBitmapEncoder encoder = new GifBitmapEncoder();
+  //      encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-        using (System.IO.FileStream file = System.IO.File.Create(fileName))
-        {
-          encoder.Save(file);
-        }
+  //      using (System.IO.FileStream file = System.IO.File.Create(fileName))
+  //      {
+  //        encoder.Save(file);
+  //      }
 
-      }
-      else if (extenstion.Contains(".tif"))
-      {
-        TiffBitmapEncoder encoder = new TiffBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+  //    }
+  //    else if (extenstion.Contains(".tif"))
+  //    {
+  //      TiffBitmapEncoder encoder = new TiffBitmapEncoder();
+  //      encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-        using (System.IO.FileStream file = System.IO.File.Create(fileName))
-        {
-          encoder.Save(file);
-        }
+  //      using (System.IO.FileStream file = System.IO.File.Create(fileName))
+  //      {
+  //        encoder.Save(file);
+  //      }
 
-      }
-      else // JPEG for everything else
-      {
-        JpegBitmapEncoder encoder = new JpegBitmapEncoder();
-        encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
+  //    }
+  //    else // JPEG for everything else
+  //    {
+  //      JpegBitmapEncoder encoder = new JpegBitmapEncoder();
+  //      encoder.Frames.Add(BitmapFrame.Create(renderBitmap));
 
-        using (System.IO.FileStream file = System.IO.File.Create(fileName))
-        {
-          encoder.Save(file);
-        }
-      }
-    }
-  }
+  //      using (System.IO.FileStream file = System.IO.File.Create(fileName))
+  //      {
+  //        encoder.Save(file);
+  //      }
+  //    }
+  //  }
+  //}
 }
 
 /******************************************************************************

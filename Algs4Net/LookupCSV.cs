@@ -34,59 +34,59 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>LookupCSV</c> class provides a data-driven client for reading in a
-  /// key-value pairs from a file; then, printing the values corresponding to the
-  /// keys found on standard input. Both keys and values are strings.
-  /// The fields to serve as the key and value are taken as command-line arguments.
-  /// </summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LookupCSV.java.html">LookupCSV</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class LookupCSV
-  {
-    // Do not instantiate.
-    private LookupCSV() { }
-
     /// <summary>
-    /// Demo test for the <c>LookupCSV</c> client.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd LookupCSV amino.csv col1 col2")]
-    public static void MainTest(string[] args)
+    /// The <c>LookupCSV</c> class provides a data-driven client for reading in a
+    /// key-value pairs from a file; then, printing the values corresponding to the
+    /// keys found on standard input. Both keys and values are strings.
+    /// The fields to serve as the key and value are taken as command-line arguments.
+    /// </summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LookupCSV.java.html">LookupCSV</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class LookupCSV
     {
-      TextInput StdIn = new TextInput();
+        // Do not instantiate.
+        private LookupCSV() { }
 
-      int keyField = int.Parse(args[1]);
-      int valField = int.Parse(args[2]);
+        /// <summary>
+        /// Demo test for the <c>LookupCSV</c> client.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd LookupCSV amino.csv col1 col2")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
 
-      // symbol table
-      ST<string, string> st = new ST<string, string>();
+            int keyField = int.Parse(args[1]);
+            int valField = int.Parse(args[2]);
 
-      // read in the data from csv file
-      TextInput input = new TextInput(args[0]);
+            // symbol table
+            ST<string, string> st = new ST<string, string>();
 
-      while (input.HasNextLine())
-      {
-        string line = input.ReadLine();
-        string[] tokens = line.Split(new char[] { ',' });
-        string key = tokens[keyField];
-        string val = tokens[valField];
-        st[key] = val;
-      }
+            // read in the data from csv file
+            TextInput input = new TextInput(args[0]);
 
-      while (!StdIn.IsEmpty)
-      {
-        string s = StdIn.ReadString();
-        if (st.Contains(s)) Console.WriteLine(st[s]);
-        else Console.WriteLine("Not found");
-      }
+            while (input.HasNextLine())
+            {
+                string line = input.ReadLine();
+                string[] tokens = line.Split(new char[] { ',' });
+                string key = tokens[keyField];
+                string val = tokens[valField];
+                st[key] = val;
+            }
+
+            while (!StdIn.IsEmpty)
+            {
+                string s = StdIn.ReadString();
+                if (st.Contains(s)) Console.WriteLine(st[s]);
+                else Console.WriteLine("Not found");
+            }
+        }
     }
-  }
 
 }
 

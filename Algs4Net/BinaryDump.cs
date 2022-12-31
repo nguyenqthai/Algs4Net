@@ -24,59 +24,59 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>BinaryDump</c> class provides a client for displaying the contents
-  /// of a binary file in binary.</para><para>
-  /// For more full-featured versions, see the Unix utilities
-  /// <c>od</c> (octal dump) and <c>hexdump</c> (hexadecimal dump).
-  /// See also <seealso cref="HexDump"/>.
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinaryDump.java.html">BinaryDump</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class BinaryDump
-  {
-    // Do not instantiate.
-    private BinaryDump() { }
-
-    /// <summary>Reads in a sequence of bytes from standard input and writes
-    /// them to standard output in binary, k bits per line,
-    /// where k is given as a command-line integer (defaults
-    /// to 16 if no integer is specified); also writes the number
-    /// of bits.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd BinaryDump [chars_per_line] < 4runs.bin")]
-    public static void MainTest(string[] args)
+    /// <summary><para>
+    /// The <c>BinaryDump</c> class provides a client for displaying the contents
+    /// of a binary file in binary.</para><para>
+    /// For more full-featured versions, see the Unix utilities
+    /// <c>od</c> (octal dump) and <c>hexdump</c> (hexadecimal dump).
+    /// See also <seealso cref="HexDump"/>.
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinaryDump.java.html">BinaryDump</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class BinaryDump
     {
-      int bitsPerLine = 16;
-      if (args.Length == 1)
-      {
-        bitsPerLine = int.Parse(args[0]);
-      }
-      BinaryInput input = new BinaryInput();
+        // Do not instantiate.
+        private BinaryDump() { }
 
-      int count;
-      for (count = 0; !input.IsEmpty; count++)
-      {
-        if (bitsPerLine == 0)
+        /// <summary>Reads in a sequence of bytes from standard input and writes
+        /// them to standard output in binary, k bits per line,
+        /// where k is given as a command-line integer (defaults
+        /// to 16 if no integer is specified); also writes the number
+        /// of bits.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd BinaryDump [chars_per_line] < 4runs.bin")]
+        public static void MainTest(string[] args)
         {
-          input.ReadBoolean();
-          continue;
-        }
-        else if (count != 0 && count % bitsPerLine == 0) Console.WriteLine();
-        if (input.ReadBoolean()) Console.Write(1);
-        else Console.Write(0);
-      }
-      if (bitsPerLine != 0) Console.WriteLine();
-      Console.WriteLine(count + " bits");
-    }
+            int bitsPerLine = 16;
+            if (args.Length == 1)
+            {
+                bitsPerLine = int.Parse(args[0]);
+            }
+            BinaryInput input = new BinaryInput();
 
-  }
+            int count;
+            for (count = 0; !input.IsEmpty; count++)
+            {
+                if (bitsPerLine == 0)
+                {
+                    input.ReadBoolean();
+                    continue;
+                }
+                else if (count != 0 && count % bitsPerLine == 0) Console.WriteLine();
+                if (input.ReadBoolean()) Console.Write(1);
+                else Console.Write(0);
+            }
+            if (bitsPerLine != 0) Console.WriteLine();
+            Console.WriteLine(count + " bits");
+        }
+
+    }
 }
 
 /******************************************************************************

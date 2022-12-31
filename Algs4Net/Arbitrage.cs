@@ -26,75 +26,75 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>Arbitrage</c> class provides a client that finds an arbitrage
-  /// opportunity in a currency exchange table by constructing a
-  /// complete-digraph representation of the exchange table and then finding
-  /// a negative cycle in the digraph.
-  /// </para><para>
-  /// This implementation uses the Bellman-Ford algorithm to find a
-  /// negative cycle in the complete digraph.
-  /// The running time is proportional to <c>V</c><sup>3</sup> in the
-  /// worst case, where <c>V</c> is the number of currencies.
-  /// </para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Arbitrage.java.html">Arbitrage</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Arbitrage
-  {
-
-    // this class cannot be instantiated
-    private Arbitrage() { }
-
-    /// <summary>
-    /// Reads the currency exchange table from standard input and
-    /// prints an arbitrage opportunity to standard output (if one exists).
-    /// </summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Arbitrage < rates.txt", "File with the format for the application")]
-    public static void MainTest(string[] args)
+    /// <summary><para>
+    /// The <c>Arbitrage</c> class provides a client that finds an arbitrage
+    /// opportunity in a currency exchange table by constructing a
+    /// complete-digraph representation of the exchange table and then finding
+    /// a negative cycle in the digraph.
+    /// </para><para>
+    /// This implementation uses the Bellman-Ford algorithm to find a
+    /// negative cycle in the complete digraph.
+    /// The running time is proportional to <c>V</c><sup>3</sup> in the
+    /// worst case, where <c>V</c> is the number of currencies.
+    /// </para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Arbitrage.java.html">Arbitrage</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class Arbitrage
     {
-      TextInput StdIn = new TextInput();
-      // V currencies
-      int V = StdIn.ReadInt();
-      string[] name = new string[V];
 
-      // create complete network
-      EdgeWeightedDigraph G = new EdgeWeightedDigraph(V);
-      for (int v = 0; v < V; v++)
-      {
-        name[v] = StdIn.ReadString();
-        for (int w = 0; w < V; w++)
-        {
-          double rate = StdIn.ReadDouble();
-          DirectedEdge e = new DirectedEdge(v, w, -Math.Log(rate));
-          G.AddEdge(e);
-        }
-      }
+        // this class cannot be instantiated
+        private Arbitrage() { }
 
-      // find negative cycle
-      BellmanFordSP spt = new BellmanFordSP(G, 0);
-      if (spt.HasNegativeCycle)
-      {
-        double stake = 1000.0;
-        foreach (DirectedEdge e in spt.GetNegativeCycle())
+        /// <summary>
+        /// Reads the currency exchange table from standard input and
+        /// prints an arbitrage opportunity to standard output (if one exists).
+        /// </summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Arbitrage < rates.txt", "File with the format for the application")]
+        public static void MainTest(string[] args)
         {
-          Console.Write("{0,10:F5} {1} ", stake, name[e.From]);
-          stake *= Math.Exp(-e.Weight);
-          Console.Write("= {0,10:F5} {1}\n", stake, name[e.To]);
+            TextInput StdIn = new TextInput();
+            // V currencies
+            int V = StdIn.ReadInt();
+            string[] name = new string[V];
+
+            // create complete network
+            EdgeWeightedDigraph G = new EdgeWeightedDigraph(V);
+            for (int v = 0; v < V; v++)
+            {
+                name[v] = StdIn.ReadString();
+                for (int w = 0; w < V; w++)
+                {
+                    double rate = StdIn.ReadDouble();
+                    DirectedEdge e = new DirectedEdge(v, w, -Math.Log(rate));
+                    G.AddEdge(e);
+                }
+            }
+
+            // find negative cycle
+            BellmanFordSP spt = new BellmanFordSP(G, 0);
+            if (spt.HasNegativeCycle)
+            {
+                double stake = 1000.0;
+                foreach (DirectedEdge e in spt.GetNegativeCycle())
+                {
+                    Console.Write("{0,10:F5} {1} ", stake, name[e.From]);
+                    stake *= Math.Exp(-e.Weight);
+                    Console.Write("= {0,10:F5} {1}\n", stake, name[e.To]);
+                }
+            }
+            else
+            {
+                Console.WriteLine("No arbitrage opportunity");
+            }
         }
-      }
-      else
-      {
-        Console.WriteLine("No arbitrage opportunity");
-      }
     }
-  }
 }
 
 /******************************************************************************

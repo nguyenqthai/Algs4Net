@@ -33,47 +33,47 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>DeDup</c> class provides a client for reading in a sequence of
-  /// words from standard input and printing each word, removing any duplicates.
-  /// It is useful as a test client for various symbol table implementations.
-  /// </summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DeDup.java.html">DeDup</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DeDup
-  {
-    // Do not instantiate.
-    private DeDup() { }
-
     /// <summary>
-    /// Demo test for the <c>DeDup</c> client.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd DeDup < tinyTale.txt")]
-    public static void MainTest(string[] args)
+    /// The <c>DeDup</c> class provides a client for reading in a sequence of
+    /// words from standard input and printing each word, removing any duplicates.
+    /// It is useful as a test client for various symbol table implementations.
+    /// </summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DeDup.java.html">DeDup</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class DeDup
     {
-      TextInput StdIn = new TextInput();
+        // Do not instantiate.
+        private DeDup() { }
 
-      SET<string> set = new SET<string>();
-      // read in strings and add to set
-      while (!StdIn.IsEmpty)
-      {
-        string key = StdIn.ReadString();
-        if (key.Equals("")) continue;
-        if (!set.Contains(key))
+        /// <summary>
+        /// Demo test for the <c>DeDup</c> client.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd DeDup < tinyTale.txt")]
+        public static void MainTest(string[] args)
         {
-          set.Add(key);
-          Console.WriteLine(key);
-        }
-      }
-    }
+            TextInput StdIn = new TextInput();
 
-  }
+            SET<string> set = new SET<string>();
+            // read in strings and add to set
+            while (!StdIn.IsEmpty)
+            {
+                string key = StdIn.ReadString();
+                if (key.Equals("")) continue;
+                if (!set.Contains(key))
+                {
+                    set.Add(key);
+                    Console.WriteLine(key);
+                }
+            }
+        }
+
+    }
 
 }
 

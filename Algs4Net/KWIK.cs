@@ -39,65 +39,65 @@ using System.Text.RegularExpressions;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>KWIK</c> class provides a <seealso cref="SuffixArray"/> client for computing
-  /// all occurrences of a keyword in a given string, with surrounding context.
-  /// This is known as <c>Keyword-in-context search</c>.</summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/KWIK.java.html">KWIK</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class KWIK
-  {
-    // Do not instantiate.
-    private KWIK() { }
-
     /// <summary>
-    /// Reads a string from a file specified as the first
-    /// command-line argument; read an integer k specified as the
-    /// second command line argument; then repeatedly processes
-    /// use queries, printing all occurrences of the given query
-    /// string in the text string with k characters of surrounding
-    /// context on either side.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd KWIK tale.txt 15", "Followed by iterative query strings, i.e. majesty")]
-    public static void MainTest(string[] args)
+    /// The <c>KWIK</c> class provides a <seealso cref="SuffixArray"/> client for computing
+    /// all occurrences of a keyword in a given string, with surrounding context.
+    /// This is known as <c>Keyword-in-context search</c>.</summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/63suffix">Section 6.3</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/KWIK.java.html">KWIK</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class KWIK
     {
-      Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
+        // Do not instantiate.
+        private KWIK() { }
 
-      TextInput input = new TextInput(args[0]);
-      int context = int.Parse(args[1]);
-
-      // read in text
-      string text = input.ReadAll();
-      text = WhiteSpace.Replace(text, " ");
-      int N = text.Length;
-
-      // build suffix array
-      SuffixArray sa = new SuffixArray(text);
-      TextInput StdIn = new TextInput();
-      // find all occurrences of queries and give context
-      while (StdIn.HasNextLine())
-      {
-        string query = StdIn.ReadLine();
-        for (int i = sa.Rank(query); i < N; i++)
+        /// <summary>
+        /// Reads a string from a file specified as the first
+        /// command-line argument; read an integer k specified as the
+        /// second command line argument; then repeatedly processes
+        /// use queries, printing all occurrences of the given query
+        /// string in the text string with k characters of surrounding
+        /// context on either side.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd KWIK tale.txt 15", "Followed by iterative query strings, i.e. majesty")]
+        public static void MainTest(string[] args)
         {
-          int from1 = sa.Index(i);
-          int to1 = Math.Min(N, from1 + query.Length);
-          if (!query.Equals(text.Substring(from1, to1 - from1))) break;
-          int from2 = Math.Max(0, sa.Index(i) - context);
-          int to2 = Math.Min(N, sa.Index(i) + context + query.Length);
-          Console.WriteLine(text.Substring(from2, to2 - from2));
-        }
-        Console.WriteLine();
-      }
-    }
+            Regex WhiteSpace = new Regex(@"[\s]+", RegexOptions.Compiled);
 
-  }
+            TextInput input = new TextInput(args[0]);
+            int context = int.Parse(args[1]);
+
+            // read in text
+            string text = input.ReadAll();
+            text = WhiteSpace.Replace(text, " ");
+            int N = text.Length;
+
+            // build suffix array
+            SuffixArray sa = new SuffixArray(text);
+            TextInput StdIn = new TextInput();
+            // find all occurrences of queries and give context
+            while (StdIn.HasNextLine())
+            {
+                string query = StdIn.ReadLine();
+                for (int i = sa.Rank(query); i < N; i++)
+                {
+                    int from1 = sa.Index(i);
+                    int to1 = Math.Min(N, from1 + query.Length);
+                    if (!query.Equals(text.Substring(from1, to1 - from1))) break;
+                    int from2 = Math.Max(0, sa.Index(i) - context);
+                    int to2 = Math.Min(N, sa.Index(i) + context + query.Length);
+                    Console.WriteLine(text.Substring(from2, to2 - from2));
+                }
+                Console.WriteLine();
+            }
+        }
+
+    }
 
 }
 

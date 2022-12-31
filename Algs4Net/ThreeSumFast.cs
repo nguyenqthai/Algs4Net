@@ -43,95 +43,95 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>ThreeSumFast</c> class provides static methods for counting
-  /// and printing the number of triples in an array of distinct integers that
-  /// sum to 0 (ignoring integer overflow).
-  /// </para><para>
-  /// This implementation uses sorting and binary search and takes time
-  /// proportional to N^2 log N, where N is the number of integers.
-  /// </para></summary>
-  /// <remarks>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
-  /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/ThreeSumFast.java.html">ThreeSumFast</a> implementation by
-  /// Robert Sedgewick and Kevin Wayne.</para></remarks>
-  ///
-  public class ThreeSumFast
-  {
-
-    // Do not instantiate.
-    private ThreeSumFast() { }
-
-    // returns true if the sorted array a[] contains any duplicated integers
-    private static bool containsDuplicates(int[] a)
-    {
-      for (int i = 1; i < a.Length; i++)
-        if (a[i] == a[i - 1]) return true;
-      return false;
-    }
-
-    /// <summary>
-    /// Prints to standard output the (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
-    /// <param name="a">a the array of integers</param>
-    /// <exception cref="ArgumentException">if the array contains duplicate integers</exception>
+    /// <summary><para>
+    /// The <c>ThreeSumFast</c> class provides static methods for counting
+    /// and printing the number of triples in an array of distinct integers that
+    /// sum to 0 (ignoring integer overflow).
+    /// </para><para>
+    /// This implementation uses sorting and binary search and takes time
+    /// proportional to N^2 log N, where N is the number of integers.
+    /// </para></summary>
+    /// <remarks>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/14analysis">Section 1.4</a> of
+    /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/ThreeSumFast.java.html">ThreeSumFast</a> implementation by
+    /// Robert Sedgewick and Kevin Wayne.</para></remarks>
     ///
-    public static void PrintAll(int[] a)
+    public class ThreeSumFast
     {
-      int N = a.Length;
-      Array.Sort(a);
-      if (containsDuplicates(a)) throw new ArgumentException("array contains duplicate integers");
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i + 1; j < N; j++)
+
+        // Do not instantiate.
+        private ThreeSumFast() { }
+
+        // returns true if the sorted array a[] contains any duplicated integers
+        private static bool containsDuplicates(int[] a)
         {
-          int k = Array.BinarySearch(a, -(a[i] + a[j]));
-          if (k > j)
-            Console.WriteLine(a[i] + " " + a[j] + " " + a[k]);
+            for (int i = 1; i < a.Length; i++)
+                if (a[i] == a[i - 1]) return true;
+            return false;
         }
-      }
-    }
 
-    /// <summary>
-    /// Returns the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
-    /// <param name="a">a the array of integers</param>
-    /// <returns>the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0</returns>
-    ///
-    public static int Count(int[] a)
-    {
-      int N = a.Length;
-      Array.Sort(a);
-      if (containsDuplicates(a)) throw new ArgumentException("array contains duplicate integers");
-      int cnt = 0;
-      for (int i = 0; i < N; i++)
-      {
-        for (int j = i + 1; j < N; j++)
+        /// <summary>
+        /// Prints to standard output the (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
+        /// <param name="a">a the array of integers</param>
+        /// <exception cref="ArgumentException">if the array contains duplicate integers</exception>
+        ///
+        public static void PrintAll(int[] a)
         {
-          int k = Array.BinarySearch(a, -(a[i] + a[j]));
-          if (k > j) cnt++;
+            int N = a.Length;
+            Array.Sort(a);
+            if (containsDuplicates(a)) throw new ArgumentException("array contains duplicate integers");
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = i + 1; j < N; j++)
+                {
+                    int k = Array.BinarySearch(a, -(a[i] + a[j]));
+                    if (k > j)
+                        Console.WriteLine(a[i] + " " + a[j] + " " + a[k]);
+                }
+            }
         }
-      }
-      return cnt;
-    }
 
-    /// <summary>
-    /// Reads in a sequence of distinct integers from a file, specified as a command-line argument;
-    /// counts the number of triples sum to exactly zero; prints out the time to perform
-    /// the computation.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    ///
-    [HelpText("algscmd ThreeSumFast 1Kints.txt",
-      "Sequence of integers from a file, of which duplicates will be removed online")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput(args[0]);
-      int[] a = StdIn.ReadAllInts();
-      a = OrderHelper.RemoveDuplicates(a);
-      int cnt = ThreeSumFast.Count(a);
-      Console.WriteLine(cnt);
+        /// <summary>
+        /// Returns the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0.</summary>
+        /// <param name="a">a the array of integers</param>
+        /// <returns>the number of triples (i, j, k) with i &lt; j &lt; k such that a[i] + a[j] + a[k] == 0</returns>
+        ///
+        public static int Count(int[] a)
+        {
+            int N = a.Length;
+            Array.Sort(a);
+            if (containsDuplicates(a)) throw new ArgumentException("array contains duplicate integers");
+            int cnt = 0;
+            for (int i = 0; i < N; i++)
+            {
+                for (int j = i + 1; j < N; j++)
+                {
+                    int k = Array.BinarySearch(a, -(a[i] + a[j]));
+                    if (k > j) cnt++;
+                }
+            }
+            return cnt;
+        }
+
+        /// <summary>
+        /// Reads in a sequence of distinct integers from a file, specified as a command-line argument;
+        /// counts the number of triples sum to exactly zero; prints out the time to perform
+        /// the computation.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        ///
+        [HelpText("algscmd ThreeSumFast 1Kints.txt",
+          "Sequence of integers from a file, of which duplicates will be removed online")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput(args[0]);
+            int[] a = StdIn.ReadAllInts();
+            a = OrderHelper.RemoveDuplicates(a);
+            int cnt = ThreeSumFast.Count(a);
+            Console.WriteLine(cnt);
+        }
     }
-  }
 }
 
 /******************************************************************************

@@ -23,136 +23,136 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>AcyclicSP</c> class represents a data type for solving the
-  /// single-source shortest paths problem in edge-weighted directed acyclic
-  /// graphs (DAGs). The edge weights can be positive, negative, or zero.
-  /// </para><para>This implementation uses a topological-sort based algorithm.
-  /// The constructor takes time proportional to <c>V</c> + <c>E</c>,
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// Afterwards, the <c>DistTo()</c> and <c>HasPathTo()</c> methods take
-  /// constant time and the <c>PathTo()</c> method takes time proportional to the
-  /// number of edges in the shortest path returned.</para></summary>
-  /// <remarks><para>For additional documentation,    
-  /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of    
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/AcyclicSP.java.html">AcyclicSP</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class AcyclicSP
-  {
-    private double[] distTo;         // distTo[v] = distance  of shortest s->v path
-    private DirectedEdge[] edgeTo;   // edgeTo[v] = last edge on shortest s->v path
-
-    /// <summary>Computes a shortest paths tree from <c>s</c> to every other vertex in
-    /// the directed acyclic graph <c>G</c>.</summary>
-    /// <param name="G">the acyclic digraph</param>
-    /// <param name="s">the source vertex</param>
-    /// <exception cref="ArgumentException">if the digraph is not acyclic</exception>
-    /// <exception cref="ArgumentException">unless 0 &lt;= <c>s</c> &lt;= <c>V</c> - 1</exception>
+    /// <summary><para>
+    /// The <c>AcyclicSP</c> class represents a data type for solving the
+    /// single-source shortest paths problem in edge-weighted directed acyclic
+    /// graphs (DAGs). The edge weights can be positive, negative, or zero.
+    /// </para><para>This implementation uses a topological-sort based algorithm.
+    /// The constructor takes time proportional to <c>V</c> + <c>E</c>,
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// Afterwards, the <c>DistTo()</c> and <c>HasPathTo()</c> methods take
+    /// constant time and the <c>PathTo()</c> method takes time proportional to the
+    /// number of edges in the shortest path returned.</para></summary>
+    /// <remarks><para>For additional documentation,    
+    /// see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of    
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/AcyclicSP.java.html">AcyclicSP</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public AcyclicSP(EdgeWeightedDigraph G, int s)
+    public class AcyclicSP
     {
-      distTo = new double[G.V];
-      edgeTo = new DirectedEdge[G.V];
-      for (int v = 0; v < G.V; v++)
-        distTo[v] = double.PositiveInfinity;
-      distTo[s] = 0.0;
+        private double[] distTo;         // distTo[v] = distance  of shortest s->v path
+        private DirectedEdge[] edgeTo;   // edgeTo[v] = last edge on shortest s->v path
 
-      // visit vertices in toplogical order
-      Topological topological = new Topological(G);
-      if (!topological.HasOrder)
-        throw new ArgumentException("Digraph is not acyclic.");
-      foreach (int v in topological.Order())
-      {
-        foreach (DirectedEdge e in G.Adj(v))
-          relax(e);
-      }
-    }
-
-    // relax edge e
-    private void relax(DirectedEdge e)
-    {
-      int v = e.From, w = e.To;
-      if (distTo[w] > distTo[v] + e.Weight)
-      {
-        distTo[w] = distTo[v] + e.Weight;
-        edgeTo[w] = e;
-      }
-    }
-
-    /// <summary>
-    /// Returns the length of a shortest path from the source vertex <c>s</c> to vertex <c>v</c>.</summary>
-    /// <param name="v">the destination vertex</param>
-    /// <returns>the length of a shortest path from the source vertex <c>s</c> to vertex <c>v</c>;
-    ///   <c>double.PositiveInfinity</c> if no such path</returns>
-    ///
-    public double DistTo(int v)
-    {
-      return distTo[v];
-    }
-
-    /// <summary>
-    /// Is there a path from the source vertex <c>s</c> to vertex <c>v</c>?</summary>
-    /// <param name="v">the destination vertex</param>
-    /// <returns><c>true</c> if there is a path from the source vertex</returns>
-    ///   <c>s</c> to vertex <c>v</c>, and <c>false</c> otherwise
-    ///
-    public bool HasPathTo(int v)
-    {
-      return distTo[v] < double.PositiveInfinity;
-    }
-
-    /// <summary>
-    /// Returns a shortest path from the source vertex <c>s</c> to vertex <c>v</c>.</summary>
-    /// <param name="v">the destination vertex</param>
-    /// <returns>a shortest path from the source vertex <c>s</c> to vertex <c>v</c>
-    ///   as an iterable of edges, and <c>null</c> if no such path</returns>
-    ///
-    public IEnumerable<DirectedEdge> PathTo(int v)
-    {
-      if (!HasPathTo(v)) return null;
-      Stack<DirectedEdge> path = new Stack<DirectedEdge>();
-      for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.From])
-      {
-        path.Push(e);
-      }
-      return path;
-    }
-
-    /// <summary>
-    /// Demo test the <c>AcyclicSP</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd AcyclicSP tinyEWDAG.txt 5", "File with the pre-defined format for directed, weighted graph")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      int s = int.Parse(args[1]);
-      EdgeWeightedDigraph G = new EdgeWeightedDigraph(input);
-
-      // find shortest path from s to each other vertex in DAG
-      AcyclicSP sp = new AcyclicSP(G, s);
-      for (int v = 0; v < G.V; v++)
-      {
-        if (sp.HasPathTo(v))
+        /// <summary>Computes a shortest paths tree from <c>s</c> to every other vertex in
+        /// the directed acyclic graph <c>G</c>.</summary>
+        /// <param name="G">the acyclic digraph</param>
+        /// <param name="s">the source vertex</param>
+        /// <exception cref="ArgumentException">if the digraph is not acyclic</exception>
+        /// <exception cref="ArgumentException">unless 0 &lt;= <c>s</c> &lt;= <c>V</c> - 1</exception>
+        ///
+        public AcyclicSP(EdgeWeightedDigraph G, int s)
         {
-          Console.Write("{0} to {1} ({2:F2})  ", s, v, sp.DistTo(v));
-          foreach (DirectedEdge e in sp.PathTo(v))
-          {
-            Console.Write(e + "   ");
-          }
-          Console.WriteLine();
-        }
-        else
-        {
-          Console.Write("{0} to {1} no path\n", s, v);
-        }
-      }
-    }
+            distTo = new double[G.V];
+            edgeTo = new DirectedEdge[G.V];
+            for (int v = 0; v < G.V; v++)
+                distTo[v] = double.PositiveInfinity;
+            distTo[s] = 0.0;
 
-  }
+            // visit vertices in toplogical order
+            Topological topological = new Topological(G);
+            if (!topological.HasOrder)
+                throw new ArgumentException("Digraph is not acyclic.");
+            foreach (int v in topological.Order())
+            {
+                foreach (DirectedEdge e in G.Adj(v))
+                    relax(e);
+            }
+        }
+
+        // relax edge e
+        private void relax(DirectedEdge e)
+        {
+            int v = e.From, w = e.To;
+            if (distTo[w] > distTo[v] + e.Weight)
+            {
+                distTo[w] = distTo[v] + e.Weight;
+                edgeTo[w] = e;
+            }
+        }
+
+        /// <summary>
+        /// Returns the length of a shortest path from the source vertex <c>s</c> to vertex <c>v</c>.</summary>
+        /// <param name="v">the destination vertex</param>
+        /// <returns>the length of a shortest path from the source vertex <c>s</c> to vertex <c>v</c>;
+        ///   <c>double.PositiveInfinity</c> if no such path</returns>
+        ///
+        public double DistTo(int v)
+        {
+            return distTo[v];
+        }
+
+        /// <summary>
+        /// Is there a path from the source vertex <c>s</c> to vertex <c>v</c>?</summary>
+        /// <param name="v">the destination vertex</param>
+        /// <returns><c>true</c> if there is a path from the source vertex</returns>
+        ///   <c>s</c> to vertex <c>v</c>, and <c>false</c> otherwise
+        ///
+        public bool HasPathTo(int v)
+        {
+            return distTo[v] < double.PositiveInfinity;
+        }
+
+        /// <summary>
+        /// Returns a shortest path from the source vertex <c>s</c> to vertex <c>v</c>.</summary>
+        /// <param name="v">the destination vertex</param>
+        /// <returns>a shortest path from the source vertex <c>s</c> to vertex <c>v</c>
+        ///   as an iterable of edges, and <c>null</c> if no such path</returns>
+        ///
+        public IEnumerable<DirectedEdge> PathTo(int v)
+        {
+            if (!HasPathTo(v)) return null;
+            Stack<DirectedEdge> path = new Stack<DirectedEdge>();
+            for (DirectedEdge e = edgeTo[v]; e != null; e = edgeTo[e.From])
+            {
+                path.Push(e);
+            }
+            return path;
+        }
+
+        /// <summary>
+        /// Demo test the <c>AcyclicSP</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd AcyclicSP tinyEWDAG.txt 5", "File with the pre-defined format for directed, weighted graph")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            int s = int.Parse(args[1]);
+            EdgeWeightedDigraph G = new EdgeWeightedDigraph(input);
+
+            // find shortest path from s to each other vertex in DAG
+            AcyclicSP sp = new AcyclicSP(G, s);
+            for (int v = 0; v < G.V; v++)
+            {
+                if (sp.HasPathTo(v))
+                {
+                    Console.Write("{0} to {1} ({2:F2})  ", s, v, sp.DistTo(v));
+                    foreach (DirectedEdge e in sp.PathTo(v))
+                    {
+                        Console.Write(e + "   ");
+                    }
+                    Console.WriteLine();
+                }
+                else
+                {
+                    Console.Write("{0} to {1} no path\n", s, v);
+                }
+            }
+        }
+
+    }
 }
 
 /******************************************************************************

@@ -63,225 +63,225 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>FFT</c> class provides methods for computing the
-  /// FFT (Fast-Fourier Transform), inverse FFT, linear convolution,
-  /// and circular convolution of a complex array.
-  /// </para><para>
-  /// It is a bare-bones implementation that runs in <c>N</c> log <c>N</c> time,
-  /// where <c>N</c> is the length of the complex array. For simplicity,
-  /// <c>N</c> must be a power of 2.</para><para>
-  /// Our goal is to optimize the clarity of the code, rather than performance.
-  /// It is not the most memory efficient implementation because it uses
-  /// objects to represents complex numbers and it it re-allocates memory
-  /// for the subarray, instead of doing in-place or reusing a single temporary array.
-  /// </para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/99scientific">Section 9.9</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FFT.java.html">FFT</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class FFT
-  {
-
-    private static readonly Complex ZERO = new Complex(0, 0);
-
-    // Do not instantiate.
-    private FFT() { }
-
-    /// <summary>Returns the FFT of the specified complex array.</summary>
-    /// <param name="x">the complex array</param>
-    /// <returns>the FFT of the complex array <c>x</c></returns>
-    /// <exception cref="ArgumentException">if the length of <c>x</c> is not a power of 2</exception>
+    /// <summary><para>
+    /// The <c>FFT</c> class provides methods for computing the
+    /// FFT (Fast-Fourier Transform), inverse FFT, linear convolution,
+    /// and circular convolution of a complex array.
+    /// </para><para>
+    /// It is a bare-bones implementation that runs in <c>N</c> log <c>N</c> time,
+    /// where <c>N</c> is the length of the complex array. For simplicity,
+    /// <c>N</c> must be a power of 2.</para><para>
+    /// Our goal is to optimize the clarity of the code, rather than performance.
+    /// It is not the most memory efficient implementation because it uses
+    /// objects to represents complex numbers and it it re-allocates memory
+    /// for the subarray, instead of doing in-place or reusing a single temporary array.
+    /// </para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/99scientific">Section 9.9</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/FFT.java.html">FFT</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public static Complex[] Fft(Complex[] x)
-    {
-      int N = x.Length;
-
-      // base case
-      if (N == 1) return new Complex[] { x[0] };
-
-      // radix 2 Cooley-Tukey FFT
-      if (N % 2 != 0)
-      {
-        throw new ArgumentException("N is not a power of 2");
-      }
-
-      // fft of even terms
-      Complex[] even = new Complex[N / 2];
-      for (int k = 0; k < N / 2; k++)
-      {
-        even[k] = x[2 * k];
-      }
-      Complex[] q = Fft(even);
-
-      // fft of odd terms
-      Complex[] odd = even;  // reuse the array
-      for (int k = 0; k < N / 2; k++)
-      {
-        odd[k] = x[2 * k + 1];
-      }
-      Complex[] r = Fft(odd);
-
-      // combine
-      Complex[] y = new Complex[N];
-      for (int k = 0; k < N / 2; k++)
-      {
-        double kth = -2 * k * Math.PI / N;
-        Complex wk = new Complex(Math.Cos(kth), Math.Sin(kth));
-        y[k] = q[k] + (wk * r[k]);
-        y[k + N / 2] = q[k] - (wk * r[k]);
-      }
-      return y;
-    }
-
-
-    /// <summary>
-    /// Returns the inverse FFT of the specified complex array.</summary>
-    /// <param name="x">the complex array</param>
-    /// <returns>the inverse FFT of the complex array <c>x</c></returns>
-    /// <exception cref="ArgumentException">if the length of <c>x</c> is not a power of 2</exception>
-    ///
-    public static Complex[] Ifft(Complex[] x)
-    {
-      int N = x.Length;
-      Complex[] y = new Complex[N];
-
-      // take conjugate
-      for (int i = 0; i < N; i++)
-      {
-        y[i] = x[i].Conjugate();
-      }
-
-      // compute forward FFT
-      y = Fft(y);
-
-      // take conjugate again
-      for (int i = 0; i < N; i++)
-      {
-        y[i] = y[i].Conjugate();
-      }
-
-      // divide by N
-      for (int i = 0; i < N; i++)
-      {
-        y[i] = y[i].Scale(1.0 / N);
-      }
-
-      return y;
-
-    }
-
-    /// <summary>
-    /// Returns the circular convolution of the two specified complex arrays.</summary>
-    /// <param name="x">one complex array</param>
-    /// <param name="y">the other complex array</param>
-    /// <returns>the circular convolution of <c>x</c> and <c>y</c></returns>
-    /// <exception cref="ArgumentException">if the length of <c>x</c> does not equal
-    /// the length of <c>y</c> or if the length is not a power of 2</exception>
-    ///
-    public static Complex[] Cconvolve(Complex[] x, Complex[] y)
+    public class FFT
     {
 
-      // should probably pad x and y with 0s so that they have same length
-      // and are powers of 2
-      if (x.Length != y.Length)
-      {
-        throw new ArgumentException("Dimensions don't agree");
-      }
+        private static readonly Complex ZERO = new Complex(0, 0);
 
-      int N = x.Length;
+        // Do not instantiate.
+        private FFT() { }
 
-      // compute FFT of each sequence
-      Complex[] a = Fft(x);
-      Complex[] b = Fft(y);
+        /// <summary>Returns the FFT of the specified complex array.</summary>
+        /// <param name="x">the complex array</param>
+        /// <returns>the FFT of the complex array <c>x</c></returns>
+        /// <exception cref="ArgumentException">if the length of <c>x</c> is not a power of 2</exception>
+        ///
+        public static Complex[] Fft(Complex[] x)
+        {
+            int N = x.Length;
 
-      // point-wise multiply
-      Complex[] c = new Complex[N];
-      for (int i = 0; i < N; i++)
-      {
-        c[i] = a[i] * b[i];
-      }
+            // base case
+            if (N == 1) return new Complex[] { x[0] };
 
-      // compute inverse FFT
-      return Ifft(c);
+            // radix 2 Cooley-Tukey FFT
+            if (N % 2 != 0)
+            {
+                throw new ArgumentException("N is not a power of 2");
+            }
+
+            // fft of even terms
+            Complex[] even = new Complex[N / 2];
+            for (int k = 0; k < N / 2; k++)
+            {
+                even[k] = x[2 * k];
+            }
+            Complex[] q = Fft(even);
+
+            // fft of odd terms
+            Complex[] odd = even;  // reuse the array
+            for (int k = 0; k < N / 2; k++)
+            {
+                odd[k] = x[2 * k + 1];
+            }
+            Complex[] r = Fft(odd);
+
+            // combine
+            Complex[] y = new Complex[N];
+            for (int k = 0; k < N / 2; k++)
+            {
+                double kth = -2 * k * Math.PI / N;
+                Complex wk = new Complex(Math.Cos(kth), Math.Sin(kth));
+                y[k] = q[k] + (wk * r[k]);
+                y[k + N / 2] = q[k] - (wk * r[k]);
+            }
+            return y;
+        }
+
+
+        /// <summary>
+        /// Returns the inverse FFT of the specified complex array.</summary>
+        /// <param name="x">the complex array</param>
+        /// <returns>the inverse FFT of the complex array <c>x</c></returns>
+        /// <exception cref="ArgumentException">if the length of <c>x</c> is not a power of 2</exception>
+        ///
+        public static Complex[] Ifft(Complex[] x)
+        {
+            int N = x.Length;
+            Complex[] y = new Complex[N];
+
+            // take conjugate
+            for (int i = 0; i < N; i++)
+            {
+                y[i] = x[i].Conjugate();
+            }
+
+            // compute forward FFT
+            y = Fft(y);
+
+            // take conjugate again
+            for (int i = 0; i < N; i++)
+            {
+                y[i] = y[i].Conjugate();
+            }
+
+            // divide by N
+            for (int i = 0; i < N; i++)
+            {
+                y[i] = y[i].Scale(1.0 / N);
+            }
+
+            return y;
+
+        }
+
+        /// <summary>
+        /// Returns the circular convolution of the two specified complex arrays.</summary>
+        /// <param name="x">one complex array</param>
+        /// <param name="y">the other complex array</param>
+        /// <returns>the circular convolution of <c>x</c> and <c>y</c></returns>
+        /// <exception cref="ArgumentException">if the length of <c>x</c> does not equal
+        /// the length of <c>y</c> or if the length is not a power of 2</exception>
+        ///
+        public static Complex[] Cconvolve(Complex[] x, Complex[] y)
+        {
+
+            // should probably pad x and y with 0s so that they have same length
+            // and are powers of 2
+            if (x.Length != y.Length)
+            {
+                throw new ArgumentException("Dimensions don't agree");
+            }
+
+            int N = x.Length;
+
+            // compute FFT of each sequence
+            Complex[] a = Fft(x);
+            Complex[] b = Fft(y);
+
+            // point-wise multiply
+            Complex[] c = new Complex[N];
+            for (int i = 0; i < N; i++)
+            {
+                c[i] = a[i] * b[i];
+            }
+
+            // compute inverse FFT
+            return Ifft(c);
+        }
+
+        /// <summary>
+        /// Returns the linear convolution of the two specified complex arrays.</summary>
+        /// <param name="x">one complex array</param>
+        /// <param name="y">the other complex array</param>
+        /// <returns>the linear convolution of <c>x</c> and <c>y</c></returns>
+        /// <exception cref="ArgumentException">if the length of <c>x</c> does not equal
+        /// the length of <c>y</c> or if the length is not a power of 2</exception>
+        ///
+        public static Complex[] Convolve(Complex[] x, Complex[] y)
+        {
+            Complex[] a = new Complex[2 * x.Length];
+            for (int i = 0; i < x.Length; i++)
+                a[i] = x[i];
+            for (int i = x.Length; i < 2 * x.Length; i++)
+                a[i] = ZERO;
+
+            Complex[] b = new Complex[2 * y.Length];
+            for (int i = 0; i < y.Length; i++)
+                b[i] = y[i];
+            for (int i = y.Length; i < 2 * y.Length; i++)
+                b[i] = ZERO;
+
+            return Cconvolve(a, b);
+        }
+
+        // display an array of Complex numbers to standard output
+        internal static void Show(Complex[] x, string title)
+        {
+            Console.WriteLine(title);
+            Console.WriteLine("-------------------");
+            for (int i = 0; i < x.Length; i++)
+            {
+                Console.WriteLine(x[i]);
+            }
+            Console.WriteLine();
+        }
+
+        /// <summary>
+        /// Demo test the <c>FFT</c> class.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        [HelpText("algscmd FFT N", "Where N is power of two")]
+        public static void MainTest(string[] args)
+        {
+            int N = int.Parse(args[0]);
+            Complex[] x = new Complex[N];
+
+            // original data
+            Random rnd = new Random();
+            for (int i = 0; i < N; i++)
+            {
+                x[i] = new Complex(i, 0);
+                x[i] = new Complex(-2 * StdRandom.Uniform() + 1, 0);
+            }
+            FFT.Show(x, "x");
+
+            // FFT of original data
+            Complex[] y = FFT.Fft(x);
+            FFT.Show(y, "y = fft(x)");
+
+            // take inverse FFT
+            Complex[] z = FFT.Ifft(y);
+            FFT.Show(z, "z = ifft(y)");
+
+            // circular convolution of x with itself
+            Complex[] c = FFT.Cconvolve(x, x);
+            FFT.Show(c, "c = cconvolve(x, x)");
+
+            // linear convolution of x with itself
+            Complex[] d = FFT.Convolve(x, x);
+            FFT.Show(d, "d = convolve(x, x)");
+        }
+
     }
-
-    /// <summary>
-    /// Returns the linear convolution of the two specified complex arrays.</summary>
-    /// <param name="x">one complex array</param>
-    /// <param name="y">the other complex array</param>
-    /// <returns>the linear convolution of <c>x</c> and <c>y</c></returns>
-    /// <exception cref="ArgumentException">if the length of <c>x</c> does not equal
-    /// the length of <c>y</c> or if the length is not a power of 2</exception>
-    ///
-    public static Complex[] Convolve(Complex[] x, Complex[] y)
-    {
-      Complex[] a = new Complex[2 * x.Length];
-      for (int i = 0; i < x.Length; i++)
-        a[i] = x[i];
-      for (int i = x.Length; i < 2 * x.Length; i++)
-        a[i] = ZERO;
-
-      Complex[] b = new Complex[2 * y.Length];
-      for (int i = 0; i < y.Length; i++)
-        b[i] = y[i];
-      for (int i = y.Length; i < 2 * y.Length; i++)
-        b[i] = ZERO;
-
-      return Cconvolve(a, b);
-    }
-
-    // display an array of Complex numbers to standard output
-    internal static void Show(Complex[] x, string title)
-    {
-      Console.WriteLine(title);
-      Console.WriteLine("-------------------");
-      for (int i = 0; i < x.Length; i++)
-      {
-        Console.WriteLine(x[i]);
-      }
-      Console.WriteLine();
-    }
-
-    /// <summary>
-    /// Demo test the <c>FFT</c> class.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    [HelpText("algscmd FFT N", "Where N is power of two")]
-    public static void MainTest(string[] args)
-    {
-      int N = int.Parse(args[0]);
-      Complex[] x = new Complex[N];
-
-      // original data
-      Random rnd = new Random();
-      for (int i = 0; i < N; i++)
-      {
-        x[i] = new Complex(i, 0);
-        x[i] = new Complex(-2 * StdRandom.Uniform() + 1, 0);
-      }
-      FFT.Show(x, "x");
-
-      // FFT of original data
-      Complex[] y = FFT.Fft(x);
-      FFT.Show(y, "y = fft(x)");
-
-      // take inverse FFT
-      Complex[] z = FFT.Ifft(y);
-      FFT.Show(z, "z = ifft(y)");
-
-      // circular convolution of x with itself
-      Complex[] c = FFT.Cconvolve(x, x);
-      FFT.Show(c, "c = cconvolve(x, x)");
-
-      // linear convolution of x with itself
-      Complex[] d = FFT.Convolve(x, x);
-      FFT.Show(d, "d = convolve(x, x)");
-    }
-
-  }
 
 }
 

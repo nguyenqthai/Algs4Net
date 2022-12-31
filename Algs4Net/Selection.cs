@@ -27,76 +27,76 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Selection</c> class provides static methods for sorting an
-  /// array using selection sort.</summary>
-  /// <remarks>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
-  /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Selection.java.html">Selection</a> implementation by
-  /// Robert Sedgewick and Kevin Wayne.</para></remarks> 
-  ///
-  public class Selection
-  {
-    // This class should not be instantiated.
-    private Selection() { }
-
     /// <summary>
-    /// Rearranges the array in ascending order, using the natural order.</summary>
-    /// <param name="a">a the array to be sorted</param>
+    /// The <c>Selection</c> class provides static methods for sorting an
+    /// array using selection sort.</summary>
+    /// <remarks>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/21elementary">Section 2.1</a> of
+    /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Selection.java.html">Selection</a> implementation by
+    /// Robert Sedgewick and Kevin Wayne.</para></remarks> 
     ///
-    public static void Sort(IComparable[] a)
+    public class Selection
     {
-      int N = a.Length;
-      for (int i = 0; i < N; i++)
-      {
-        int min = i;
-        for (int j = i + 1; j < N; j++)
+        // This class should not be instantiated.
+        private Selection() { }
+
+        /// <summary>
+        /// Rearranges the array in ascending order, using the natural order.</summary>
+        /// <param name="a">a the array to be sorted</param>
+        ///
+        public static void Sort(IComparable[] a)
         {
-          if (OrderHelper.Less(a[j], a[min])) min = j;
+            int N = a.Length;
+            for (int i = 0; i < N; i++)
+            {
+                int min = i;
+                for (int j = i + 1; j < N; j++)
+                {
+                    if (OrderHelper.Less(a[j], a[min])) min = j;
+                }
+                OrderHelper.Exch(a, i, min);
+                Debug.Assert(OrderHelper.IsSorted(a, 0, i));
+            }
+            Debug.Assert(OrderHelper.IsSorted(a));
         }
-        OrderHelper.Exch(a, i, min);
-        Debug.Assert(OrderHelper.IsSorted(a, 0, i));
-      }
-      Debug.Assert(OrderHelper.IsSorted(a));
-    }
 
-    /// <summary>
-    /// Rearranges the array in ascending order, using a comparator.</summary>
-    /// <param name="a">a the array</param>
-    /// <param name="c">c the comparator specifying the order</param>
-    ///
-    public static void Sort<T>(T[] a, Comparer<T> c)
-    {
-      int N = a.Length;
-      for (int i = 0; i < N; i++)
-      {
-        int min = i;
-        for (int j = i + 1; j < N; j++)
+        /// <summary>
+        /// Rearranges the array in ascending order, using a comparator.</summary>
+        /// <param name="a">a the array</param>
+        /// <param name="c">c the comparator specifying the order</param>
+        ///
+        public static void Sort<T>(T[] a, Comparer<T> c)
         {
-          if (OrderHelper.Less<T>(a[j], a[min], c)) min = j;
+            int N = a.Length;
+            for (int i = 0; i < N; i++)
+            {
+                int min = i;
+                for (int j = i + 1; j < N; j++)
+                {
+                    if (OrderHelper.Less<T>(a[j], a[min], c)) min = j;
+                }
+                OrderHelper.Exch(a, i, min);
+                Debug.Assert(OrderHelper.IsSorted(a, 0, i, c));
+            }
+            Debug.Assert(OrderHelper.IsSorted(a, c));
         }
-        OrderHelper.Exch(a, i, min);
-        Debug.Assert(OrderHelper.IsSorted(a, 0, i, c));
-      }
-      Debug.Assert(OrderHelper.IsSorted(a, c));
-    }
 
-    /// <summary>
-    /// Reads in a sequence of strings from standard input; selection sorts them;
-    /// and prints them to standard output in ascending order.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    ///
-    [HelpText("algscmd Selection < words3.txt", "Input strings to be printed in sorted order")]
-    public static void MainTest(string[] args)
-    {
-      TextInput StdIn = new TextInput();
-      string[] a = StdIn.ReadAllStrings();
-      Selection.Sort(a);
-      OrderHelper.Show(a);
+        /// <summary>
+        /// Reads in a sequence of strings from standard input; selection sorts them;
+        /// and prints them to standard output in ascending order.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        ///
+        [HelpText("algscmd Selection < words3.txt", "Input strings to be printed in sorted order")]
+        public static void MainTest(string[] args)
+        {
+            TextInput StdIn = new TextInput();
+            string[] a = StdIn.ReadAllStrings();
+            Selection.Sort(a);
+            OrderHelper.Show(a);
+        }
     }
-  }
 }
 
 /******************************************************************************

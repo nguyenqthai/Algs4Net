@@ -38,217 +38,217 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>DepthFirstOrder</c> class represents a data type for
-  /// determining depth-first search ordering of the vertices in a digraph
-  /// or edge-weighted digraph, including preorder, postorder, and reverse postorder.
-  /// </para><para>This implementation uses depth-first search.
-  /// The constructor takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// Afterwards, the <c>Preorder</c>, <c>Postorder</c>, and <c>Reverse postorder</c>
-  /// operation takes take time proportional to <c>V</c>.</para></summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/42digraph">Section 4.2</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DepthFirstOrder.java.html">DepthFirstOrder</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DepthFirstOrder
-  {
-    private bool[] marked;              // marked[v] = has v been marked in dfs?
-    private int[] pre;                  // pre[v]    = preorder  number of v
-    private int[] post;                 // post[v]   = postorder number of v
-    private LinkedQueue<int> preorder;  // vertices in preorder
-    private LinkedQueue<int> postorder; // vertices in postorder
-    private int preCounter;             // counter or preorder numbering
-    private int postCounter;            // counter for postorder numbering
-
-    /// <summary>
-    /// Determines a depth-first order for the digraph <c>G</c>.</summary>
-    /// <param name="G">the digraph</param>
+    /// <summary><para>
+    /// The <c>DepthFirstOrder</c> class represents a data type for
+    /// determining depth-first search ordering of the vertices in a digraph
+    /// or edge-weighted digraph, including preorder, postorder, and reverse postorder.
+    /// </para><para>This implementation uses depth-first search.
+    /// The constructor takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// Afterwards, the <c>Preorder</c>, <c>Postorder</c>, and <c>Reverse postorder</c>
+    /// operation takes take time proportional to <c>V</c>.</para></summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/42digraph">Section 4.2</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DepthFirstOrder.java.html">DepthFirstOrder</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public DepthFirstOrder(Digraph G)
+    public class DepthFirstOrder
     {
-      pre = new int[G.V];
-      post = new int[G.V];
-      postorder = new LinkedQueue<int>();
-      preorder = new LinkedQueue<int>();
-      marked = new bool[G.V];
-      for (int v = 0; v < G.V; v++)
-        if (!marked[v]) dfs(G, v);
-    }
+        private bool[] marked;              // marked[v] = has v been marked in dfs?
+        private int[] pre;                  // pre[v]    = preorder  number of v
+        private int[] post;                 // post[v]   = postorder number of v
+        private LinkedQueue<int> preorder;  // vertices in preorder
+        private LinkedQueue<int> postorder; // vertices in postorder
+        private int preCounter;             // counter or preorder numbering
+        private int postCounter;            // counter for postorder numbering
 
-    /// <summary>
-    /// Determines a depth-first order for the edge-weighted digraph <c>G</c>.</summary>
-    /// <param name="G">the edge-weighted digraph</param>
-    ///
-    public DepthFirstOrder(EdgeWeightedDigraph G)
-    {
-      pre = new int[G.V];
-      post = new int[G.V];
-      postorder = new LinkedQueue<int>();
-      preorder = new LinkedQueue<int>();
-      marked = new bool[G.V];
-      for (int v = 0; v < G.V; v++)
-        if (!marked[v]) dfs(G, v);
-    }
-
-    // run DFS in digraph G from vertex v and compute preorder/postorder
-    private void dfs(Digraph G, int v)
-    {
-      marked[v] = true;
-      pre[v] = preCounter++;
-      preorder.Enqueue(v);
-      foreach (int w in G.Adj(v))
-      {
-        if (!marked[w])
+        /// <summary>
+        /// Determines a depth-first order for the digraph <c>G</c>.</summary>
+        /// <param name="G">the digraph</param>
+        ///
+        public DepthFirstOrder(Digraph G)
         {
-          dfs(G, w);
+            pre = new int[G.V];
+            post = new int[G.V];
+            postorder = new LinkedQueue<int>();
+            preorder = new LinkedQueue<int>();
+            marked = new bool[G.V];
+            for (int v = 0; v < G.V; v++)
+                if (!marked[v]) dfs(G, v);
         }
-      }
-      postorder.Enqueue(v);
-      post[v] = postCounter++;
-    }
 
-    // run DFS in edge-weighted digraph G from vertex v and compute preorder/postorder
-    private void dfs(EdgeWeightedDigraph G, int v)
-    {
-      marked[v] = true;
-      pre[v] = preCounter++;
-      preorder.Enqueue(v);
-      foreach (DirectedEdge e in G.Adj(v))
-      {
-        int w = e.To;
-        if (!marked[w])
+        /// <summary>
+        /// Determines a depth-first order for the edge-weighted digraph <c>G</c>.</summary>
+        /// <param name="G">the edge-weighted digraph</param>
+        ///
+        public DepthFirstOrder(EdgeWeightedDigraph G)
         {
-          dfs(G, w);
+            pre = new int[G.V];
+            post = new int[G.V];
+            postorder = new LinkedQueue<int>();
+            preorder = new LinkedQueue<int>();
+            marked = new bool[G.V];
+            for (int v = 0; v < G.V; v++)
+                if (!marked[v]) dfs(G, v);
         }
-      }
-      postorder.Enqueue(v);
-      post[v] = postCounter++;
-    }
 
-    /// <summary>
-    /// Returns the preorder number of vertex <c>v</c>.</summary>
-    /// <param name="v">the vertex</param>
-    /// <returns>the preorder number of vertex <c>v</c></returns>
-    ///
-    public int Pre(int v)
-    {
-      return pre[v];
-    }
-
-    /// <summary>
-    /// Returns the postorder number of vertex <c>v</c>.</summary>
-    /// <param name="v">the vertex</param>
-    /// <returns>the postorder number of vertex <c>v</c></returns>
-    ///
-    public int Post(int v)
-    {
-      return post[v];
-    }
-
-    /// <summary>
-    /// Returns the vertices in postorder.</summary>
-    /// <returns>the vertices in postorder, as an iterable of vertices</returns>
-    ///
-    public IEnumerable<int> Post()
-    {
-      return postorder;
-    }
-
-    /// <summary>
-    /// Returns the vertices in preorder.</summary>
-    /// <returns>the vertices in preorder, as an iterable of vertices</returns>
-    ///
-    public IEnumerable<int> Pre()
-    {
-      return preorder;
-    }
-
-    /// <summary>
-    /// Returns the vertices in reverse postorder.</summary>
-    /// <returns>the vertices in reverse postorder, as an iterable of vertices</returns>
-    ///
-    public IEnumerable<int> ReversePost()
-    {
-      LinkedStack<int> reverse = new LinkedStack<int>();
-      foreach (int v in postorder)
-        reverse.Push(v);
-      return reverse;
-    }
-
-    // check that pre() and post() are consistent with pre(v) and post(v)
-    private bool check(Digraph G)
-    {
-
-      // check that post(v) is consistent with post()
-      int r = 0;
-      foreach (int v in Post())
-      {
-        if (Post(v) != r)
+        // run DFS in digraph G from vertex v and compute preorder/postorder
+        private void dfs(Digraph G, int v)
         {
-          Console.Error.WriteLine("Post(v) and Post() inconsistent");
-          return false;
+            marked[v] = true;
+            pre[v] = preCounter++;
+            preorder.Enqueue(v);
+            foreach (int w in G.Adj(v))
+            {
+                if (!marked[w])
+                {
+                    dfs(G, w);
+                }
+            }
+            postorder.Enqueue(v);
+            post[v] = postCounter++;
         }
-        r++;
-      }
 
-      // check that pre(v) is consistent with pre()
-      r = 0;
-      foreach (int v in Pre())
-      {
-        if (Pre(v) != r)
+        // run DFS in edge-weighted digraph G from vertex v and compute preorder/postorder
+        private void dfs(EdgeWeightedDigraph G, int v)
         {
-          Console.Error.WriteLine("Pre(v) and Pre() inconsistent");
-          return false;
+            marked[v] = true;
+            pre[v] = preCounter++;
+            preorder.Enqueue(v);
+            foreach (DirectedEdge e in G.Adj(v))
+            {
+                int w = e.To;
+                if (!marked[w])
+                {
+                    dfs(G, w);
+                }
+            }
+            postorder.Enqueue(v);
+            post[v] = postCounter++;
         }
-        r++;
-      }
-      return true;
+
+        /// <summary>
+        /// Returns the preorder number of vertex <c>v</c>.</summary>
+        /// <param name="v">the vertex</param>
+        /// <returns>the preorder number of vertex <c>v</c></returns>
+        ///
+        public int Pre(int v)
+        {
+            return pre[v];
+        }
+
+        /// <summary>
+        /// Returns the postorder number of vertex <c>v</c>.</summary>
+        /// <param name="v">the vertex</param>
+        /// <returns>the postorder number of vertex <c>v</c></returns>
+        ///
+        public int Post(int v)
+        {
+            return post[v];
+        }
+
+        /// <summary>
+        /// Returns the vertices in postorder.</summary>
+        /// <returns>the vertices in postorder, as an iterable of vertices</returns>
+        ///
+        public IEnumerable<int> Post()
+        {
+            return postorder;
+        }
+
+        /// <summary>
+        /// Returns the vertices in preorder.</summary>
+        /// <returns>the vertices in preorder, as an iterable of vertices</returns>
+        ///
+        public IEnumerable<int> Pre()
+        {
+            return preorder;
+        }
+
+        /// <summary>
+        /// Returns the vertices in reverse postorder.</summary>
+        /// <returns>the vertices in reverse postorder, as an iterable of vertices</returns>
+        ///
+        public IEnumerable<int> ReversePost()
+        {
+            LinkedStack<int> reverse = new LinkedStack<int>();
+            foreach (int v in postorder)
+                reverse.Push(v);
+            return reverse;
+        }
+
+        // check that pre() and post() are consistent with pre(v) and post(v)
+        private bool check(Digraph G)
+        {
+
+            // check that post(v) is consistent with post()
+            int r = 0;
+            foreach (int v in Post())
+            {
+                if (Post(v) != r)
+                {
+                    Console.Error.WriteLine("Post(v) and Post() inconsistent");
+                    return false;
+                }
+                r++;
+            }
+
+            // check that pre(v) is consistent with pre()
+            r = 0;
+            foreach (int v in Pre())
+            {
+                if (Pre(v) != r)
+                {
+                    Console.Error.WriteLine("Pre(v) and Pre() inconsistent");
+                    return false;
+                }
+                r++;
+            }
+            return true;
+        }
+        /// <summary>
+        /// Demo test the <c>DepthFirstOrder</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd DepthFirstOrder tinyDAG.txt", "File with the pre-defined format for digraph")]
+        public static void MainTest(string[] args)
+        {
+            // read in digraph from command-line argument
+            TextInput input = new TextInput(args[0]);
+            Digraph G = new Digraph(input);
+
+            DepthFirstOrder dfs = new DepthFirstOrder(G);
+            Console.WriteLine("   v  pre post");
+            Console.WriteLine("--------------");
+            for (int v = 0; v < G.V; v++)
+            {
+                Console.Write("{0,4} {1,4:} {2,4}\n", v, dfs.Pre(v), dfs.Post(v));
+            }
+
+            Console.Write("Preorder:  ");
+            foreach (int v in dfs.Pre())
+            {
+                Console.Write(v + " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("Postorder: ");
+            foreach (int v in dfs.Post())
+            {
+                Console.Write(v + " ");
+            }
+            Console.WriteLine();
+
+            Console.Write("Reverse postorder: ");
+            foreach (int v in dfs.ReversePost())
+            {
+                Console.Write(v + " ");
+            }
+            Console.WriteLine();
+        }
     }
-    /// <summary>
-    /// Demo test the <c>DepthFirstOrder</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd DepthFirstOrder tinyDAG.txt", "File with the pre-defined format for digraph")]
-    public static void MainTest(string[] args)
-    {
-      // read in digraph from command-line argument
-      TextInput input = new TextInput(args[0]);
-      Digraph G = new Digraph(input);
-
-      DepthFirstOrder dfs = new DepthFirstOrder(G);
-      Console.WriteLine("   v  pre post");
-      Console.WriteLine("--------------");
-      for (int v = 0; v < G.V; v++)
-      {
-        Console.Write("{0,4} {1,4:} {2,4}\n", v, dfs.Pre(v), dfs.Post(v));
-      }
-
-      Console.Write("Preorder:  ");
-      foreach (int v in dfs.Pre())
-      {
-        Console.Write(v + " ");
-      }
-      Console.WriteLine();
-
-      Console.Write("Postorder: ");
-      foreach (int v in dfs.Post())
-      {
-        Console.Write(v + " ");
-      }
-      Console.WriteLine();
-
-      Console.Write("Reverse postorder: ");
-      foreach (int v in dfs.ReversePost())
-      {
-        Console.Write(v + " ");
-      }
-      Console.WriteLine();
-    }
-  }
 
 }
 

@@ -33,39 +33,39 @@ using System.IO;
 
 namespace Algs4Net
 {
-  class Whitelist
-  {
-    // Do not instantiate.
-    private Whitelist() { }
-
-    /// <summary>
-    /// Reads in a sequence of integers from the whitelist file, specified as
-    /// a command-line argument. Reads in integers from standard input and
-    /// prints to standard output those integers that are not in the file.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Whitelist tinyW.txt < tinyT.txt",
-      "Integers from a whitelist file and input integer to check the list")]
-    public static void MainTest(string[] args)
+    class Whitelist
     {
-      TextInput input = new TextInput(args[0]);
-      int[] white = input.ReadAllInts();
-      input.Close();
+        // Do not instantiate.
+        private Whitelist() { }
 
-      // remove duplicates, if any, so the ctor below will not throw an exception
-      white = OrderHelper.RemoveDuplicates(white);
-      StaticSETofInts set = new StaticSETofInts(white);
+        /// <summary>
+        /// Reads in a sequence of integers from the whitelist file, specified as
+        /// a command-line argument. Reads in integers from standard input and
+        /// prints to standard output those integers that are not in the file.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Whitelist tinyW.txt < tinyT.txt",
+          "Integers from a whitelist file and input integer to check the list")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            int[] white = input.ReadAllInts();
+            input.Close();
 
-      TextInput StdIn = new TextInput();
-      // Read key, print if not in whitelist.
-      while (!StdIn.IsEmpty)
-      {
-        int key = StdIn.ReadInt();
-        if (!set.Contains(key))
-          Console.WriteLine(key);
-      }
+            // remove duplicates, if any, so the ctor below will not throw an exception
+            white = OrderHelper.RemoveDuplicates(white);
+            StaticSETofInts set = new StaticSETofInts(white);
+
+            TextInput StdIn = new TextInput();
+            // Read key, print if not in whitelist.
+            while (!StdIn.IsEmpty)
+            {
+                int key = StdIn.ReadInt();
+                if (!set.Contains(key))
+                    Console.WriteLine(key);
+            }
+        }
     }
-  }
 
 }
 

@@ -22,169 +22,169 @@ using System.Collections.Generic;
 
 namespace Algs4Net
 {
-  /// <summary><para>The <c>Cycle</c> class represents a data type for
-  /// determining whether an undirected graph has a cycle.
-  /// The <c>HasCycle</c> operation determines whether the graph has
-  /// a cycle and, if so, the <c>GetCycle</c> operation returns one.</para>
-  /// <para>This implementation uses depth-first search. The constructor 
-  /// takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// Afterwards, the <c>HasCycle</c> operation takes constant time; the <c>Cycle</c>
-  /// operation takes time proportional to the length of the cycle.</para></summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a>   
-  /// of <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Cycle.java.html">Cycle</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Cycle
-  {
-    private bool[] marked;
-    private int[] edgeTo;
-    private LinkedStack<int> cycle;
-
-    /// <summary>Determines whether the undirected graph <c>G</c> has a cycle and,
-    /// if so, finds such a cycle.</summary>
-    /// <param name="G">the undirected graph</param>
+    /// <summary><para>The <c>Cycle</c> class represents a data type for
+    /// determining whether an undirected graph has a cycle.
+    /// The <c>HasCycle</c> operation determines whether the graph has
+    /// a cycle and, if so, the <c>GetCycle</c> operation returns one.</para>
+    /// <para>This implementation uses depth-first search. The constructor 
+    /// takes time proportional to <c>V</c> + <c>E</c> (in the worst case),
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// Afterwards, the <c>HasCycle</c> operation takes constant time; the <c>Cycle</c>
+    /// operation takes time proportional to the length of the cycle.</para></summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/41graph">Section 4.1</a>   
+    /// of <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Cycle.java.html">Cycle</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public Cycle(Graph G)
+    public class Cycle
     {
-      if (hasSelfLoop(G)) return;
-      if (hasParallelEdges(G)) return;
-      marked = new bool[G.V];
-      edgeTo = new int[G.V];
-      for (int v = 0; v < G.V; v++)
-        if (!marked[v])
-          dfs(G, -1, v);
-    }
+        private bool[] marked;
+        private int[] edgeTo;
+        private LinkedStack<int> cycle;
 
-    // does this graph have a self loop?
-    // side effect: initialize cycle to be self loop
-    private bool hasSelfLoop(Graph G)
-    {
-      for (int v = 0; v < G.V; v++)
-      {
-        foreach (int w in G.Adj(v))
+        /// <summary>Determines whether the undirected graph <c>G</c> has a cycle and,
+        /// if so, finds such a cycle.</summary>
+        /// <param name="G">the undirected graph</param>
+        ///
+        public Cycle(Graph G)
         {
-          if (v == w)
-          {
-            cycle = new LinkedStack<int>();
-            cycle.Push(v);
-            cycle.Push(v);
-            return true;
-          }
-        }
-      }
-      return false;
-    }
-
-    // does this graph have two parallel edges?
-    // side effect: initialize cycle to be two parallel edges
-    private bool hasParallelEdges(Graph G)
-    {
-      marked = new bool[G.V];
-
-      for (int v = 0; v < G.V; v++)
-      {
-
-        // check for parallel edges incident to v
-        foreach (int w in G.Adj(v))
-        {
-          if (marked[w])
-          {
-            cycle = new LinkedStack<int>();
-            cycle.Push(v);
-            cycle.Push(w);
-            cycle.Push(v);
-            return true;
-          }
-          marked[w] = true;
+            if (hasSelfLoop(G)) return;
+            if (hasParallelEdges(G)) return;
+            marked = new bool[G.V];
+            edgeTo = new int[G.V];
+            for (int v = 0; v < G.V; v++)
+                if (!marked[v])
+                    dfs(G, -1, v);
         }
 
-        // reset so marked[v] = false for all v
-        foreach (int w in G.Adj(v))
+        // does this graph have a self loop?
+        // side effect: initialize cycle to be self loop
+        private bool hasSelfLoop(Graph G)
         {
-          marked[w] = false;
+            for (int v = 0; v < G.V; v++)
+            {
+                foreach (int w in G.Adj(v))
+                {
+                    if (v == w)
+                    {
+                        cycle = new LinkedStack<int>();
+                        cycle.Push(v);
+                        cycle.Push(v);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
-      }
-      return false;
-    }
 
-    /// <summary>
-    /// Returns true if the graph <c>G</c> has a cycle.</summary>
-    /// <returns><c>true</c> if the graph has a cycle; <c>false</c> otherwise</returns>
-    ///
-    public bool HasCycle
-    {
-      get { return cycle != null; }
-    }
-
-    /// <summary>
-    /// Returns a cycle in the graph <c>G</c>. A property in place of a method would be better;
-    /// however the compiler will not allow a property having the same name as the defining class.
-    /// </summary>
-    /// <returns>a cycle if the graph <c>G</c> has a cycle,
-    ///        and <c>null</c> otherwise</returns>
-    ///
-    public IEnumerable<int> GetCycle()
-    {
-      return cycle;
-    }
-
-    private void dfs(Graph G, int u, int v)
-    {
-      marked[v] = true;
-      foreach (int w in G.Adj(v))
-      {
-        // short circuit if cycle already found
-        if (cycle != null) return;
-
-        if (!marked[w])
+        // does this graph have two parallel edges?
+        // side effect: initialize cycle to be two parallel edges
+        private bool hasParallelEdges(Graph G)
         {
-          edgeTo[w] = v;
-          dfs(G, v, w);
+            marked = new bool[G.V];
+
+            for (int v = 0; v < G.V; v++)
+            {
+
+                // check for parallel edges incident to v
+                foreach (int w in G.Adj(v))
+                {
+                    if (marked[w])
+                    {
+                        cycle = new LinkedStack<int>();
+                        cycle.Push(v);
+                        cycle.Push(w);
+                        cycle.Push(v);
+                        return true;
+                    }
+                    marked[w] = true;
+                }
+
+                // reset so marked[v] = false for all v
+                foreach (int w in G.Adj(v))
+                {
+                    marked[w] = false;
+                }
+            }
+            return false;
         }
-        // check for cycle (but disregard reverse of edge leading to v)
-        else if (w != u)
+
+        /// <summary>
+        /// Returns true if the graph <c>G</c> has a cycle.</summary>
+        /// <returns><c>true</c> if the graph has a cycle; <c>false</c> otherwise</returns>
+        ///
+        public bool HasCycle
         {
-          cycle = new LinkedStack<int>();
-          for (int x = v; x != w; x = edgeTo[x])
-          {
-            cycle.Push(x);
-          }
-          cycle.Push(w);
-          cycle.Push(v);
+            get { return cycle != null; }
         }
-      }
-    }
 
-    /// <summary>
-    /// Demo test the <c>Cycle</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Cycle mediumG.txt", "File with the pre - defined format for undirected graph")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      Graph G = new Graph(input);
-
-      Cycle finder = new Cycle(G);
-      if (finder.HasCycle)
-      {
-        foreach (int v in finder.GetCycle())
+        /// <summary>
+        /// Returns a cycle in the graph <c>G</c>. A property in place of a method would be better;
+        /// however the compiler will not allow a property having the same name as the defining class.
+        /// </summary>
+        /// <returns>a cycle if the graph <c>G</c> has a cycle,
+        ///        and <c>null</c> otherwise</returns>
+        ///
+        public IEnumerable<int> GetCycle()
         {
-          Console.Write(v + " ");
+            return cycle;
         }
-        Console.WriteLine();
-      }
-      else
-      {
-        Console.WriteLine("Graph is acyclic");
-      }
-    }
 
-  }
+        private void dfs(Graph G, int u, int v)
+        {
+            marked[v] = true;
+            foreach (int w in G.Adj(v))
+            {
+                // short circuit if cycle already found
+                if (cycle != null) return;
+
+                if (!marked[w])
+                {
+                    edgeTo[w] = v;
+                    dfs(G, v, w);
+                }
+                // check for cycle (but disregard reverse of edge leading to v)
+                else if (w != u)
+                {
+                    cycle = new LinkedStack<int>();
+                    for (int x = v; x != w; x = edgeTo[x])
+                    {
+                        cycle.Push(x);
+                    }
+                    cycle.Push(w);
+                    cycle.Push(v);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Demo test the <c>Cycle</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Cycle mediumG.txt", "File with the pre - defined format for undirected graph")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            Graph G = new Graph(input);
+
+            Cycle finder = new Cycle(G);
+            if (finder.HasCycle)
+            {
+                foreach (int v in finder.GetCycle())
+                {
+                    Console.Write(v + " ");
+                }
+                Console.WriteLine();
+            }
+            else
+            {
+                Console.WriteLine("Graph is acyclic");
+            }
+        }
+
+    }
 }
 
 /******************************************************************************

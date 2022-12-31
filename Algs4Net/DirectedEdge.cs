@@ -11,89 +11,89 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>DirectedEdge</c> class represents a weighted edge in an
-  /// <seealso cref="EdgeWeightedDigraph"/>. Each edge consists of two integers
-  /// (naming the two vertices) and a real-value weight. The data type
-  /// provides methods for accessing the two endpoints of the directed edge and
-  /// the weight.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DirectedEdge.java.html">DirectedEdge</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class DirectedEdge
-  {
-    private readonly int v;
-    private readonly int w;
-    private readonly double weight;
-
-    /// <summary>Initializes a directed edge from vertex <c>v</c> to vertex <c>w</c> with
-    /// the given <c>weight</c>.</summary>
-    /// <param name="v">the tail vertex</param>
-    /// <param name="w">the head vertex</param>
-    /// <param name="weight">the weight of the directed edge</param>
-    /// <exception cref="IndexOutOfRangeException">if either <c>v</c> or <c>w</c>
-    /// is a negative integer</exception>
-    /// <exception cref="ArgumentException">if <c>weight</c> is <c>NaN</c></exception>
-    ///
-    public DirectedEdge(int v, int w, double weight)
-    {
-      if (v < 0) throw new IndexOutOfRangeException("Vertex names must be nonnegative integers");
-      if (w < 0) throw new IndexOutOfRangeException("Vertex names must be nonnegative integers");
-      if (double.IsNaN(weight)) throw new ArgumentException("Weight is NaN");
-      this.v = v;
-      this.w = w;
-      this.weight = weight;
-    }
-
     /// <summary>
-    /// Returns the tail vertex of the directed edge.</summary>
-    /// <returns>the tail vertex of the directed edge</returns>
+    /// The <c>DirectedEdge</c> class represents a weighted edge in an
+    /// <seealso cref="EdgeWeightedDigraph"/>. Each edge consists of two integers
+    /// (naming the two vertices) and a real-value weight. The data type
+    /// provides methods for accessing the two endpoints of the directed edge and
+    /// the weight.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/44sp">Section 4.4</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/DirectedEdge.java.html">DirectedEdge</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public int From
+    public class DirectedEdge
     {
-      get { return v; }
-    }
+        private readonly int v;
+        private readonly int w;
+        private readonly double weight;
 
-    /// <summary>
-    /// Returns the head vertex of the directed edge.</summary>
-    /// <returns>the head vertex of the directed edge</returns>
-    ///
-    public int To
-    {
-      get { return w; }
-    }
+        /// <summary>Initializes a directed edge from vertex <c>v</c> to vertex <c>w</c> with
+        /// the given <c>weight</c>.</summary>
+        /// <param name="v">the tail vertex</param>
+        /// <param name="w">the head vertex</param>
+        /// <param name="weight">the weight of the directed edge</param>
+        /// <exception cref="IndexOutOfRangeException">if either <c>v</c> or <c>w</c>
+        /// is a negative integer</exception>
+        /// <exception cref="ArgumentException">if <c>weight</c> is <c>NaN</c></exception>
+        ///
+        public DirectedEdge(int v, int w, double weight)
+        {
+            if (v < 0) throw new IndexOutOfRangeException("Vertex names must be nonnegative integers");
+            if (w < 0) throw new IndexOutOfRangeException("Vertex names must be nonnegative integers");
+            if (double.IsNaN(weight)) throw new ArgumentException("Weight is NaN");
+            this.v = v;
+            this.w = w;
+            this.weight = weight;
+        }
 
-    /// <summary>
-    /// Returns the weight of the directed edge.</summary>
-    /// <returns>the weight of the directed edge</returns>
-    ///
-    public double Weight
-    {
-      get { return weight; }
-    }
+        /// <summary>
+        /// Returns the tail vertex of the directed edge.</summary>
+        /// <returns>the tail vertex of the directed edge</returns>
+        ///
+        public int From
+        {
+            get { return v; }
+        }
 
-    /// <summary>
-    /// Returns a string representation of the directed edge.</summary>
-    /// <returns>a string representation of the directed edge</returns>
-    ///
-    public override string ToString()
-    {
-      return v + "->" + w + " " + string.Format("{0:F2}", weight);
-    }
+        /// <summary>
+        /// Returns the head vertex of the directed edge.</summary>
+        /// <returns>the head vertex of the directed edge</returns>
+        ///
+        public int To
+        {
+            get { return w; }
+        }
 
-    /// <summary>
-    /// Demo test the <c>DirectedEdge</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    public static void MainTest(string[] args)
-    {
-      DirectedEdge e = new DirectedEdge(12, 34, 5.67);
-      Console.WriteLine(e);
+        /// <summary>
+        /// Returns the weight of the directed edge.</summary>
+        /// <returns>the weight of the directed edge</returns>
+        ///
+        public double Weight
+        {
+            get { return weight; }
+        }
+
+        /// <summary>
+        /// Returns a string representation of the directed edge.</summary>
+        /// <returns>a string representation of the directed edge</returns>
+        ///
+        public override string ToString()
+        {
+            return v + "->" + w + " " + string.Format("{0:F2}", weight);
+        }
+
+        /// <summary>
+        /// Demo test the <c>DirectedEdge</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        public static void MainTest(string[] args)
+        {
+            DirectedEdge e = new DirectedEdge(12, 34, 5.67);
+            Console.WriteLine(e);
+        }
     }
-  }
 
 }
 

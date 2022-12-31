@@ -9,53 +9,53 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Algs4NetUnitTests
 {
-  [TestClass]
-  public class SymbolGraphTests
-  {
+    [TestClass]
+    public class SymbolGraphTests
+    {
 
         /// <summary>
         /// Demo on the graph based on the data file from https://github.com/ubikuity/List-of-neighboring-states-for-each-US-state
         /// </summary>
         [TestMethod]
-    public void SymbolGraphTest1()
-    {
-      // NOTE: the file has to be in the current working directory for unit tests
-      string usastates = "TestFiles\\us-state-neighbors.csv";
-      SymbolGraph sg;
-      Graph G;
-      try
-      {
-        sg = new SymbolGraph(usastates, ",");
-      }
-      catch (Exception ex)
-      {
-        Assert.Fail(string.Format("Symbol graph construction error: {0}", ex.Message));
-        return;
-      }
-      G = sg.G;
-      string state = "HI";
-      Assert.IsTrue(sg.Contains(state));
-      string[] neighbors = new string[] { "CA" };
-      SET<string> expected = new SET<string>(neighbors);
-      SET<string> actual = TestHelpers.getAdjacents(sg, state);
-      Assert.AreEqual(actual, expected);
+        public void SymbolGraphTest1()
+        {
+            // NOTE: the file has to be in the current working directory for unit tests
+            string usastates = "TestFiles\\us-state-neighbors.csv";
+            SymbolGraph sg;
+            Graph G;
+            try
+            {
+                sg = new SymbolGraph(usastates, ",");
+            }
+            catch (Exception ex)
+            {
+                Assert.Fail(string.Format("Symbol graph construction error: {0}", ex.Message));
+                return;
+            }
+            G = sg.G;
+            string state = "HI";
+            Assert.IsTrue(sg.Contains(state));
+            string[] neighbors = new string[] { "CA" };
+            SET<string> expected = new SET<string>(neighbors);
+            SET<string> actual = TestHelpers.getAdjacents(sg, state);
+            Assert.AreEqual(actual, expected);
 
-      state = "CA";
-      neighbors = new string[] { "OR", "NV", "AZ", "HI" };
-      expected = new SET<string>(neighbors);
-      actual = TestHelpers.getAdjacents(sg, state);
-      Assert.AreEqual(actual, expected);
+            state = "CA";
+            neighbors = new string[] { "OR", "NV", "AZ", "HI" };
+            expected = new SET<string>(neighbors);
+            actual = TestHelpers.getAdjacents(sg, state);
+            Assert.AreEqual(actual, expected);
 
-      state = "IA";
-      neighbors = new string[] { "MN", "WI", "MO", "NE", "SD", "IL" };
-      expected = new SET<string>(neighbors);
-      actual = TestHelpers.getAdjacents(sg, state);
-      Assert.AreEqual(actual, expected);
+            state = "IA";
+            neighbors = new string[] { "MN", "WI", "MO", "NE", "SD", "IL" };
+            expected = new SET<string>(neighbors);
+            actual = TestHelpers.getAdjacents(sg, state);
+            Assert.AreEqual(actual, expected);
 
-      // more ...
+            // more ...
 
+        }
     }
-  }
 }
 
 /******************************************************************************

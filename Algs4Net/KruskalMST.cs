@@ -44,179 +44,179 @@ using System.Threading.Tasks;
 
 namespace Algs4Net
 {
-  /// <summary><para>
-  /// The <c>KruskalMST</c> class represents a data type for computing a
-  /// <c>Minimum spanning tree</c> in an edge-weighted graph.
-  /// The edge weights can be positive, zero, or negative and need not
-  /// be distinct. If the graph is not connected, it computes a <c>Minimum
-  /// spanning forest</c>, which is the union of minimum spanning trees
-  /// in each connected component. The <c>weight()</c> property returns the 
-  /// weight of a minimum spanning tree and the <c>Edge()</c> property
-  /// returns its edges.</para><para>
-  /// This implementation uses <c>Krusal's algorithm</c> and the
-  /// union-find data type.
-  /// The constructor takes time proportional to <c>E</c> log <c>E</c>
-  /// and extra space (not including the graph) proportional to <c>V</c>,
-  /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
-  /// Afterwards, the <c>Weight</c> property takes constant time
-  /// and the <c>Edges</c> method takes time proportional to <c>V</c>.
-  /// </para><para>
-  /// For alternate implementations, see <seealso cref="LazyPrimMST"/>, <seealso cref="PrimMST"/>,
-  /// and <seealso cref="BoruvkaMST"/>.</para>
-  /// </summary>
-  /// <remarks><para>For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/43mst">Section 4.3</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/KruskalMST.java.html">KruskalMST</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class KruskalMST
-  {
-    private static readonly double FLOATING_POINT_EPSILON = 1E-12;
-
-    private double weight;                                    // weight of MST
-    private LinkedQueue<Edge> mst = new LinkedQueue<Edge>();  // edges in MST
-
-    /// <summary>
-    /// Compute a minimum spanning tree (or forest) of an edge-weighted graph.</summary>
-    /// <param name="G">the edge-weighted graph</param>
+    /// <summary><para>
+    /// The <c>KruskalMST</c> class represents a data type for computing a
+    /// <c>Minimum spanning tree</c> in an edge-weighted graph.
+    /// The edge weights can be positive, zero, or negative and need not
+    /// be distinct. If the graph is not connected, it computes a <c>Minimum
+    /// spanning forest</c>, which is the union of minimum spanning trees
+    /// in each connected component. The <c>weight()</c> property returns the 
+    /// weight of a minimum spanning tree and the <c>Edge()</c> property
+    /// returns its edges.</para><para>
+    /// This implementation uses <c>Krusal's algorithm</c> and the
+    /// union-find data type.
+    /// The constructor takes time proportional to <c>E</c> log <c>E</c>
+    /// and extra space (not including the graph) proportional to <c>V</c>,
+    /// where <c>V</c> is the number of vertices and <c>E</c> is the number of edges.
+    /// Afterwards, the <c>Weight</c> property takes constant time
+    /// and the <c>Edges</c> method takes time proportional to <c>V</c>.
+    /// </para><para>
+    /// For alternate implementations, see <seealso cref="LazyPrimMST"/>, <seealso cref="PrimMST"/>,
+    /// and <seealso cref="BoruvkaMST"/>.</para>
+    /// </summary>
+    /// <remarks><para>For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/43mst">Section 4.3</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/KruskalMST.java.html">KruskalMST</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public KruskalMST(EdgeWeightedGraph G)
+    public class KruskalMST
     {
-      // more efficient to build heap by passing array of edges
-      MinPQ<Edge> pq = new MinPQ<Edge>();
-      foreach (Edge e in G.Edges())
-      {
-        pq.Insert(e);
-      }
+        private static readonly double FLOATING_POINT_EPSILON = 1E-12;
 
-      // run greedy algorithm
-      UF uf = new UF(G.V);
-      while (!pq.IsEmpty && mst.Count < G.V - 1)
-      {
-        Edge e = pq.DelMin();
-        int v = e.Either;
-        int w = e.Other(v);
-        if (!uf.Connected(v, w))
-        { // v-w does not create a cycle
-          uf.Union(v, w);  // merge v and w components
-          mst.Enqueue(e);  // add edge e to mst
-          weight += e.Weight;
-        }
-      }
+        private double weight;                                    // weight of MST
+        private LinkedQueue<Edge> mst = new LinkedQueue<Edge>();  // edges in MST
 
-      // check optimality conditions
-      Debug.Assert(check(G));
-    }
-
-    /// <summary>
-    /// Returns the edges in a minimum spanning tree (or forest).</summary>
-    /// <returns>the edges in a minimum spanning tree (or forest) as
-    ///   an iterable of edges</returns>
-    ///
-    public IEnumerable<Edge> Edges()
-    {
-      return mst;
-    }
-
-    /// <summary>
-    /// Returns the sum of the edge weights in a minimum spanning tree (or forest).</summary>
-    /// <returns>the sum of the edge weights in a minimum spanning tree (or forest)</returns>
-    ///
-    public double Weight
-    {
-      get { return weight; }
-    }
-
-    // check optimality conditions (takes time proportional to E V lg* V)
-    private bool check(EdgeWeightedGraph G)
-    {
-      // check total weight
-      double total = 0.0;
-      foreach (Edge e in Edges())
-      {
-        total += e.Weight;
-      }
-      if (Math.Abs(total - Weight) > FLOATING_POINT_EPSILON)
-      {
-        Console.Error.Write("Weight of edges does not equal Weight: {0} vs. {0}\n", total, Weight);
-        return false;
-      }
-
-      // check that it is acyclic
-      UF uf = new UF(G.V);
-      foreach (Edge e in Edges())
-      {
-        int v = e.Either, w = e.Other(v);
-        if (uf.Connected(v, w))
+        /// <summary>
+        /// Compute a minimum spanning tree (or forest) of an edge-weighted graph.</summary>
+        /// <param name="G">the edge-weighted graph</param>
+        ///
+        public KruskalMST(EdgeWeightedGraph G)
         {
-          Console.Error.WriteLine("Not a forest");
-          return false;
-        }
-        uf.Union(v, w);
-      }
-
-      // check that it is a spanning forest
-      foreach (Edge e in G.Edges())
-      {
-        int v = e.Either, w = e.Other(v);
-        if (!uf.Connected(v, w))
-        {
-          Console.Error.WriteLine("Not a spanning forest");
-          return false;
-        }
-      }
-
-      // check that it is a minimal spanning forest (cut optimality conditions)
-      foreach (Edge e in Edges())
-      {
-        // all edges in MST except e
-        uf = new UF(G.V);
-        foreach (Edge f in mst)
-        {
-          int x = f.Either, y = f.Other(x);
-          if (f != e) uf.Union(x, y);
-        }
-
-        // check that e is min weight edge in crossing cut
-        foreach (Edge f in G.Edges())
-        {
-          int x = f.Either, y = f.Other(x);
-          if (!uf.Connected(x, y))
-          {
-            if (f.Weight < e.Weight)
+            // more efficient to build heap by passing array of edges
+            MinPQ<Edge> pq = new MinPQ<Edge>();
+            foreach (Edge e in G.Edges())
             {
-              Console.Error.WriteLine("Edge " + f + " violates cut optimality conditions");
-              return false;
+                pq.Insert(e);
             }
-          }
+
+            // run greedy algorithm
+            UF uf = new UF(G.V);
+            while (!pq.IsEmpty && mst.Count < G.V - 1)
+            {
+                Edge e = pq.DelMin();
+                int v = e.Either;
+                int w = e.Other(v);
+                if (!uf.Connected(v, w))
+                { // v-w does not create a cycle
+                    uf.Union(v, w);  // merge v and w components
+                    mst.Enqueue(e);  // add edge e to mst
+                    weight += e.Weight;
+                }
+            }
+
+            // check optimality conditions
+            Debug.Assert(check(G));
         }
 
-      }
+        /// <summary>
+        /// Returns the edges in a minimum spanning tree (or forest).</summary>
+        /// <returns>the edges in a minimum spanning tree (or forest) as
+        ///   an iterable of edges</returns>
+        ///
+        public IEnumerable<Edge> Edges()
+        {
+            return mst;
+        }
 
-      return true;
+        /// <summary>
+        /// Returns the sum of the edge weights in a minimum spanning tree (or forest).</summary>
+        /// <returns>the sum of the edge weights in a minimum spanning tree (or forest)</returns>
+        ///
+        public double Weight
+        {
+            get { return weight; }
+        }
+
+        // check optimality conditions (takes time proportional to E V lg* V)
+        private bool check(EdgeWeightedGraph G)
+        {
+            // check total weight
+            double total = 0.0;
+            foreach (Edge e in Edges())
+            {
+                total += e.Weight;
+            }
+            if (Math.Abs(total - Weight) > FLOATING_POINT_EPSILON)
+            {
+                Console.Error.Write("Weight of edges does not equal Weight: {0} vs. {0}\n", total, Weight);
+                return false;
+            }
+
+            // check that it is acyclic
+            UF uf = new UF(G.V);
+            foreach (Edge e in Edges())
+            {
+                int v = e.Either, w = e.Other(v);
+                if (uf.Connected(v, w))
+                {
+                    Console.Error.WriteLine("Not a forest");
+                    return false;
+                }
+                uf.Union(v, w);
+            }
+
+            // check that it is a spanning forest
+            foreach (Edge e in G.Edges())
+            {
+                int v = e.Either, w = e.Other(v);
+                if (!uf.Connected(v, w))
+                {
+                    Console.Error.WriteLine("Not a spanning forest");
+                    return false;
+                }
+            }
+
+            // check that it is a minimal spanning forest (cut optimality conditions)
+            foreach (Edge e in Edges())
+            {
+                // all edges in MST except e
+                uf = new UF(G.V);
+                foreach (Edge f in mst)
+                {
+                    int x = f.Either, y = f.Other(x);
+                    if (f != e) uf.Union(x, y);
+                }
+
+                // check that e is min weight edge in crossing cut
+                foreach (Edge f in G.Edges())
+                {
+                    int x = f.Either, y = f.Other(x);
+                    if (!uf.Connected(x, y))
+                    {
+                        if (f.Weight < e.Weight)
+                        {
+                            Console.Error.WriteLine("Edge " + f + " violates cut optimality conditions");
+                            return false;
+                        }
+                    }
+                }
+
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Demo test the <c>KruskalMST</c> data type.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd KruskalMST tinyEWG.txt", "File with the pre-defined format for directed, weighted graph")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            EdgeWeightedGraph G = new EdgeWeightedGraph(input);
+
+            KruskalMST mst = new KruskalMST(G);
+            foreach (Edge e in mst.Edges())
+            {
+                Console.WriteLine(e);
+            }
+            Console.Write("{0:F5}\n", mst.Weight);
+        }
+
     }
-
-    /// <summary>
-    /// Demo test the <c>KruskalMST</c> data type.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd KruskalMST tinyEWG.txt", "File with the pre-defined format for directed, weighted graph")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      EdgeWeightedGraph G = new EdgeWeightedGraph(input);
-
-      KruskalMST mst = new KruskalMST(G);
-      foreach (Edge e in mst.Edges())
-      {
-        Console.WriteLine(e);
-      }
-      Console.Write("{0:F5}\n", mst.Weight);
-    }
-
-  }
 }
 
 /******************************************************************************

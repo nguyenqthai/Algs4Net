@@ -36,70 +36,70 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>LookupIndex</c> class provides a data-driven client for reading in a
-  /// key-value pairs from a file; then, printing the values corresponding to the
-  /// keys found on standard input. Keys are strings; values are lists of strings.
-  /// The separating delimiter is taken as a command-line argument. This client
-  /// is sometimes known as an <c>Inverted index</c>.</summary>
-  /// <remarks><para>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
-  /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LookupIndex.java.html">LookupIndex</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class LookupIndex
-  {
-    // Do not instantiate.
-    private LookupIndex() { }
-
     /// <summary>
-    /// Implementation of the <c>LookupIndex</c> client.</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd LookupIndex aminoI.csv \", \"", "A csv file name and a separator")]
-    public static void MainTest(string[] args)
+    /// The <c>LookupIndex</c> class provides a data-driven client for reading in a
+    /// key-value pairs from a file; then, printing the values corresponding to the
+    /// keys found on standard input. Keys are strings; values are lists of strings.
+    /// The separating delimiter is taken as a command-line argument. This client
+    /// is sometimes known as an <c>Inverted index</c>.</summary>
+    /// <remarks><para>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/35applications">Section 3.5</a> of
+    /// <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/LookupIndex.java.html">LookupIndex</a>
+    /// implementation by the respective authors.</para></remarks>
+    ///
+    public class LookupIndex
     {
-      TextInput StdIn = new TextInput();
+        // Do not instantiate.
+        private LookupIndex() { }
 
-      string filename = args[0];
-      char[] separator = args[1].ToCharArray();
-      TextInput input = new TextInput(filename);
-
-      ST<string, LinkedQueue<string>> st = new ST<string, LinkedQueue<string>>();
-      ST<string, LinkedQueue<string>> ts = new ST<string, LinkedQueue<string>>();
-
-      while (input.HasNextLine())
-      {
-        string line = input.ReadLine();
-        string[] fields = line.Split(separator);
-        string key = fields[0];
-        for (int i = 1; i < fields.Length; i++)
+        /// <summary>
+        /// Implementation of the <c>LookupIndex</c> client.</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd LookupIndex aminoI.csv \", \"", "A csv file name and a separator")]
+        public static void MainTest(string[] args)
         {
-          string val = fields[i];
-          if (!st.Contains(key)) st[key] = new LinkedQueue<string>();
-          if (!ts.Contains(val)) ts[val] = new LinkedQueue<string>();
-          st[key].Enqueue(val);
-          ts[val].Enqueue(key);
+            TextInput StdIn = new TextInput();
+
+            string filename = args[0];
+            char[] separator = args[1].ToCharArray();
+            TextInput input = new TextInput(filename);
+
+            ST<string, LinkedQueue<string>> st = new ST<string, LinkedQueue<string>>();
+            ST<string, LinkedQueue<string>> ts = new ST<string, LinkedQueue<string>>();
+
+            while (input.HasNextLine())
+            {
+                string line = input.ReadLine();
+                string[] fields = line.Split(separator);
+                string key = fields[0];
+                for (int i = 1; i < fields.Length; i++)
+                {
+                    string val = fields[i];
+                    if (!st.Contains(key)) st[key] = new LinkedQueue<string>();
+                    if (!ts.Contains(val)) ts[val] = new LinkedQueue<string>();
+                    st[key].Enqueue(val);
+                    ts[val].Enqueue(key);
+                }
+            }
+
+            Console.WriteLine("Done indexing");
+
+            // read queries from standard input, one per line
+            while (!StdIn.IsEmpty)
+            {
+                string query = StdIn.ReadLine();
+                if (st.Contains(query))
+                    foreach (string vals in st[query])
+                        Console.WriteLine("  " + vals);
+                if (ts.Contains(query))
+                    foreach (string keys in ts[query])
+                        Console.WriteLine("  " + keys);
+            }
         }
-      }
-
-      Console.WriteLine("Done indexing");
-
-      // read queries from standard input, one per line
-      while (!StdIn.IsEmpty)
-      {
-        string query = StdIn.ReadLine();
-        if (st.Contains(query))
-          foreach (string vals in st[query])
-            Console.WriteLine("  " + vals);
-        if (ts.Contains(query))
-          foreach (string keys in ts[query])
-            Console.WriteLine("  " + keys);
-      }
     }
-  }
 }
 
 /******************************************************************************

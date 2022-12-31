@@ -27,92 +27,92 @@ using System.IO;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// <para>The <c>BinarySearch</c> class provides a static method for binary
-  /// searching for an integer in a sorted array of integers.
-  /// </para><para>
-  /// The <c>Rank</c> operations takes logarithmic time in the worst case.
-  /// </para></summary>
-  /// <remarks>
-  /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
-  /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinarySearch.java.html">BinarySearch</a> implementation by
-  /// Robert Sedgewick and Kevin Wayne.
-  /// </para></remarks>
-
-  ///
-  public class BinarySearch
-  {
-    /// 
-    /// This class should not be instantiated.
-    ///
-    private BinarySearch() { }
-
     /// <summary>
-    /// Returns the index of the specified key in the specified array.</summary>
-    ///
-    /// <param name="a"> a the array of integers, must be sorted in ascending order</param>
-    /// <param name="key"> key the search key</param>
-    /// <returns>index of key in array <c>a</c> if present; <c>-1</c> otherwise</returns>
-    ///
-    public static int IndexOf(int[] a, int key)
-    {
-      int lo = 0;
-      int hi = a.Length - 1;
-      while (lo <= hi)
-      {
-        // Key is in a[lo..hi] or not present.
-        int mid = lo + (hi - lo) / 2;
-        if (key < a[mid]) hi = mid - 1;
-        else if (key > a[mid]) lo = mid + 1;
-        else return mid;
-      }
-      return -1;
-    }
+    /// <para>The <c>BinarySearch</c> class provides a static method for binary
+    /// searching for an integer in a sorted array of integers.
+    /// </para><para>
+    /// The <c>Rank</c> operations takes logarithmic time in the worst case.
+    /// </para></summary>
+    /// <remarks>
+    /// For additional documentation, see <a href="http://algs4.cs.princeton.edu/11model">Section 1.1</a> of
+    /// <em>Algorithms, 4th Edition</em> by Robert Sedgewick and Kevin Wayne.
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/BinarySearch.java.html">BinarySearch</a> implementation by
+    /// Robert Sedgewick and Kevin Wayne.
+    /// </para></remarks>
 
-    /// <summary>
-    /// Returns the index of the specified key in the specified array.
-    /// This function is poorly named because it does not give the <c>Rank</c>
-    /// if the array has duplicate keys or if the key is not in the array.
-    /// </summary>
-    /// <param name="key"> key the search key</param>
-    /// <param name="a"> a the array of integers, must be sorted in ascending order</param>
-    /// <returns>index of key in array <c>a</c> if present; <c>-1</c> otherwise</returns>
-    /// <remarks>This is replaced by <see cref="IndexOf(int[], int)"/>.</remarks>
     ///
-    public static int Rank(int key, int[] a)
+    public class BinarySearch
     {
-      return IndexOf(a, key);
-    }
+        /// 
+        /// This class should not be instantiated.
+        ///
+        private BinarySearch() { }
 
-    /// <summary><para>
-    /// Demo test for the <c>BinarySearch</c> data type.</para>
-    /// <para>Reads in a sequence of integers from the whitelist file, specified as
-    /// a command-line argument; reads in integers from standard input;
-    /// prints to standard output those integers that do NOT appear in the file.</para>
-    /// </summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText(
-      "algscmd BinarySearch tinyW.txt < tinyT.txt",
-      "A text file of sorted items and items to search from default input")]
-    public static void MainTest(string[] args)
-    {
-      TextInput input = new TextInput(args[0]);
-      int[] whitelist = input.ReadAllInts();
-      input.Close();
-      // sort the array
-      Array.Sort(whitelist);
-      TextInput StdIn = new TextInput();
-      while (!StdIn.IsEmpty)
-      {
-        int key = StdIn.ReadInt();
-        if (BinarySearch.IndexOf(whitelist, key) == -1)
-          Console.WriteLine(key);
-      }
+        /// <summary>
+        /// Returns the index of the specified key in the specified array.</summary>
+        ///
+        /// <param name="a"> a the array of integers, must be sorted in ascending order</param>
+        /// <param name="key"> key the search key</param>
+        /// <returns>index of key in array <c>a</c> if present; <c>-1</c> otherwise</returns>
+        ///
+        public static int IndexOf(int[] a, int key)
+        {
+            int lo = 0;
+            int hi = a.Length - 1;
+            while (lo <= hi)
+            {
+                // Key is in a[lo..hi] or not present.
+                int mid = lo + (hi - lo) / 2;
+                if (key < a[mid]) hi = mid - 1;
+                else if (key > a[mid]) lo = mid + 1;
+                else return mid;
+            }
+            return -1;
+        }
+
+        /// <summary>
+        /// Returns the index of the specified key in the specified array.
+        /// This function is poorly named because it does not give the <c>Rank</c>
+        /// if the array has duplicate keys or if the key is not in the array.
+        /// </summary>
+        /// <param name="key"> key the search key</param>
+        /// <param name="a"> a the array of integers, must be sorted in ascending order</param>
+        /// <returns>index of key in array <c>a</c> if present; <c>-1</c> otherwise</returns>
+        /// <remarks>This is replaced by <see cref="IndexOf(int[], int)"/>.</remarks>
+        ///
+        public static int Rank(int key, int[] a)
+        {
+            return IndexOf(a, key);
+        }
+
+        /// <summary><para>
+        /// Demo test for the <c>BinarySearch</c> data type.</para>
+        /// <para>Reads in a sequence of integers from the whitelist file, specified as
+        /// a command-line argument; reads in integers from standard input;
+        /// prints to standard output those integers that do NOT appear in the file.</para>
+        /// </summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText(
+          "algscmd BinarySearch tinyW.txt < tinyT.txt",
+          "A text file of sorted items and items to search from default input")]
+        public static void MainTest(string[] args)
+        {
+            TextInput input = new TextInput(args[0]);
+            int[] whitelist = input.ReadAllInts();
+            input.Close();
+            // sort the array
+            Array.Sort(whitelist);
+            TextInput StdIn = new TextInput();
+            while (!StdIn.IsEmpty)
+            {
+                int key = StdIn.ReadInt();
+                if (BinarySearch.IndexOf(whitelist, key) == -1)
+                    Console.WriteLine(key);
+            }
+        }
     }
-  }
 }
 
 /******************************************************************************

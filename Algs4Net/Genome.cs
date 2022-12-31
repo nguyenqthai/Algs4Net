@@ -24,92 +24,92 @@ using System;
 
 namespace Algs4Net
 {
-  /// <summary>
-  /// The <c>Genome</c> class provides static methods for compressing
-  /// and expanding a genomic sequence using a 2-bit code.</summary>
-  /// <remarks><para>
-  /// For additional documentation,
-  /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
-  ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
-  /// <para>This class is a C# port from the original Java class 
-  /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Genome.java.html">Genome</a>
-  /// implementation by the respective authors.</para></remarks>
-  ///
-  public class Genome
-  {
-    private static readonly Alphabet DNA = new Alphabet("ACGT"); // could use Alphabet.Dna
-    private BinaryInput input;
-    private BinaryOutput output;
-
-    // Do not instantiate.
-    private Genome() { }
-
     /// <summary>
-    /// Uses file names to direct input and output
-    /// </summary>
-    /// <param name="outputFileName">user input file, empty if from console</param>
-    /// <param name="inputFileName">user output file</param>
-    public Genome(string inputFileName, string outputFileName)
-    {
-      //Console.WriteLine("Genome with InFile={0} and OutFile={1}", inputFileName, outputFileName);
-      input = new BinaryInput(inputFileName);
-      output = new BinaryOutput(outputFileName);
-    }
-
-    /// <summary>
-    /// Reads a sequence of 8-bit extended ASCII characters over the alphabet
-    /// { A, C, T, G } from standard input; compresses them using two bits per
-    /// character; and writes the results to standard output.</summary>
+    /// The <c>Genome</c> class provides static methods for compressing
+    /// and expanding a genomic sequence using a 2-bit code.</summary>
+    /// <remarks><para>
+    /// For additional documentation,
+    /// see <a href="http://algs4.cs.princeton.edu/55compress">Section 5.5</a> of
+    ///  <i>Algorithms, 4th Edition</i> by Robert Sedgewick and Kevin Wayne.</para>
+    /// <para>This class is a C# port from the original Java class 
+    /// <a href="http://algs4.cs.princeton.edu/code/edu/princeton/cs/algs4/Genome.java.html">Genome</a>
+    /// implementation by the respective authors.</para></remarks>
     ///
-    public void Compress()
+    public class Genome
     {
-      string s = input.ReadString();
-      int N = s.Length;
-      output.Write(N);
+        private static readonly Alphabet DNA = new Alphabet("ACGT"); // could use Alphabet.Dna
+        private BinaryInput input;
+        private BinaryOutput output;
 
-      // Write two-bit code for char.
-      for (int i = 0; i < N; i++)
-      {
-        int d = DNA.ToIndex(s[i]);
-        output.Write(d, 2);
-      }
-      output.Close();
-      input.Close();
+        // Do not instantiate.
+        private Genome() { }
+
+        /// <summary>
+        /// Uses file names to direct input and output
+        /// </summary>
+        /// <param name="outputFileName">user input file, empty if from console</param>
+        /// <param name="inputFileName">user output file</param>
+        public Genome(string inputFileName, string outputFileName)
+        {
+            //Console.WriteLine("Genome with InFile={0} and OutFile={1}", inputFileName, outputFileName);
+            input = new BinaryInput(inputFileName);
+            output = new BinaryOutput(outputFileName);
+        }
+
+        /// <summary>
+        /// Reads a sequence of 8-bit extended ASCII characters over the alphabet
+        /// { A, C, T, G } from standard input; compresses them using two bits per
+        /// character; and writes the results to standard output.</summary>
+        ///
+        public void Compress()
+        {
+            string s = input.ReadString();
+            int N = s.Length;
+            output.Write(N);
+
+            // Write two-bit code for char.
+            for (int i = 0; i < N; i++)
+            {
+                int d = DNA.ToIndex(s[i]);
+                output.Write(d, 2);
+            }
+            output.Close();
+            input.Close();
+        }
+
+        /// <summary>
+        /// Reads a binary sequence from standard input; converts each two bits
+        /// to an 8-bit extended ASCII character over the alphabet { A, C, T, G };
+        /// and writes the results to standard output.</summary>
+        ///
+        public void Expand()
+        {
+            int N = input.ReadInt();
+            // Read two bits; write char.
+            for (int i = 0; i < N; i++)
+            {
+                char c = input.ReadChar(2);
+                output.Write(DNA.ToChar(c), 8);
+            }
+            output.Close();
+            input.Close();
+        }
+
+        /// <summary>
+        /// Sample client that calls <c>compress()</c> if the command-line
+        /// argument is "-" an <c>expand()</c> if it is "+".</summary>
+        /// <param name="args">Place holder for user arguments</param>
+        /// 
+        [HelpText("algscmd Genome (-|+) input_file output_file")]
+        public static void MainTest(string[] args)
+        {
+            Genome algorithm = new Genome(args[1], args[2]);
+            if (args[0].Equals("-")) algorithm.Compress();
+            else if (args[0].Equals("+")) algorithm.Expand();
+            else throw new ArgumentException("Illegal command line argument");
+        }
+
     }
-
-    /// <summary>
-    /// Reads a binary sequence from standard input; converts each two bits
-    /// to an 8-bit extended ASCII character over the alphabet { A, C, T, G };
-    /// and writes the results to standard output.</summary>
-    ///
-    public void Expand()
-    {
-      int N = input.ReadInt();
-      // Read two bits; write char.
-      for (int i = 0; i < N; i++)
-      {
-        char c = input.ReadChar(2);
-        output.Write(DNA.ToChar(c), 8);
-      }
-      output.Close();
-      input.Close();
-    }
-
-    /// <summary>
-    /// Sample client that calls <c>compress()</c> if the command-line
-    /// argument is "-" an <c>expand()</c> if it is "+".</summary>
-    /// <param name="args">Place holder for user arguments</param>
-    /// 
-    [HelpText("algscmd Genome (-|+) input_file output_file")]
-    public static void MainTest(string[] args)
-    {
-      Genome algorithm = new Genome(args[1], args[2]);
-      if (args[0].Equals("-")) algorithm.Compress();
-      else if (args[0].Equals("+")) algorithm.Expand();
-      else throw new ArgumentException("Illegal command line argument");
-    }
-
-  }
 
 }
 
