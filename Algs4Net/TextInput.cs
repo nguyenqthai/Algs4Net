@@ -46,6 +46,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace Algs4Net
 {
@@ -169,7 +170,7 @@ namespace Algs4Net
             if (buffer == null)
                 return false;
             double dummy;
-            return double.TryParse(nextToken, out dummy);
+            return double.TryParse(nextToken, NumberStyles.Any, CultureInfo.InvariantCulture, out dummy);
         }
 
         /// <summary>
@@ -180,11 +181,12 @@ namespace Algs4Net
         public double ReadDouble()
         {
             NextToken();
-            try
+            double dummy;
+            if (double.TryParse(nextToken, NumberStyles.Any, CultureInfo.InvariantCulture, out dummy))
             {
-                return double.Parse(nextToken);
+                return dummy;
             }
-            catch (Exception)
+            else
             {
                 throw new FormatException("error reading double");
             }
