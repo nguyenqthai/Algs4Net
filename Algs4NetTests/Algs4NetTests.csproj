@@ -19,4 +19,10 @@
     <ProjectReference Include="..\Algs4Net\Algs4Net.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="TestFiles\us-state-neighbors.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
