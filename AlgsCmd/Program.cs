@@ -48,7 +48,7 @@ namespace AlgsCmd
             return allNames;
         }
 
-        private static MethodInfo? GetMainTest(string className)
+        private static MethodInfo GetMainTest(string className)
         {
             string[] suffixes = { "", "`1", "`2" }; // currently support up to 2
 
@@ -58,8 +58,8 @@ namespace AlgsCmd
             else
                 fullName = className;
 
-            Type? t1;
-            MethodInfo? testMethod = null;
+            Type t1;
+            MethodInfo testMethod = null;
             for (int i = 0; i < suffixes.Length; i++)
             {
                 t1 = asm.GetType(fullName + suffixes[i]);
@@ -104,11 +104,11 @@ namespace AlgsCmd
         {
             try
             {
-                MethodInfo? testMethod = GetMainTest(className);
+                MethodInfo testMethod = GetMainTest(className);
 
                 if (testMethod != null)
                 {
-                    Attribute? attribute = testMethod.GetCustomAttribute(typeof(HelpTextAttribute), false);
+                    Attribute attribute = testMethod.GetCustomAttribute(typeof(HelpTextAttribute), false);
                     if (attribute != null)
                     {
                         HelpTextAttribute help = (HelpTextAttribute)attribute;
@@ -189,7 +189,7 @@ namespace AlgsCmd
             string className = args[0];
             try
             {
-                MethodInfo? testMethod = GetMainTest(className);
+                MethodInfo testMethod = GetMainTest(className);
                 if (testMethod != null)
                 {
                     string[] testArgs = new string[args.Length - 1];
